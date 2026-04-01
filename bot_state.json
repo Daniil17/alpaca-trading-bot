@@ -1,6 +1,6 @@
 {
-  "peak_portfolio_value": 0.0,
+  "peak_portfolio_value": 100000.0,
   "manual_symbols": [],
-  "last_summary_date": null,
-  "run_count": 0
+  "last_summary_date": "2026-04-01",
+  "run_count": 1
 }

@@ -2,16 +2,16 @@
   "peak_portfolio_value": 100000.0,
   "manual_symbols": [
     "V",
-    "MA",
-    "META",
-    "AMZN",
-    "AAPL",
-    "DIS",
     "JPM",
-    "TSLA",
     "UNH",
+    "MA",
+    "AMZN",
+    "META",
+    "AAPL",
+    "TSLA",
+    "DIS",
     "NVDA"
   ],
   "last_summary_date": "2026-04-02",
-  "run_count": 14
+  "run_count": 15
 }

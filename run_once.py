@@ -46,6 +46,7 @@ from strategies import StrategyEngine
 from risk_manager import RiskManager
 from news_scanner import NewsScanner
 from telegram_bot import TelegramNotifier
+from telegram_commands import TelegramCommander, send_startup_menu
 from state import load_state, save_state
 
 
@@ -120,6 +121,18 @@ def run():
 
     news = NewsScanner()
     telegram = TelegramNotifier(config.TELEGRAM_BOT_TOKEN, config.TELEGRAM_CHAT_ID)
+
+    # --- Process Telegram commands (respond to button presses / messages) ---
+    commander = TelegramCommander(config.TELEGRAM_BOT_TOKEN, config.TELEGRAM_CHAT_ID, api)
+
+    # On first run ever, register bot commands in Telegram menu
+    if state.get("run_count", 0) <= 1:
+        send_startup_menu(config.TELEGRAM_BOT_TOKEN, config.TELEGRAM_CHAT_ID)
+        logger.info("Telegram bot menu registered")
+
+    # Process any pending user commands (button presses, /status, etc.)
+    commander.process_updates()
+    logger.info("Processed Telegram commands")
 
     # Restore manual symbols from state
     # On first run, record current positions as "manual"

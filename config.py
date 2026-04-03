@@ -270,6 +270,7 @@ PAIRS_UNIVERSE = [
 
 # Z-score thresholds
 PAIRS_ZSCORE_ENTRY = 2.0   # Open trade when spread deviates >2σ
+PAIRS_ZSCORE_EXIT = 0.5    # Close trade when spread reverts within 0.5σ
 PAIRS_ZSCORE_EXIT  = 0.5   # Close trade when spread reverts to 0.5σ
 
 # Rolling window for Z-score normalisation (trading days)
@@ -285,3 +286,4 @@ PAIRS_MAX_OPEN = 3
 # LOGGING
 # =================================================
 ENABLE_LOGGING = True
+LOG_FILE = "bot_activity.log"

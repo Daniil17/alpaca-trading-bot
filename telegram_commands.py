@@ -19,6 +19,11 @@ import json
 import requests
 from datetime import datetime
 
+try:
+    import config as _config
+except ImportError:
+    _config = None
+
 logger = logging.getLogger("TradingBot")
 
 
@@ -106,6 +111,10 @@ class TelegramCommander:
             self._send_profit()
         elif text == "/balance":
             self._send_balance()
+        elif text == "/dashboard":
+            self._send_dashboard()
+        elif text == "/trades":
+            self._send_trades()
         elif text == "/menu":
             self._send_menu()
         # Ignore unknown messages silently
@@ -127,12 +136,98 @@ class TelegramCommander:
             self._send_profit()
         elif data == "balance":
             self._send_balance()
+        elif data == "dashboard":
+            self._send_dashboard()
+        elif data == "trades":
+            self._send_trades()
         elif data == "help":
             self._send_help()
 
     # ------------------------------------------------------------------
     # RESPONSE HANDLERS
     # ------------------------------------------------------------------
+
+    def _send_trades(self):
+        """Send recent trade history from bot_state.json."""
+        import os
+        import json as _json
+
+        trade_log = []
+        try:
+            if os.path.exists("bot_state.json"):
+                with open("bot_state.json") as f:
+                    state_data = _json.load(f)
+                trade_log = state_data.get("trade_log", [])
+        except Exception:
+            pass
+
+        if not trade_log:
+            msg = (
+                "<b>🔁 Trade History</b>\n"
+                "━━━━━━━━━━━━━━━━━━━━━\n\n"
+                "No trades recorded yet. The bot logs every buy and sell here — "
+                "check back after the next trading cycle."
+            )
+            self._send_message(msg)
+            return
+
+        # Show last 15 trades, newest first
+        recent = list(reversed(trade_log[-15:]))
+
+        msg = f"<b>🔁 Recent Trades (last {len(recent)})</b>\n━━━━━━━━━━━━━━━━━━━━━\n\n"
+        for t in recent:
+            action = t.get("action", "?")
+            symbol = t.get("symbol", "?")
+            amount = t.get("amount", 0)
+            price = t.get("price", 0)
+            pnl = t.get("pnl")
+            time_str = t.get("time", "")
+            is_crypto = t.get("is_crypto", False)
+
+            icon = "🪙" if is_crypto else "📈"
+            side_icon = "🟢" if action == "BUY" else "🔴"
+
+            line = f"{side_icon} <b>{action}</b> {icon} {symbol} — ${amount:,.2f} @ ${price:,.4g}"
+            if pnl is not None:
+                line += f" | P&L: ${pnl:+,.2f}"
+            line += f"\n   <code>{time_str}</code>\n\n"
+            msg += line
+
+        buttons = [
+            [
+                {"text": "📊 Status", "callback_data": "status"},
+                {"text": "💰 Profit", "callback_data": "profit"},
+            ],
+            [
+                {"text": "🔄 Refresh", "callback_data": "trades"},
+            ],
+        ]
+        self._send_message(msg, buttons)
+
+    def _send_dashboard(self):
+        """Send a link to the web dashboard."""
+        url = getattr(_config, "DASHBOARD_URL", "") if _config else ""
+        if url:
+            msg = (
+                "<b>📊 Live Dashboard</b>\n"
+                "━━━━━━━━━━━━━━━━━━━━━\n\n"
+                f"Open your trading dashboard here:\n\n"
+                f"<a href=\"{url}\">{url}</a>\n\n"
+                "<i>The dashboard shows your portfolio, open positions, "
+                "trade history, and strategy signals in real-time.</i>"
+            )
+        else:
+            msg = (
+                "<b>📊 Dashboard Not Configured</b>\n"
+                "━━━━━━━━━━━━━━━━━━━━━\n\n"
+                "The dashboard URL hasn't been set yet.\n\n"
+                "<b>To set it up:</b>\n"
+                "1. Deploy <code>dashboard.py</code> to Streamlit Cloud (free)\n"
+                "2. Copy the URL (e.g. <code>https://your-app.streamlit.app</code>)\n"
+                "3. Set <code>DASHBOARD_URL</code> in <code>config.py</code>\n"
+                "4. Push to GitHub — the bot will pick it up next cycle"
+            )
+        self._send_message(msg)
 
     def _send_help(self):
         """Send help message with command buttons."""
@@ -143,7 +238,9 @@ class TelegramCommander:
             "/status — Portfolio overview\n"
             "/positions — Open positions\n"
             "/profit — Profit & loss\n"
+            "/trades — Recent trade history\n"
             "/balance — Account balance\n"
+            "/dashboard — Open web dashboard\n"
             "/menu — Show buttons\n"
         )
         buttons = [
@@ -153,7 +250,11 @@ class TelegramCommander:
             ],
             [
                 {"text": "💰 Profit", "callback_data": "profit"},
+                {"text": "🔁 Trades", "callback_data": "trades"},
+            ],
+            [
                 {"text": "🏦 Balance", "callback_data": "balance"},
+                {"text": "🖥️ Dashboard", "callback_data": "dashboard"},
             ],
         ]
         self._send_message(msg, buttons)
@@ -168,7 +269,11 @@ class TelegramCommander:
             ],
             [
                 {"text": "💰 Profit", "callback_data": "profit"},
+                {"text": "🔁 Trades", "callback_data": "trades"},
+            ],
+            [
                 {"text": "🏦 Balance", "callback_data": "balance"},
+                {"text": "🖥️ Dashboard", "callback_data": "dashboard"},
             ],
         ]
         self._send_message(msg, buttons)
@@ -433,7 +538,9 @@ def send_startup_menu(bot_token, chat_id):
         {"command": "status", "description": "Portfolio overview"},
         {"command": "positions", "description": "Open positions with P&L"},
         {"command": "profit", "description": "Profit & loss breakdown"},
+        {"command": "trades", "description": "Recent buy/sell history"},
         {"command": "balance", "description": "Account balance details"},
+        {"command": "dashboard", "description": "Open web dashboard"},
         {"command": "menu", "description": "Show button menu"},
         {"command": "help", "description": "List all commands"},
     ]

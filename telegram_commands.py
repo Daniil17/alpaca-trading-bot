@@ -16,6 +16,7 @@ Also provides inline keyboard buttons so the user can tap instead of typing.
 
 import logging
 import json
+import time
 import requests
 from datetime import datetime
 import pytz
@@ -47,6 +48,9 @@ class TelegramCommander:
             and chat_id != "YOUR_CHAT_ID_HERE"
         )
         self._last_update_id = 0
+        # Rate limiting: track last command time to prevent rapid-fire DoS
+        self._last_command_time = 0.0
+        self._command_rate_limit_sec = 2.0  # minimum seconds between commands
 
     # ------------------------------------------------------------------
     # CORE: PROCESS PENDING MESSAGES
@@ -108,6 +112,19 @@ class TelegramCommander:
 
     def _handle_command(self, text, message_id=None):
         """Route text commands to handlers."""
+        # --- Input validation ---
+        # Ignore oversized messages (prevents memory/CPU abuse from very long inputs)
+        if len(text) > 200:
+            logger.debug(f"Ignoring oversized message ({len(text)} chars)")
+            return
+
+        # Rate limiting: ignore commands that arrive too quickly in succession
+        now = time.monotonic()
+        if now - self._last_command_time < self._command_rate_limit_sec:
+            logger.debug("Ignoring command — rate limit active")
+            return
+        self._last_command_time = now
+
         if text in ("/start", "/help"):
             self._send_help()
         elif text == "/status":

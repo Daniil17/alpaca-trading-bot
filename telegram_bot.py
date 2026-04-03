@@ -7,6 +7,7 @@ to your Telegram chat. Uses the Telegram Bot API directly
 """
 
 import logging
+import time
 import requests
 from datetime import datetime
 import pytz
@@ -42,7 +43,11 @@ class TelegramNotifier:
 
     def send(self, message, parse_mode="HTML"):
         """
-        Send a message to Telegram.
+        Send a message to Telegram with retry on transient failures.
+
+        Retries up to 2 additional times (3 total) with exponential backoff
+        on network errors or non-200 responses. Permanent errors (e.g. bad
+        token, chat not found) are not retried.
 
         Args:
             message: text to send (supports HTML formatting)
@@ -51,21 +56,40 @@ class TelegramNotifier:
         if not self.enabled:
             return
 
-        try:
-            response = requests.post(
-                f"{self.base_url}/sendMessage",
-                json={
-                    "chat_id": self.chat_id,
-                    "text": message,
-                    "parse_mode": parse_mode,
-                    "disable_web_page_preview": True,
-                },
-                timeout=10,
-            )
-            if response.status_code != 200:
-                logger.warning(f"Telegram send failed: {response.text}")
-        except Exception as e:
-            logger.warning(f"Telegram error: {e}")
+        max_attempts = 3
+        for attempt in range(1, max_attempts + 1):
+            try:
+                response = requests.post(
+                    f"{self.base_url}/sendMessage",
+                    json={
+                        "chat_id": self.chat_id,
+                        "text": message,
+                        "parse_mode": parse_mode,
+                        "disable_web_page_preview": True,
+                    },
+                    timeout=10,
+                )
+                if response.status_code == 200:
+                    return  # success
+                # 400/401/403 = permanent error (bad token, blocked, etc.) — don't retry
+                if response.status_code in (400, 401, 403):
+                    logger.warning(
+                        f"Telegram send failed (permanent, attempt {attempt}): "
+                        f"{response.status_code} {response.text}"
+                    )
+                    return
+                # 429 = rate limited, 5xx = server error — retry
+                logger.warning(
+                    f"Telegram send failed (attempt {attempt}/{max_attempts}): "
+                    f"{response.status_code} {response.text}"
+                )
+            except requests.exceptions.Timeout:
+                logger.warning(f"Telegram send timeout (attempt {attempt}/{max_attempts})")
+            except Exception as e:
+                logger.warning(f"Telegram send error (attempt {attempt}/{max_attempts}): {e}")
+
+            if attempt < max_attempts:
+                time.sleep(2 ** attempt)  # 2s, 4s backoff
 
     # ------------------------------------------------------------------
     # FORMATTED NOTIFICATIONS

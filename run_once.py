@@ -136,17 +136,9 @@ def run():
     commander.process_updates()
     logger.info("Processed Telegram commands")
 
-    # Restore manual symbols from state
-    # On first run, record current positions as "manual"
-    manual_symbols = set(state.get("manual_symbols", []))
-    if not manual_symbols:
-        manual_symbols = api.get_position_symbols()
-        logger.info(f"First run — recording manual positions: {manual_symbols or 'none'}")
-
     # --- Check market hours ---
     if config.RESPECT_MARKET_HOURS and not api.is_market_open():
         logger.info("Market closed — skipping trading cycle")
-        state["manual_symbols"] = list(manual_symbols)
         save_state(state)
         return
 
@@ -171,7 +163,7 @@ def run():
 
     # --- Get positions ---
     all_positions = api.get_all_positions()
-    bot_positions = [p for p in all_positions if p["symbol"] not in manual_symbols]
+    bot_positions = all_positions
 
     # ============================================================
     # PHASE 1: EXITS
@@ -223,7 +215,7 @@ def run():
     logger.info("--- Phase 2: Scanning for opportunities ---")
 
     all_positions = api.get_all_positions()
-    bot_positions = [p for p in all_positions if p["symbol"] not in manual_symbols]
+    bot_positions = all_positions
     held_symbols = {p["symbol"] for p in all_positions}
 
     news_scores = news.get_sentiment_scores(config.STOCK_UNIVERSE, exclude_symbols=held_symbols)
@@ -328,7 +320,6 @@ def run():
     # SAVE STATE FOR NEXT RUN
     # ============================================================
     state["peak_portfolio_value"] = risk.peak_portfolio_value
-    state["manual_symbols"] = list(manual_symbols)
     save_state(state)
 
     logger.info("Cycle complete.")

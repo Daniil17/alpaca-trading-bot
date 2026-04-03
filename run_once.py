@@ -162,6 +162,19 @@ def run():
         save_state(state)
         return
 
+    # --- PDT (Pattern Day Trader) protection ---
+    # Alpaca flags accounts with <$25k equity if they make >3 day trades in 5 days.
+    # We track daytrade_count and block new stock buys when at the limit.
+    equity = account.get("equity", portfolio_value)
+    daytrade_count = account.get("daytrade_count", 0)
+    pdt_protected = equity < 25_000  # PDT rule only applies under $25k
+    pdt_limit_reached = pdt_protected and daytrade_count >= 3
+    if pdt_limit_reached:
+        logger.warning(
+            f"PDT LIMIT: {daytrade_count}/3 day trades used this week "
+            f"(equity ${equity:,.0f} < $25k). Stock buys blocked to protect account."
+        )
+
     # --- Get positions ---
     all_positions = api.get_all_positions()
     bot_positions = all_positions
@@ -246,6 +259,10 @@ def run():
         # PHASE 3: EXECUTE BUYS
         # ============================================================
         logger.info("--- Phase 3: Executing trades ---")
+
+        if pdt_limit_reached:
+            logger.warning("PDT limit reached — skipping all stock buys this cycle")
+            candidates = []
 
         for candidate in candidates:
             symbol = candidate["symbol"]

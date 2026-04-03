@@ -194,7 +194,7 @@ CRYPTO_HARD_STOP_LOSS_PERCENT = 12.0
 CRYPTO_HARD_TAKE_PROFIT_PERCENT = 25.0
 
 # Minimum combined strategy score to trigger a crypto buy
-CRYPTO_BUY_THRESHOLD = 0.25
+CRYPTO_BUY_THRESHOLD = 0.15
 
 # ============================================================
 # DASHBOARD

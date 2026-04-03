@@ -333,12 +333,19 @@ class PairsTradingEngine:
         """
         Calculate dollar-neutral position sizes for both legs.
 
-        Dollar-neutral means: long_value ≈ short_value × hedge_ratio
-        so the pair has minimal directional market exposure.
+        True dollar-neutrality: both legs receive the same notional value,
+        so longs and shorts fully offset each other's market exposure.
+        The direction (which leg is long, which is short) is determined by
+        the signal (LONG_X_SHORT_Y vs LONG_Y_SHORT_X), NOT by sizing.
+
+        Note: multiplying short_notional by |hedge_ratio| was incorrect —
+        it only makes the pair dollar-neutral when hedge_ratio == 1.0, and
+        creates a directional bias for any other ratio.
 
         Returns: (long_notional, short_notional) in USD
         """
         base_notional = portfolio_value * self.max_pair_allocation
+        # Dollar-neutral: both legs equal base_notional
         long_notional = base_notional
-        short_notional = base_notional * abs(hedge_ratio)
+        short_notional = base_notional
         return round(long_notional, 2), round(short_notional, 2)

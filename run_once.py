@@ -137,10 +137,11 @@ def run():
     logger.info("Processed Telegram commands")
 
     # --- Check market hours ---
-    if config.RESPECT_MARKET_HOURS and not api.is_market_open():
-        logger.info("Market closed — skipping trading cycle")
-        save_state(state)
-        return
+    market_open = api.is_market_open()
+    run_stock_cycle = not config.RESPECT_MARKET_HOURS or market_open
+
+    if not run_stock_cycle:
+        logger.info("Market closed — skipping stock/pairs cycle (crypto will still run)")
 
     # --- Account status ---
     account = api.get_account()
@@ -165,125 +166,126 @@ def run():
     all_positions = api.get_all_positions()
     bot_positions = all_positions
 
-    # ============================================================
-    # PHASE 1: EXITS
-    # ============================================================
-    logger.info("--- Phase 1: Checking exits ---")
+    if run_stock_cycle:
+        # ============================================================
+        # PHASE 1: EXITS
+        # ============================================================
+        logger.info("--- Phase 1: Checking exits ---")
 
-    exits = risk.check_positions_for_exit(bot_positions)
-    for pos in exits:
-        symbol = pos["symbol"]
-        reason = pos.get("exit_reason", "Risk exit")
-        unrealized_pl = float(pos.get("unrealized_pl", 0))
-        current_price = float(pos.get("current_price", 0))
-        logger.info(f"EXIT: {symbol} — {reason}")
-        result = api.close_position(symbol)
-        if result:
-            log_trade(state, "SELL", symbol, float(pos.get("market_value", 0)),
-                      current_price, pnl=unrealized_pl, reason=reason)
-            if config.NOTIFY_ON_STOP_LOSS and "STOP" in reason:
-                pct = float(pos.get("unrealized_plpc", 0)) * 100
-                telegram.notify_stop_loss(symbol, pct, unrealized_pl)
-            elif config.NOTIFY_ON_SELL:
-                telegram.notify_sell(symbol, reason, unrealized_pl)
-
-    # Strategy-based sell signals
-    for pos in bot_positions:
-        symbol = pos["symbol"]
-        if any(e["symbol"] == symbol for e in exits):
-            continue
-        bars = api.get_bars(symbol, "1Day", 100)
-        if bars is None or bars.empty:
-            continue
-        analysis = engine.analyze(bars)
-        if analysis["signal"] in ("STRONG_SELL", "SELL"):
-            logger.info(f"STRATEGY SELL: {symbol} (score: {analysis['combined_score']:.3f})")
+        exits = risk.check_positions_for_exit(bot_positions)
+        for pos in exits:
+            symbol = pos["symbol"]
+            reason = pos.get("exit_reason", "Risk exit")
             unrealized_pl = float(pos.get("unrealized_pl", 0))
             current_price = float(pos.get("current_price", 0))
+            logger.info(f"EXIT: {symbol} — {reason}")
             result = api.close_position(symbol)
             if result:
                 log_trade(state, "SELL", symbol, float(pos.get("market_value", 0)),
-                          current_price, pnl=unrealized_pl,
-                          reason=f"Strategy ({analysis['combined_score']:.3f})",
+                          current_price, pnl=unrealized_pl, reason=reason)
+                if config.NOTIFY_ON_STOP_LOSS and "STOP" in reason:
+                    pct = float(pos.get("unrealized_plpc", 0)) * 100
+                    telegram.notify_stop_loss(symbol, pct, unrealized_pl)
+                elif config.NOTIFY_ON_SELL:
+                    telegram.notify_sell(symbol, reason, unrealized_pl)
+
+        # Strategy-based sell signals
+        for pos in bot_positions:
+            symbol = pos["symbol"]
+            if any(e["symbol"] == symbol for e in exits):
+                continue
+            bars = api.get_bars(symbol, "1Day", 100)
+            if bars is None or bars.empty:
+                continue
+            analysis = engine.analyze(bars)
+            if analysis["signal"] in ("STRONG_SELL", "SELL"):
+                logger.info(f"STRATEGY SELL: {symbol} (score: {analysis['combined_score']:.3f})")
+                unrealized_pl = float(pos.get("unrealized_pl", 0))
+                current_price = float(pos.get("current_price", 0))
+                result = api.close_position(symbol)
+                if result:
+                    log_trade(state, "SELL", symbol, float(pos.get("market_value", 0)),
+                              current_price, pnl=unrealized_pl,
+                              reason=f"Strategy ({analysis['combined_score']:.3f})",
+                              score=analysis["combined_score"])
+                    if config.NOTIFY_ON_SELL:
+                        telegram.notify_sell(symbol, f"Strategy ({analysis['combined_score']:.3f})", unrealized_pl)
+
+        # ============================================================
+        # PHASE 2: FIND BUYS
+        # ============================================================
+        logger.info("--- Phase 2: Scanning for opportunities ---")
+
+        all_positions = api.get_all_positions()
+        bot_positions = all_positions
+        held_symbols = {p["symbol"] for p in all_positions}
+
+        news_scores = news.get_sentiment_scores(config.STOCK_UNIVERSE, exclude_symbols=held_symbols)
+
+        candidates = []
+        for symbol in config.STOCK_UNIVERSE:
+            if symbol in held_symbols:
+                continue
+            bars = api.get_bars(symbol, "1Day", 100)
+            if bars is None or bars.empty:
+                continue
+            sentiment = news_scores.get(symbol, 0.0)
+            analysis = engine.analyze(bars, sentiment_score=sentiment)
+            if analysis["signal"] in ("STRONG_BUY", "BUY"):
+                candidates.append({"symbol": symbol, "analysis": analysis, "bars": bars})
+
+        candidates.sort(key=lambda c: c["analysis"]["combined_score"], reverse=True)
+
+        if candidates:
+            logger.info("Buy candidates: " + ", ".join(
+                f"{c['symbol']} ({c['analysis']['combined_score']:.3f})"
+                for c in candidates[:5]
+            ))
+
+        # ============================================================
+        # PHASE 3: EXECUTE BUYS
+        # ============================================================
+        logger.info("--- Phase 3: Executing trades ---")
+
+        for candidate in candidates:
+            symbol = candidate["symbol"]
+            analysis = candidate["analysis"]
+            bars = candidate["bars"]
+
+            allowed, reason, position_size = risk.can_open_position(
+                symbol, portfolio_value, bot_positions, bars
+            )
+
+            if not allowed:
+                logger.info(f"BLOCKED: {symbol} — {reason}")
+                if "DRAWDOWN" in reason:
+                    telegram.notify_drawdown_breaker(
+                        risk.peak_portfolio_value - portfolio_value,
+                        risk.peak_portfolio_value, portfolio_value,
+                    )
+                continue
+
+            if position_size < 1:
+                continue
+
+            price = api.get_latest_price(symbol)
+            if not price:
+                continue
+
+            logger.info(f"BUY: {symbol} | ${position_size:.2f} @ ~${price} | "
+                        f"Score: {analysis['combined_score']:.3f}")
+
+            result = api.buy_market(symbol, notional=position_size)
+            if result:
+                log_trade(state, "BUY", symbol, position_size, price,
                           score=analysis["combined_score"])
-                if config.NOTIFY_ON_SELL:
-                    telegram.notify_sell(symbol, f"Strategy ({analysis['combined_score']:.3f})", unrealized_pl)
-
-    # ============================================================
-    # PHASE 2: FIND BUYS
-    # ============================================================
-    logger.info("--- Phase 2: Scanning for opportunities ---")
-
-    all_positions = api.get_all_positions()
-    bot_positions = all_positions
-    held_symbols = {p["symbol"] for p in all_positions}
-
-    news_scores = news.get_sentiment_scores(config.STOCK_UNIVERSE, exclude_symbols=held_symbols)
-
-    candidates = []
-    for symbol in config.STOCK_UNIVERSE:
-        if symbol in held_symbols:
-            continue
-        bars = api.get_bars(symbol, "1Day", 100)
-        if bars is None or bars.empty:
-            continue
-        sentiment = news_scores.get(symbol, 0.0)
-        analysis = engine.analyze(bars, sentiment_score=sentiment)
-        if analysis["signal"] in ("STRONG_BUY", "BUY"):
-            candidates.append({"symbol": symbol, "analysis": analysis, "bars": bars})
-
-    candidates.sort(key=lambda c: c["analysis"]["combined_score"], reverse=True)
-
-    if candidates:
-        logger.info("Buy candidates: " + ", ".join(
-            f"{c['symbol']} ({c['analysis']['combined_score']:.3f})"
-            for c in candidates[:5]
-        ))
-
-    # ============================================================
-    # PHASE 3: EXECUTE BUYS
-    # ============================================================
-    logger.info("--- Phase 3: Executing trades ---")
-
-    for candidate in candidates:
-        symbol = candidate["symbol"]
-        analysis = candidate["analysis"]
-        bars = candidate["bars"]
-
-        allowed, reason, position_size = risk.can_open_position(
-            symbol, portfolio_value, bot_positions, bars
-        )
-
-        if not allowed:
-            logger.info(f"BLOCKED: {symbol} — {reason}")
-            if "DRAWDOWN" in reason:
-                telegram.notify_drawdown_breaker(
-                    risk.peak_portfolio_value - portfolio_value,
-                    risk.peak_portfolio_value, portfolio_value,
-                )
-            continue
-
-        if position_size < 1:
-            continue
-
-        price = api.get_latest_price(symbol)
-        if not price:
-            continue
-
-        logger.info(f"BUY: {symbol} | ${position_size:.2f} @ ~${price} | "
-                    f"Score: {analysis['combined_score']:.3f}")
-
-        result = api.buy_market(symbol, notional=position_size)
-        if result:
-            log_trade(state, "BUY", symbol, position_size, price,
-                      score=analysis["combined_score"])
-            if config.NOTIFY_ON_BUY:
-                telegram.notify_buy(symbol, position_size, price, analysis)
-            bot_positions.append({
-                "symbol": symbol, "market_value": position_size,
-                "avg_entry_price": price, "current_price": price,
-                "unrealized_pl": 0, "unrealized_plpc": 0,
-            })
+                if config.NOTIFY_ON_BUY:
+                    telegram.notify_buy(symbol, position_size, price, analysis)
+                bot_positions.append({
+                    "symbol": symbol, "market_value": position_size,
+                    "avg_entry_price": price, "current_price": price,
+                    "unrealized_pl": 0, "unrealized_plpc": 0,
+                })
 
     # ============================================================
     # CRYPTO CYCLE
@@ -295,9 +297,9 @@ def run():
         _run_crypto_cycle(api, risk, news, telegram, state, portfolio_value, logger)
 
     # ============================================================
-    # PAIRS TRADING CYCLE (Statistical Arbitrage)
+    # PAIRS TRADING CYCLE (Statistical Arbitrage) — stocks only, needs market hours
     # ============================================================
-    if getattr(config, "ENABLE_PAIRS_TRADING", False):
+    if run_stock_cycle and getattr(config, "ENABLE_PAIRS_TRADING", False):
         logger.info("\n" + "=" * 55)
         logger.info("  PAIRS TRADING CYCLE (Statistical Arbitrage)")
         logger.info("=" * 55)

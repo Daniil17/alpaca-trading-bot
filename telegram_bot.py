@@ -9,6 +9,13 @@ to your Telegram chat. Uses the Telegram Bot API directly
 import logging
 import requests
 from datetime import datetime
+import pytz
+
+_LONDON = pytz.timezone("Europe/London")
+
+def _now():
+    """Current time in London (handles BST/GMT automatically)."""
+    return datetime.now(_LONDON)
 
 logger = logging.getLogger("TradingBot")
 
@@ -83,7 +90,7 @@ class TelegramNotifier:
             emoji = "+" if score > 0 else ""
             msg += f"  {name}: {emoji}{score:.2f}\n"
 
-        msg += f"\n<code>{datetime.now().strftime('%H:%M:%S')}</code>"
+        msg += f"\n<code>{_now().strftime('%H:%M:%S')}</code>"
         self.send(msg)
 
     def notify_sell(self, symbol, reason, pnl=None):
@@ -96,7 +103,7 @@ class TelegramNotifier:
             f"<b>Symbol:</b> {symbol}\n"
             f"<b>Reason:</b> {reason}\n"
             f"<b>P&L:</b> {pnl_str}\n"
-            f"\n<code>{datetime.now().strftime('%H:%M:%S')}</code>"
+            f"\n<code>{_now().strftime('%H:%M:%S')}</code>"
         )
         self.send(msg)
 
@@ -108,7 +115,7 @@ class TelegramNotifier:
             f"<b>Symbol:</b> {symbol}\n"
             f"<b>Loss:</b> {loss_pct:.1f}%\n"
             f"<b>P&L:</b> ${unrealized_pl:.2f}\n"
-            f"\n<code>{datetime.now().strftime('%H:%M:%S')}</code>"
+            f"\n<code>{_now().strftime('%H:%M:%S')}</code>"
         )
         self.send(msg)
 
@@ -142,7 +149,7 @@ class TelegramNotifier:
 
         msg += (
             f"\n<b>Peak Value:</b> ${risk_summary.get('peak_value', 0):,.2f}\n"
-            f"<code>{datetime.now().strftime('%Y-%m-%d %H:%M')}</code>"
+            f"<code>{_now().strftime('%Y-%m-%d %H:%M')}</code>"
         )
         self.send(msg)
 
@@ -152,7 +159,7 @@ class TelegramNotifier:
             f"<b>BOT ERROR</b>\n"
             f"━━━━━━━━━━━━━━━━\n"
             f"{error_message}\n"
-            f"\n<code>{datetime.now().strftime('%H:%M:%S')}</code>"
+            f"\n<code>{_now().strftime('%H:%M:%S')}</code>"
         )
         self.send(msg)
 
@@ -163,7 +170,7 @@ class TelegramNotifier:
             f"━━━━━━━━━━━━━━━━\n"
             f"<b>Mode:</b> {'PAPER' if mode else 'LIVE'}\n"
             f"{settings_summary}\n"
-            f"\n<code>{datetime.now().strftime('%Y-%m-%d %H:%M')}</code>"
+            f"\n<code>{_now().strftime('%Y-%m-%d %H:%M')}</code>"
         )
         self.send(msg)
 
@@ -177,6 +184,6 @@ class TelegramNotifier:
             f"<b>Peak:</b> ${peak_value:,.2f}\n"
             f"<b>Current:</b> ${current_value:,.2f}\n"
             f"\nBot will resume buying when portfolio recovers.\n"
-            f"\n<code>{datetime.now().strftime('%H:%M:%S')}</code>"
+            f"\n<code>{_now().strftime('%H:%M:%S')}</code>"
         )
         self.send(msg)

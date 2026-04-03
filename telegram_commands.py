@@ -18,6 +18,13 @@ import logging
 import json
 import requests
 from datetime import datetime
+import pytz
+
+_LONDON = pytz.timezone("Europe/London")
+
+def _now():
+    """Current time in London (handles BST/GMT automatically)."""
+    return datetime.now(_LONDON)
 
 try:
     import config as _config
@@ -311,7 +318,7 @@ class TelegramCommander:
             f"<b>Invested:</b> ${total_invested:,.2f}\n"
             f"<b>Open Positions:</b> {num_positions}\n"
             f"<b>Unrealized P&L:</b> ${total_pl:+,.2f}\n"
-            f"\n<code>{datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}</code>"
+            f"\n<code>{_now().strftime('%Y-%m-%d %H:%M %Z')}</code>"
         )
 
         buttons = [
@@ -365,7 +372,7 @@ class TelegramCommander:
                 f"   Value: ${market_val:,.2f} | P&L: ${pl:+,.2f} ({pl_pct:+.1f}%)\n\n"
             )
 
-        msg += f"<code>{datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}</code>"
+        msg += f"<code>{_now().strftime('%Y-%m-%d %H:%M %Z')}</code>"
 
         buttons = [
             [
@@ -427,7 +434,7 @@ class TelegramCommander:
             wp = float(worst.get("unrealized_plpc", 0)) * 100
             msg += f"\n<b>Worst:</b> {worst['symbol']} ({wp:+.1f}%)"
 
-        msg += f"\n\n<code>{datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}</code>"
+        msg += f"\n\n<code>{_now().strftime('%Y-%m-%d %H:%M %Z')}</code>"
 
         buttons = [
             [
@@ -471,7 +478,7 @@ class TelegramCommander:
             f"<b>Buying Power:</b> ${buying_power:,.2f}\n\n"
             f"<b>Positions:</b> {len(positions)}\n"
             f"<b>Pattern Day Trader:</b> {pdt}\n"
-            f"\n<code>{datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}</code>"
+            f"\n<code>{_now().strftime('%Y-%m-%d %H:%M %Z')}</code>"
         )
 
         buttons = [

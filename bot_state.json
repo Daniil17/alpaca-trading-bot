@@ -1,6 +1,24 @@
 {
   "peak_portfolio_value": 0.0,
-  "manual_symbols": [],
+  "manual_symbols": [
+    "MSFT",
+    "V",
+    "NFLX",
+    "NVDA",
+    "DIS",
+    "META",
+    "NKE",
+    "AAPL",
+    "JPM",
+    "UNH",
+    "AMZN",
+    "TSLA",
+    "ABBV",
+    "MA",
+    "INTC"
+  ],
   "last_summary_date": null,
-  "run_count": 0
+  "run_count": 1,
+  "trade_log": [],
+  "open_pairs": {}
 }

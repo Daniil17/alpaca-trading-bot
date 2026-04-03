@@ -77,6 +77,8 @@ STRATEGY_WEIGHTS = {
     "news_sentiment": 0.25,    # News-driven with pullback entry
     "vwap": 0.25,              # Institutional volume-price analysis
 }
+# WARNING: weights must sum to 1.0 — run_once.py will log a warning at startup
+# if they don't. Unequal sums skew combined scores and signal thresholds.
 
 # ============================================================
 # MEAN REVERSION SETTINGS (Strategy 1)
@@ -271,7 +273,6 @@ PAIRS_UNIVERSE = [
 # Z-score thresholds
 PAIRS_ZSCORE_ENTRY = 2.0   # Open trade when spread deviates >2σ
 PAIRS_ZSCORE_EXIT = 0.5    # Close trade when spread reverts within 0.5σ
-PAIRS_ZSCORE_EXIT  = 0.5   # Close trade when spread reverts to 0.5σ
 
 # Rolling window for Z-score normalisation (trading days)
 PAIRS_LOOKBACK = 60

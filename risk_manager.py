@@ -102,8 +102,11 @@ class RiskManager:
             return False, f"Max positions reached ({self.max_open_positions})", 0
 
         # --- Check 2: Portfolio allocation limit ---
+        # Only count LONG positions — short legs (pairs trading) are not capital deployed
         total_invested = sum(
-            abs(float(p.get("market_value", 0))) for p in current_positions
+            float(p.get("market_value", 0))
+            for p in current_positions
+            if float(p.get("market_value", 0)) > 0   # long only
         )
         allocation_pct = total_invested / portfolio_value if portfolio_value > 0 else 1
         if allocation_pct >= self.max_portfolio_allocation:
@@ -376,7 +379,11 @@ class RiskManager:
                 "sectors": {},
             }
 
-        total_invested = sum(abs(float(p.get("market_value", 0))) for p in positions)
+        total_invested = sum(
+            float(p.get("market_value", 0))
+            for p in positions
+            if float(p.get("market_value", 0)) > 0  # long positions only
+        )
         unrealized_pl = sum(float(p.get("unrealized_pl", 0)) for p in positions)
 
         if self.peak_portfolio_value > 0:

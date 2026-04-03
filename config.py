@@ -32,8 +32,8 @@ TELEGRAM_CHAT_ID = "TELEGRAM_CHAT_ID"
 # The bot logs every trade to bot_state.json so you can check
 # history any time by typing /trades or /profit in Telegram.
 # Set any of these to True if you want automatic push alerts.
-NOTIFY_ON_BUY = False
-NOTIFY_ON_SELL = False
+NOTIFY_ON_BUY = True
+NOTIFY_ON_SELL = True
 NOTIFY_ON_STOP_LOSS = False
 NOTIFY_DAILY_SUMMARY = False
 NOTIFY_ON_ERROR = False
@@ -283,6 +283,4 @@ PAIRS_MAX_OPEN = 3
 
 # ============================================================
 # LOGGING
-# ============================================================
-ENABLE_LOGGING = True
-LOG_FILE = "bot_activity.log"
+# =================================================

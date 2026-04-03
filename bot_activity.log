@@ -181,3 +181,26 @@
 2026-04-03 17:50:17 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-04-03 17:50:17 | INFO     | State saved (run #9)
 2026-04-03 17:50:17 | INFO     | Cycle complete.
+2026-04-03 18:29:05 | INFO     | =======================================================
+2026-04-03 18:29:05 | INFO     |   TRADING BOT — Single Cycle
+2026-04-03 18:29:05 | INFO     |   2026-04-03 18:29:05 UTC
+2026-04-03 18:29:05 | INFO     |   Mode: PAPER
+2026-04-03 18:29:05 | INFO     | =======================================================
+2026-04-03 18:29:05 | INFO     | State loaded: peak=$100,015.02, run #9, manual=['MSFT', 'V', 'NFLX', 'NVDA', 'DIS', 'META', 'NKE', 'AAPL', 'JPM', 'UNH', 'AMZN', 'TSLA', 'ABBV', 'MA', 'INTC'], trades logged=0
+2026-04-03 18:29:05 | INFO     | Connected to Alpaca (PAPER trading)
+2026-04-03 18:29:06 | INFO     | Processed Telegram commands
+2026-04-03 18:29:06 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-04-03 18:29:06 | INFO     | Portfolio: $100,015.02 | Cash: $79,309.64
+2026-04-03 18:29:06 | INFO     | 
+=======================================================
+2026-04-03 18:29:06 | INFO     |   CRYPTO TRADING CYCLE
+2026-04-03 18:29:06 | INFO     | =======================================================
+2026-04-03 18:29:06 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-04-03 18:29:06 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-04-03 18:29:06 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-04-03 18:29:08 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-04-03 18:29:09 | INFO     | No crypto buy signals this cycle
+2026-04-03 18:29:09 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-04-03 18:29:09 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-04-03 18:29:09 | INFO     | State saved (run #10)
+2026-04-03 18:29:09 | INFO     | Cycle complete.

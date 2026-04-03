@@ -2,31 +2,37 @@ name: Trading Bot
 
 on:
   schedule:
-    - cron: '*/5 13-20 * * 1-5'
-    - cron: '0,5,10,15,20,25,30,35,40,45,50,55 21 * * 1-5'
-  workflow_dispatch:
+    # Runs every 5 minutes during US market hours (Mon-Fri 13:30-21:05 UTC = 9:30 AM - 5:05 PM ET)
+    # GitHub Actions cron uses UTC time
+    - cron: '*/5 13-20 * * 1-5'   # Every 5 min, 1 PM - 8 PM UTC weekdays
+    - cron: '0,5,10,15,20,25,30,35,40,45,50,55 21 * * 1-5'  # Until 9 PM UTC (4 PM ET)
+  workflow_dispatch:  # Allows manual trigger from GitHub UI
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write   # Needed to commit state file back to repo
 
     steps:
+      # 1. Check out the repo (including bot_state.json if it exists)
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
+      # 2. Set up Python
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
 
+      # 3. Install dependencies
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      # 4. Run one trading cycle
       - name: Run trading cycle
         env:
           ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
@@ -36,11 +42,13 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python run_once.py
 
+      # 5. Commit the updated state file back to the repo
+      #    This persists peak_portfolio_value, manual_symbols, etc. across runs
       - name: Save state to repo
         run: |
           git config user.name "Trading Bot"
           git config user.email "bot@github-actions"
-          git add bot_state.json || true
+          git add bot_state.json bot_activity.log || true
           git diff --staged --quiet || git commit -m "bot: update state [skip ci]"
           git push
-        continue-on-error: true
+        continue-on-error: true   # Don't fail the whole run if push fails

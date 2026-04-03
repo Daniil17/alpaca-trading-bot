@@ -163,23 +163,39 @@ def run():
         return
 
     # --- PDT (Pattern Day Trader) protection ---
-    # Alpaca flags accounts with <$25k equity if they make >3 day trades in 5 days.
-    # We track daytrade_count and block new stock buys when at the limit.
+    # Alpaca blocks accounts with <$25k equity after >3 day trades in a rolling 5-day window.
+    # Check BOTH our counter AND Alpaca's own flag.
     equity = account.get("equity", portfolio_value)
     daytrade_count = account.get("daytrade_count", 0)
-    pdt_protected = equity < 25_000  # PDT rule only applies under $25k
-    pdt_limit_reached = pdt_protected and daytrade_count >= 3
+    alpaca_pdt_flagged = account.get("pattern_day_trader", False)
+    pdt_protected = equity < 25_000
+    pdt_limit_reached = pdt_protected and (daytrade_count >= 3 or alpaca_pdt_flagged)
     if pdt_limit_reached:
-        logger.warning(
-            f"PDT LIMIT: {daytrade_count}/3 day trades used this week "
-            f"(equity ${equity:,.0f} < $25k). Stock buys blocked to protect account."
-        )
+        msg = (f"PDT LIMIT: {daytrade_count}/3 day trades used "
+               f"(equity ${equity:,.0f} < $25k). Stock buys blocked.")
+        logger.warning(msg)
+        telegram.send(f"⚠️ <b>PDT Protection Active</b>\n{msg}")
 
     # --- Get positions ---
     all_positions = api.get_all_positions()
-    bot_positions = all_positions
+    # Only stock positions for the stock cycle (exclude crypto)
+    bot_positions = [p for p in all_positions if not api.is_crypto(p["symbol"])]
+    sold_symbols = set()   # Track symbols sold this cycle to sync local list
 
     if run_stock_cycle:
+        # ============================================================
+        # BAR CACHE — fetch once, reuse in exit and buy phases
+        # ============================================================
+        universe_symbols = (
+            {p["symbol"] for p in bot_positions} | set(config.STOCK_UNIVERSE)
+        )
+        bars_cache = {}
+        logger.info(f"Pre-fetching bars for {len(universe_symbols)} symbols...")
+        for sym in universe_symbols:
+            b = api.get_bars(sym, "1Day", 100)
+            if b is not None and not b.empty:
+                bars_cache[sym] = b
+
         # ============================================================
         # PHASE 1: EXITS
         # ============================================================
@@ -194,21 +210,23 @@ def run():
             logger.info(f"EXIT: {symbol} — {reason}")
             result = api.close_position(symbol)
             if result:
+                # Order submitted — log as pending fill (price/time approximate)
                 log_trade(state, "SELL", symbol, float(pos.get("market_value", 0)),
                           current_price, pnl=unrealized_pl, reason=reason)
+                sold_symbols.add(symbol)
                 if config.NOTIFY_ON_STOP_LOSS and "STOP" in reason:
                     pct = float(pos.get("unrealized_plpc", 0)) * 100
                     telegram.notify_stop_loss(symbol, pct, unrealized_pl)
                 elif config.NOTIFY_ON_SELL:
                     telegram.notify_sell(symbol, reason, unrealized_pl)
 
-        # Strategy-based sell signals
-        for pos in bot_positions:
+        # Strategy-based sell signals — use cached bars, sync local list after sell
+        for pos in list(bot_positions):   # iterate copy so we can remove mid-loop
             symbol = pos["symbol"]
-            if any(e["symbol"] == symbol for e in exits):
+            if symbol in sold_symbols:
                 continue
-            bars = api.get_bars(symbol, "1Day", 100)
-            if bars is None or bars.empty:
+            bars = bars_cache.get(symbol)
+            if bars is None:
                 continue
             analysis = engine.analyze(bars)
             if analysis["signal"] in ("STRONG_SELL", "SELL"):
@@ -221,26 +239,26 @@ def run():
                               current_price, pnl=unrealized_pl,
                               reason=f"Strategy ({analysis['combined_score']:.3f})",
                               score=analysis["combined_score"])
+                    sold_symbols.add(symbol)
+                    # Sync local position list immediately
+                    bot_positions = [p for p in bot_positions if p["symbol"] != symbol]
                     if config.NOTIFY_ON_SELL:
                         telegram.notify_sell(symbol, f"Strategy ({analysis['combined_score']:.3f})", unrealized_pl)
 
         # ============================================================
-        # PHASE 2: FIND BUYS
+        # PHASE 2: FIND BUYS (use cached bars — no redundant API calls)
         # ============================================================
         logger.info("--- Phase 2: Scanning for opportunities ---")
 
-        all_positions = api.get_all_positions()
-        bot_positions = all_positions
-        held_symbols = {p["symbol"] for p in all_positions}
-
+        held_symbols = {p["symbol"] for p in bot_positions} | sold_symbols
         news_scores = news.get_sentiment_scores(config.STOCK_UNIVERSE, exclude_symbols=held_symbols)
 
         candidates = []
         for symbol in config.STOCK_UNIVERSE:
             if symbol in held_symbols:
                 continue
-            bars = api.get_bars(symbol, "1Day", 100)
-            if bars is None or bars.empty:
+            bars = bars_cache.get(symbol)
+            if bars is None:
                 continue
             sentiment = news_scores.get(symbol, 0.0)
             analysis = engine.analyze(bars, sentiment_score=sentiment)
@@ -254,9 +272,11 @@ def run():
                 f"{c['symbol']} ({c['analysis']['combined_score']:.3f})"
                 for c in candidates[:5]
             ))
+        else:
+            logger.info("No buy signals this cycle")
 
         # ============================================================
-        # PHASE 3: EXECUTE BUYS
+        # PHASE 3: EXECUTE BUYS + place stop-loss orders
         # ============================================================
         logger.info("--- Phase 3: Executing trades ---")
 
@@ -298,6 +318,19 @@ def run():
                           score=analysis["combined_score"])
                 if config.NOTIFY_ON_BUY:
                     telegram.notify_buy(symbol, position_size, price, analysis)
+
+                # Place ATR-based stop-loss order with Alpaca (GTC)
+                try:
+                    import pandas as pd
+                    atr = _calculate_atr(bars)
+                    if atr and atr > 0 and price > 0:
+                        stop_price = round(price - config.STOP_LOSS_ATR_MULTIPLIER * atr, 2)
+                        qty_shares = round(position_size / price, 6)
+                        if stop_price > 0 and qty_shares > 0:
+                            api.sell_stop(symbol, stop_price, qty_shares)
+                except Exception as e:
+                    logger.warning(f"Could not place stop-loss for {symbol}: {e}")
+
                 bot_positions.append({
                     "symbol": symbol, "market_value": position_size,
                     "avg_entry_price": price, "current_price": price,
@@ -342,6 +375,23 @@ def run():
     save_state(state)
 
     logger.info("Cycle complete.")
+
+
+def _calculate_atr(bars, period=14):
+    """Calculate the Average True Range from a bars DataFrame."""
+    try:
+        import numpy as np
+        high = bars["high"]
+        low = bars["low"]
+        close = bars["close"]
+        tr = (
+            (high - low)
+            .combine(abs(high - close.shift()), max)
+            .combine(abs(low - close.shift()), max)
+        )
+        return float(tr.rolling(period).mean().iloc[-1])
+    except Exception:
+        return None
 
 
 def _run_pairs_cycle(api, telegram, state, portfolio_value, logger):

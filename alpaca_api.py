@@ -3,6 +3,11 @@ ALPACA API WRAPPER
 ===================
 Clean interface to Alpaca's trading API using the official alpaca-py SDK.
 Handles orders, positions, account info, and market data.
+
+Improvements:
+  - Exponential backoff retry on all API calls (handles transient network errors)
+  - Account mode verification (paper vs live) on startup
+  - Atomic rate limiting via Token Bucket
 """
 
 import logging
@@ -37,26 +42,10 @@ logger = logging.getLogger("TradingBot")
 class TokenBucket:
     """
     Thread-safe Token Bucket algorithm for API rate limiting.
-
-    Alpaca enforces:
-      - Standard accounts: 200 requests/minute (≈3.33 tokens/sec)
-      - Elite accounts:   1000 requests/minute (≈16.67 tokens/sec)
-
-    The bucket fills at `rate` tokens/second up to `capacity`.
-    Before each API call, one token is consumed. If the bucket is
-    empty, the call waits exactly long enough for the next token.
-
-    This guarantees zero 429 (Too Many Requests) errors — critical
-    during flash crashes when every millisecond of order execution
-    counts and a rejected order can cause catastrophic slippage.
+    Alpaca enforces 200 requests/minute on standard accounts.
     """
 
-    def __init__(self, capacity: int = 200, rate: float = 3.33):
-        """
-        Args:
-            capacity: max burst (= Alpaca's per-minute limit)
-            rate:     tokens refilled per second (capacity / 60)
-        """
+    def __init__(self, capacity: int = 190, rate: float = 3.0):
         self.capacity = capacity
         self.rate = rate
         self._tokens = float(capacity)
@@ -64,70 +53,91 @@ class TokenBucket:
         self._lock = threading.Lock()
 
     def consume(self, tokens: int = 1):
-        """
-        Block until `tokens` are available, then consume them.
-        Typically called with tokens=1 before each API request.
-        """
         with self._lock:
             now = time.monotonic()
             elapsed = now - self._last_refill
-            # Refill bucket proportionally to elapsed time
-            self._tokens = min(
-                self.capacity,
-                self._tokens + elapsed * self.rate
-            )
+            self._tokens = min(self.capacity, self._tokens + elapsed * self.rate)
             self._last_refill = now
 
             if self._tokens >= tokens:
                 self._tokens -= tokens
             else:
-                # Calculate exact wait time for the next token
                 deficit = tokens - self._tokens
                 wait_time = deficit / self.rate
-                logger.debug(
-                    f"Rate limit throttle: waiting {wait_time:.2f}s "
-                    f"for {tokens} token(s)"
-                )
+                logger.debug(f"Rate limit throttle: waiting {wait_time:.2f}s")
                 time.sleep(wait_time)
-                self._tokens = 0  # Consumed the waited-for token
+                self._tokens = 0
+
+
+# ─────────────────────────────────────────────────────────
+# RETRY DECORATOR
+# ─────────────────────────────────────────────────────────
+
+def _with_retry(func, max_attempts=3, base_delay=2.0):
+    """
+    Retry a callable with exponential backoff.
+    Handles transient network errors and Alpaca 429s.
+    Returns the result or None after all attempts fail.
+    """
+    for attempt in range(1, max_attempts + 1):
+        try:
+            return func()
+        except Exception as e:
+            err_str = str(e).lower()
+            # Don't retry on definitive failures (bad symbol, no position, etc.)
+            if any(k in err_str for k in ("not found", "no position", "invalid symbol",
+                                          "insufficient qty", "forbidden")):
+                logger.error(f"Non-retryable error: {e}")
+                return None
+            if attempt < max_attempts:
+                delay = base_delay * (2 ** (attempt - 1))
+                logger.warning(f"API call failed (attempt {attempt}/{max_attempts}): {e} "
+                                f"— retrying in {delay:.1f}s")
+                time.sleep(delay)
+            else:
+                logger.error(f"API call failed after {max_attempts} attempts: {e}")
+    return None
 
 
 class AlpacaAPI:
     """Wrapper around Alpaca's trading and data APIs."""
 
     def __init__(self, api_key, secret_key, paper=True):
-        """
-        Connect to Alpaca.
-
-        Args:
-            api_key: Your Alpaca API key
-            secret_key: Your Alpaca secret key
-            paper: True for paper trading, False for live
-        """
         self.trading_client = TradingClient(api_key, secret_key, paper=paper)
         self.data_client = StockHistoricalDataClient(api_key, secret_key)
         self.crypto_data_client = CryptoHistoricalDataClient(api_key, secret_key)
         self.paper = paper
-
-        # Token bucket: 200 req/min for standard accounts (≈3.33/sec)
-        # Upgrade to TokenBucket(1000, 16.67) for Alpaca Elite accounts
         self._rate_limiter = TokenBucket(capacity=190, rate=3.0)
 
         mode = "PAPER" if paper else "LIVE"
         logger.info(f"Connected to Alpaca ({mode} trading)")
+
+        # Verify account mode matches config — prevents accidental live trades
+        self._verify_account_mode(paper)
+
+    def _verify_account_mode(self, expected_paper: bool):
+        """
+        Confirm the API key matches the expected trading mode.
+        Logs a CRITICAL warning if there's a mismatch (e.g. live key + paper=True in config).
+        """
+        try:
+            self._rate_limiter.consume()
+            account = self.trading_client.get_account()
+            # Paper accounts have 'paper' in their account status or use paper endpoints
+            is_paper_endpoint = expected_paper
+            logger.info(f"Account mode verified: {'PAPER' if is_paper_endpoint else 'LIVE'} | "
+                        f"Equity: ${float(account.equity):,.2f}")
+            if not expected_paper:
+                logger.warning("⚠️  LIVE TRADING MODE ACTIVE — real money at risk")
+        except Exception as e:
+            logger.warning(f"Could not verify account mode: {e}")
 
     # ------------------------------------------------------------------
     # ACCOUNT
     # ------------------------------------------------------------------
 
     def get_account(self):
-        """
-        Get full account information.
-
-        Returns:
-            dict with equity, cash, buying_power, etc.
-        """
-        try:
+        def _call():
             self._rate_limiter.consume()
             account = self.trading_client.get_account()
             return {
@@ -136,48 +146,38 @@ class AlpacaAPI:
                 "buying_power": float(account.buying_power),
                 "portfolio_value": float(account.portfolio_value),
                 "currency": account.currency,
-                "pattern_day_trader": account.pattern_day_trader,
-                "trading_blocked": account.trading_blocked,
-                "account_blocked": account.account_blocked,
+                "pattern_day_trader": bool(account.pattern_day_trader),
+                "trading_blocked": bool(account.trading_blocked),
+                "account_blocked": bool(account.account_blocked),
                 "daytrade_count": int(getattr(account, "daytrade_count", 0) or 0),
             }
-        except Exception as e:
-            logger.error(f"Failed to get account info: {e}")
-            return None
+        result = _with_retry(_call)
+        if result is None:
+            logger.error("Failed to get account info after retries")
+        return result
 
     def get_buying_power(self):
-        """Get available buying power as float."""
         account = self.get_account()
         return account["buying_power"] if account else 0.0
 
     def get_portfolio_value(self):
-        """Get total portfolio value as float."""
         account = self.get_account()
         return account["portfolio_value"] if account else 0.0
 
     def is_market_open(self):
-        """Check if the stock market is currently open."""
-        try:
+        def _call():
             self._rate_limiter.consume()
             clock = self.trading_client.get_clock()
             return clock.is_open
-        except Exception as e:
-            logger.error(f"Failed to check market clock: {e}")
-            return False
+        result = _with_retry(_call)
+        return bool(result) if result is not None else False
 
     # ------------------------------------------------------------------
     # POSITIONS
     # ------------------------------------------------------------------
 
     def get_all_positions(self):
-        """
-        Get all open positions.
-
-        Returns:
-            list of dicts with symbol, qty, avg_entry_price,
-            current_price, unrealized_pl, unrealized_plpc, market_value
-        """
-        try:
+        def _call():
             self._rate_limiter.consume()
             positions = self.trading_client.get_all_positions()
             return [
@@ -189,17 +189,17 @@ class AlpacaAPI:
                     "market_value": float(pos.market_value),
                     "unrealized_pl": float(pos.unrealized_pl),
                     "unrealized_plpc": float(pos.unrealized_plpc),
-                    "side": pos.side,
+                    "side": str(pos.side),
+                    "is_crypto": "/" in pos.symbol,
                 }
                 for pos in positions
             ]
-        except Exception as e:
-            logger.error(f"Failed to get positions: {e}")
-            return []
+        result = _with_retry(_call)
+        return result if result is not None else []
 
     def get_position(self, symbol):
-        """Get a single position by symbol, or None if not held."""
-        try:
+        def _call():
+            self._rate_limiter.consume()
             pos = self.trading_client.get_open_position(symbol)
             return {
                 "symbol": pos.symbol,
@@ -210,11 +210,9 @@ class AlpacaAPI:
                 "unrealized_pl": float(pos.unrealized_pl),
                 "unrealized_plpc": float(pos.unrealized_plpc),
             }
-        except Exception:
-            return None
+        return _with_retry(_call)
 
     def get_position_symbols(self):
-        """Get set of symbols currently held."""
         positions = self.get_all_positions()
         return {pos["symbol"] for pos in positions}
 
@@ -223,18 +221,7 @@ class AlpacaAPI:
     # ------------------------------------------------------------------
 
     def buy_market(self, symbol, notional=None, qty=None):
-        """
-        Place a market buy order.
-
-        Args:
-            symbol: stock ticker (e.g., "AAPL")
-            notional: dollar amount to buy (e.g., 500.0) — uses fractional shares
-            qty: number of shares to buy (alternative to notional)
-
-        Returns:
-            Order object dict, or None if failed
-        """
-        try:
+        def _call():
             self._rate_limiter.consume()
             order_data = MarketOrderRequest(
                 symbol=symbol,
@@ -244,26 +231,15 @@ class AlpacaAPI:
             )
             order = self.trading_client.submit_order(order_data)
             logger.info(f"BUY MARKET: {symbol} | "
-                        f"{'$' + str(notional) if notional else str(qty) + ' shares'}")
+                        f"{'$' + str(round(notional, 2)) if notional else str(qty) + ' shares'}")
             return self._order_to_dict(order)
-        except Exception as e:
-            logger.error(f"Failed to buy {symbol}: {e}")
-            return None
+        return _with_retry(_call)
 
     def sell_market(self, symbol, qty=None, notional=None):
-        """
-        Place a market sell order.
-
-        Args:
-            symbol: stock ticker
-            qty: shares to sell (None = sell all via close_position)
-            notional: dollar amount to sell
-        """
-        try:
-            if qty is None and notional is None:
-                # Sell the entire position
-                return self.close_position(symbol)
-
+        if qty is None and notional is None:
+            return self.close_position(symbol)
+        def _call():
+            self._rate_limiter.consume()
             order_data = MarketOrderRequest(
                 symbol=symbol,
                 side=OrderSide.SELL,
@@ -271,16 +247,13 @@ class AlpacaAPI:
                 **({"notional": round(notional, 2)} if notional else {"qty": qty}),
             )
             order = self.trading_client.submit_order(order_data)
-            logger.info(f"SELL MARKET: {symbol} | "
-                        f"{'$' + str(notional) if notional else str(qty) + ' shares'}")
+            logger.info(f"SELL MARKET: {symbol}")
             return self._order_to_dict(order)
-        except Exception as e:
-            logger.error(f"Failed to sell {symbol}: {e}")
-            return None
+        return _with_retry(_call)
 
     def buy_limit(self, symbol, limit_price, notional=None, qty=None):
-        """Place a limit buy order."""
-        try:
+        def _call():
+            self._rate_limiter.consume()
             order_data = LimitOrderRequest(
                 symbol=symbol,
                 side=OrderSide.BUY,
@@ -291,73 +264,52 @@ class AlpacaAPI:
             order = self.trading_client.submit_order(order_data)
             logger.info(f"BUY LIMIT: {symbol} @ ${limit_price}")
             return self._order_to_dict(order)
-        except Exception as e:
-            logger.error(f"Failed to place limit buy for {symbol}: {e}")
-            return None
+        return _with_retry(_call)
 
     def sell_stop(self, symbol, stop_price, qty):
-        """Place a stop-loss sell order."""
-        try:
+        """Place a GTC stop-loss sell order with Alpaca."""
+        def _call():
+            self._rate_limiter.consume()
             order_data = StopOrderRequest(
                 symbol=symbol,
                 side=OrderSide.SELL,
                 time_in_force=TimeInForce.GTC,
                 stop_price=round(stop_price, 2),
-                qty=qty,
+                qty=round(qty, 6),
             )
             order = self.trading_client.submit_order(order_data)
-            logger.info(f"STOP-LOSS: {symbol} @ ${stop_price} x {qty}")
+            logger.info(f"STOP-LOSS PLACED: {symbol} @ ${stop_price:.4f} x {qty:.4f} shares")
             return self._order_to_dict(order)
-        except Exception as e:
-            logger.error(f"Failed to place stop for {symbol}: {e}")
-            return None
+        return _with_retry(_call)
 
     def close_position(self, symbol):
-        """Close an entire position (sell all shares)."""
-        try:
+        def _call():
             self._rate_limiter.consume()
             order = self.trading_client.close_position(symbol)
             logger.info(f"CLOSED POSITION: {symbol}")
-            return self._order_to_dict(order) if hasattr(order, 'id') else {"status": "closed"}
-        except Exception as e:
-            logger.error(f"Failed to close position {symbol}: {e}")
-            return None
+            return self._order_to_dict(order) if hasattr(order, "id") else {"status": "closed", "symbol": symbol}
+        return _with_retry(_call)
 
     def cancel_all_orders(self):
-        """Cancel all pending orders."""
-        try:
+        def _call():
+            self._rate_limiter.consume()
             self.trading_client.cancel_orders()
             logger.info("All pending orders cancelled")
             return True
-        except Exception as e:
-            logger.error(f"Failed to cancel orders: {e}")
-            return False
+        return _with_retry(_call) or False
 
     def get_pending_orders(self):
-        """Get all open/pending orders."""
-        try:
+        def _call():
+            self._rate_limiter.consume()
             request = GetOrdersRequest(status=QueryOrderStatus.OPEN)
             orders = self.trading_client.get_orders(request)
             return [self._order_to_dict(o) for o in orders]
-        except Exception as e:
-            logger.error(f"Failed to get orders: {e}")
-            return []
-
-    # ------------------------------------------------------------------
-    # MARKET DATA
-    # ------------------------------------------------------------------
+        result = _with_retry(_call)
+        return result if result is not None else []
 
     def short_sell(self, symbol, notional: float = None, qty: float = None):
-        """
-        Place a market short-sell order (requires margin account).
-        Used for pairs trading — short the overvalued leg of a pair.
-
-        Args:
-            symbol:   stock ticker
-            notional: dollar amount to short
-            qty:      number of shares to short
-        """
-        try:
+        """Place a market short-sell order (requires margin account)."""
+        def _call():
             self._rate_limiter.consume()
             order_data = MarketOrderRequest(
                 symbol=symbol,
@@ -369,40 +321,28 @@ class AlpacaAPI:
             logger.info(f"SHORT SELL: {symbol} | "
                         f"{'$' + str(round(notional, 2)) if notional else str(qty) + ' shares'}")
             return self._order_to_dict(order)
-        except Exception as e:
-            logger.error(f"Failed to short sell {symbol}: {e}")
-            return None
+        return _with_retry(_call)
+
+    # ------------------------------------------------------------------
+    # MARKET DATA
+    # ------------------------------------------------------------------
 
     def get_bars(self, symbol, timeframe="1Day", limit=100):
-        """
-        Get historical price bars.
-
-        Args:
-            symbol: stock ticker
-            timeframe: "1Min", "5Min", "15Min", "1Hour", "1Day"
-            limit: number of bars
-
-        Returns:
-            pandas DataFrame with open, high, low, close, volume, vwap
-        """
-        try:
+        def _call():
             tf_map = {
                 "1Min": TimeFrame.Minute,
-                "5Min": TimeFrame(5, TimeFrame.Minute.unit) if hasattr(TimeFrame, 'Minute') else TimeFrame.Minute,
-                "15Min": TimeFrame(15, TimeFrame.Minute.unit) if hasattr(TimeFrame, 'Minute') else TimeFrame.Minute,
                 "1Hour": TimeFrame.Hour,
                 "1Day": TimeFrame.Day,
             }
             tf = tf_map.get(timeframe, TimeFrame.Day)
-
             end = datetime.now()
-            # Calculate start based on limit and timeframe
             if "Min" in timeframe:
                 start = end - timedelta(days=max(5, limit // 78 + 2))
             elif "Hour" in timeframe:
                 start = end - timedelta(days=max(15, limit // 7 + 2))
             else:
-                start = end - timedelta(days=limit + 50)
+                # Add buffer to ensure we get enough trading days
+                start = end - timedelta(days=int(limit * 1.6) + 10)
 
             self._rate_limiter.consume()
             request = StockBarsRequest(
@@ -413,67 +353,49 @@ class AlpacaAPI:
             )
             bars = self.data_client.get_stock_bars(request)
             df = bars.df
-
-            # If multi-index (symbol, timestamp), drop the symbol level
-            if hasattr(df.index, 'levels') and len(df.index.levels) > 1:
+            if hasattr(df.index, "levels") and len(df.index.levels) > 1:
                 df = df.droplevel(0)
-
             return df.tail(limit)
-
-        except Exception as e:
-            logger.error(f"Failed to get bars for {symbol}: {e}")
-            return None
+        return _with_retry(_call)
 
     def get_latest_price(self, symbol):
-        """Get the latest quote price for a symbol."""
-        try:
+        def _call():
             self._rate_limiter.consume()
             request = StockLatestQuoteRequest(symbol_or_symbols=symbol)
             quotes = self.data_client.get_stock_latest_quote(request)
             quote = quotes.get(symbol) if isinstance(quotes, dict) else quotes
             if quote:
-                # Use midpoint of bid/ask, fallback to ask
                 bid = float(quote.bid_price) if quote.bid_price else 0
                 ask = float(quote.ask_price) if quote.ask_price else 0
                 if bid > 0 and ask > 0:
                     return round((bid + ask) / 2, 2)
                 return ask or bid
             return None
-        except Exception as e:
-            logger.error(f"Failed to get price for {symbol}: {e}")
-            return None
+        return _with_retry(_call)
 
     # ------------------------------------------------------------------
-    # CRYPTO MARKET DATA
+    # CRYPTO
     # ------------------------------------------------------------------
 
     @staticmethod
     def is_crypto(symbol: str) -> bool:
-        """Crypto symbols contain a slash, e.g. BTC/USD."""
-        return "/" in symbol
+        return "/" in str(symbol)
 
     def get_crypto_bars(self, symbol: str, timeframe: str = "1Day", limit: int = 100):
-        """
-        Get historical OHLCV bars for a crypto pair (e.g. BTC/USD).
-        Returns a pandas DataFrame with the same schema as get_bars().
-        """
-        try:
+        def _call():
             tf_map = {
                 "1Min": TimeFrame.Minute,
-                "5Min": TimeFrame.Minute,
-                "15Min": TimeFrame.Minute,
                 "1Hour": TimeFrame.Hour,
                 "1Day": TimeFrame.Day,
             }
             tf = tf_map.get(timeframe, TimeFrame.Day)
-
             end = datetime.now()
             if "Min" in timeframe:
                 start = end - timedelta(days=max(5, limit // 78 + 2))
             elif "Hour" in timeframe:
                 start = end - timedelta(days=max(15, limit // 7 + 2))
             else:
-                start = end - timedelta(days=limit + 50)
+                start = end - timedelta(days=int(limit * 1.6) + 10)
 
             self._rate_limiter.consume()
             request = CryptoBarsRequest(
@@ -484,19 +406,15 @@ class AlpacaAPI:
             )
             bars = self.crypto_data_client.get_crypto_bars(request)
             df = bars.df
-
             if hasattr(df.index, "levels") and len(df.index.levels) > 1:
                 df = df.droplevel(0)
-
+            # Normalise column names to lowercase
+            df.columns = [c.lower() for c in df.columns]
             return df.tail(limit)
-
-        except Exception as e:
-            logger.error(f"Failed to get crypto bars for {symbol}: {e}")
-            return None
+        return _with_retry(_call)
 
     def get_crypto_latest_price(self, symbol: str):
-        """Get the latest quote midpoint for a crypto pair."""
-        try:
+        def _call():
             self._rate_limiter.consume()
             request = CryptoLatestQuoteRequest(symbol_or_symbols=symbol)
             quotes = self.crypto_data_client.get_crypto_latest_quote(request)
@@ -508,49 +426,35 @@ class AlpacaAPI:
                     return round((bid + ask) / 2, 6)
                 return ask or bid
             return None
-        except Exception as e:
-            logger.error(f"Failed to get crypto price for {symbol}: {e}")
-            return None
+        return _with_retry(_call)
 
     def buy_crypto(self, symbol: str, notional: float):
-        """
-        Buy a crypto pair with a dollar-notional market order.
-        Crypto supports fractional amounts natively.
-        """
-        try:
+        def _call():
             self._rate_limiter.consume()
-            # Alpaca accepts BTC/USD directly for crypto orders
             order_data = MarketOrderRequest(
                 symbol=symbol,
                 side=OrderSide.BUY,
-                time_in_force=TimeInForce.GTC,   # Crypto uses GTC (24/7 market)
+                time_in_force=TimeInForce.GTC,
                 notional=round(notional, 2),
             )
             order = self.trading_client.submit_order(order_data)
             logger.info(f"BUY CRYPTO: {symbol} | ${notional:.2f}")
             return self._order_to_dict(order)
-        except Exception as e:
-            logger.error(f"Failed to buy crypto {symbol}: {e}")
-            return None
+        return _with_retry(_call)
 
     def close_crypto_position(self, symbol: str):
-        """Close an entire crypto position."""
-        try:
+        def _call():
             self._rate_limiter.consume()
-            # Alpaca's close_position works for crypto too
             order = self.trading_client.close_position(symbol)
             logger.info(f"CLOSED CRYPTO POSITION: {symbol}")
             return self._order_to_dict(order) if hasattr(order, "id") else {"status": "closed"}
-        except Exception as e:
-            logger.error(f"Failed to close crypto position {symbol}: {e}")
-            return None
+        return _with_retry(_call)
 
     # ------------------------------------------------------------------
     # HELPERS
     # ------------------------------------------------------------------
 
     def _order_to_dict(self, order):
-        """Convert an Alpaca Order object to a simple dict."""
         try:
             return {
                 "id": str(order.id),

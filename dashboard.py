@@ -407,8 +407,8 @@ def main():
         peak_val = state.get("peak_portfolio_value", 0)
         metric_card("Peak Portfolio Value", f"${peak_val:,.2f}" if peak_val else "—")
     with col_c:
-        manual = state.get("manual_symbols", [])
-        metric_card("Manual Positions (ignored)", str(len(manual)) if manual else "0")
+        open_pairs = state.get("open_pairs", {})
+        metric_card("Active Pairs Trades", str(len(open_pairs)))
     with col_d:
         last_summary = state.get("last_summary_date", "—")
         metric_card("Last Daily Summary", str(last_summary))

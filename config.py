@@ -202,7 +202,7 @@ CRYPTO_BUY_THRESHOLD = 0.25
 # URL where your Streamlit dashboard is hosted.
 # After deploying to Streamlit Cloud (free), paste the URL here.
 # Example: "https://alpaca-trading-bot.streamlit.app"
-DASHBOARD_URL = ""
+DASHBOARD_URL = "https://alpaca-trading-bot-ghkccbuarkjkglzerkqz7r.streamlit.app/"
 
 # ============================================================
 # FRACTIONAL KELLY CRITERION

@@ -139,6 +139,7 @@ class AlpacaAPI:
                 "pattern_day_trader": account.pattern_day_trader,
                 "trading_blocked": account.trading_blocked,
                 "account_blocked": account.account_blocked,
+                "daytrade_count": int(getattr(account, "daytrade_count", 0) or 0),
             }
         except Exception as e:
             logger.error(f"Failed to get account info: {e}")

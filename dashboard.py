@@ -286,7 +286,7 @@ def main():
             plot_bgcolor="rgba(0,0,0,0)",
             paper_bgcolor="rgba(0,0,0,0)",
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True, key="equity_curve")
         st.divider()
 
     # ── SECTION 3: Open Positions ───────────────────────────────────
@@ -304,7 +304,7 @@ def main():
             f"🪙 Crypto ({len(crypto_positions)})",
         ])
 
-        for tab, pos_list in zip(tabs, [positions, stock_positions, crypto_positions]):
+        for tab_idx, (tab, pos_list) in enumerate(zip(tabs, [positions, stock_positions, crypto_positions])):
             with tab:
                 if not pos_list:
                     st.info("No positions in this category.")
@@ -340,7 +340,7 @@ def main():
                         title="Position Allocation",
                     )
                     fig_pie.update_layout(height=300, margin=dict(l=0, r=0, t=40, b=0))
-                    st.plotly_chart(fig_pie, use_container_width=True)
+                    st.plotly_chart(fig_pie, use_container_width=True, key=f"pie_chart_{tab_idx}")
 
     st.divider()
 
@@ -365,7 +365,7 @@ def main():
             plot_bgcolor="rgba(0,0,0,0)",
             paper_bgcolor="rgba(0,0,0,0)",
         )
-        st.plotly_chart(fig_bar, use_container_width=True)
+        st.plotly_chart(fig_bar, use_container_width=True, key="pnl_bar")
         st.divider()
 
     # ── SECTION 5: Recent Trades ────────────────────────────────────

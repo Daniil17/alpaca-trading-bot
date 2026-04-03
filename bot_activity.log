@@ -10,3 +10,13 @@
 2026-04-03 10:27:24 | INFO     | First run — recording manual positions: {'MSFT', 'V', 'NFLX', 'NVDA', 'DIS', 'META', 'NKE', 'AAPL', 'JPM', 'UNH', 'AMZN', 'TSLA', 'ABBV', 'MA', 'INTC'}
 2026-04-03 10:27:24 | INFO     | Market closed — skipping trading cycle
 2026-04-03 10:27:24 | INFO     | State saved (run #1)
+2026-04-03 10:31:47 | INFO     | =======================================================
+2026-04-03 10:31:47 | INFO     |   TRADING BOT — Single Cycle
+2026-04-03 10:31:47 | INFO     |   2026-04-03 10:31:47 UTC
+2026-04-03 10:31:47 | INFO     |   Mode: PAPER
+2026-04-03 10:31:47 | INFO     | =======================================================
+2026-04-03 10:31:47 | INFO     | State loaded: peak=$0.00, run #1, manual=['MSFT', 'V', 'NFLX', 'NVDA', 'DIS', 'META', 'NKE', 'AAPL', 'JPM', 'UNH', 'AMZN', 'TSLA', 'ABBV', 'MA', 'INTC'], trades logged=0
+2026-04-03 10:31:47 | INFO     | Connected to Alpaca (PAPER trading)
+2026-04-03 10:31:51 | INFO     | Processed Telegram commands
+2026-04-03 10:31:51 | INFO     | Market closed — skipping trading cycle
+2026-04-03 10:31:51 | INFO     | State saved (run #2)

@@ -182,6 +182,14 @@ def run():
     bot_positions = [p for p in all_positions if not api.is_crypto(p["symbol"])]
     sold_symbols = set()   # Track symbols sold this cycle to sync local list
 
+    # --- Prune stale trailing_high entries (positions closed by Alpaca stop orders) ---
+    active_symbols = {p["symbol"] for p in all_positions}
+    stale = [s for s in state.get("trailing_high", {}) if s not in active_symbols]
+    for s in stale:
+        state["trailing_high"].pop(s, None)
+    if stale:
+        logger.debug(f"Pruned trailing_high for closed positions: {stale}")
+
     if run_stock_cycle:
         # ============================================================
         # BAR CACHE — fetch once, reuse in exit and buy phases
@@ -201,7 +209,24 @@ def run():
         # ============================================================
         logger.info("--- Phase 1: Checking exits ---")
 
+        # --- Trailing stop high-water mark update (stocks) ---
+        trail_activation = getattr(config, "TRAILING_STOP_ACTIVATION_PCT", 0.05)
+        trail_pct = getattr(config, "TRAILING_STOP_PCT", 0.07)
+        trailing_high = state.setdefault("trailing_high", {})
+
+        for pos in bot_positions:
+            symbol = pos["symbol"]
+            entry = float(pos.get("avg_entry_price", 0))
+            current = float(pos.get("current_price", 0))
+            if entry > 0 and current > 0:
+                # Update high-water mark
+                prev_high = trailing_high.get(symbol, entry)
+                trailing_high[symbol] = max(prev_high, current)
+
+        # Hard stop/take-profit exits (risk manager)
         exits = risk.check_positions_for_exit(bot_positions)
+        exited_symbols = {pos["symbol"] for pos in exits}
+
         for pos in exits:
             symbol = pos["symbol"]
             reason = pos.get("exit_reason", "Risk exit")
@@ -210,15 +235,47 @@ def run():
             logger.info(f"EXIT: {symbol} — {reason}")
             result = api.close_position(symbol)
             if result:
-                # Order submitted — log as pending fill (price/time approximate)
                 log_trade(state, "SELL", symbol, float(pos.get("market_value", 0)),
                           current_price, pnl=unrealized_pl, reason=reason)
                 sold_symbols.add(symbol)
+                trailing_high.pop(symbol, None)   # Clear trailing record on exit
                 if config.NOTIFY_ON_STOP_LOSS and "STOP" in reason:
                     pct = float(pos.get("unrealized_plpc", 0)) * 100
                     telegram.notify_stop_loss(symbol, pct, unrealized_pl)
                 elif config.NOTIFY_ON_SELL:
                     telegram.notify_sell(symbol, reason, unrealized_pl)
+
+        # --- Trailing stop check (stocks) ---
+        for pos in bot_positions:
+            symbol = pos["symbol"]
+            if symbol in sold_symbols or symbol in exited_symbols:
+                continue
+            entry = float(pos.get("avg_entry_price", 0))
+            current = float(pos.get("current_price", 0))
+            if entry <= 0 or current <= 0:
+                continue
+            high = trailing_high.get(symbol, entry)
+            # Only activate once position is up enough to warrant trailing
+            if high >= entry * (1 + trail_activation):
+                trail_stop = high * (1 - trail_pct)
+                if current <= trail_stop:
+                    gain_pct = (high - entry) / entry * 100
+                    reason = (f"TRAILING STOP: price fell {trail_pct*100:.0f}% from "
+                              f"peak ${high:.2f} (peak gain was +{gain_pct:.1f}%)")
+                    logger.info(f"TRAILING STOP: {symbol} — current ${current:.2f} "
+                                f"≤ stop ${trail_stop:.2f} (peak ${high:.2f})")
+                    unrealized_pl = float(pos.get("unrealized_pl", 0))
+                    result = api.close_position(symbol)
+                    if result:
+                        log_trade(state, "SELL", symbol, float(pos.get("market_value", 0)),
+                                  current, pnl=unrealized_pl, reason=reason)
+                        sold_symbols.add(symbol)
+                        trailing_high.pop(symbol, None)
+                        if config.NOTIFY_ON_SELL:
+                            try:
+                                telegram.notify_sell(symbol, reason, unrealized_pl)
+                            except Exception as _e:
+                                logger.warning(f"Telegram notify failed: {_e}")
 
         # Strategy-based sell signals — use cached bars, sync local list after sell
         for pos in list(bot_positions):   # iterate copy so we can remove mid-loop
@@ -573,6 +630,19 @@ def _run_crypto_cycle(api, risk, news, telegram, state, portfolio_value, logger)
 
     # ---- Phase 1: Check crypto exits ----
     logger.info("--- Crypto Phase 1: Checking exits ---")
+
+    crypto_trail_activation = getattr(config, "CRYPTO_TRAILING_STOP_ACTIVATION_PCT", 0.08)
+    crypto_trail_pct = getattr(config, "CRYPTO_TRAILING_STOP_PCT", 0.12)
+    trailing_high = state.setdefault("trailing_high", {})
+
+    # Update crypto high-water marks first
+    for pos in crypto_positions:
+        symbol = pos["symbol"]
+        entry = float(pos.get("avg_entry_price", 0))
+        current = float(pos.get("current_price", 0))
+        if entry > 0 and current > 0:
+            trailing_high[symbol] = max(trailing_high.get(symbol, entry), current)
+
     for pos in crypto_positions:
         symbol = pos["symbol"]
         entry = float(pos.get("avg_entry_price", 0))
@@ -590,8 +660,18 @@ def _run_crypto_cycle(api, risk, news, telegram, state, portfolio_value, logger)
         elif entry > 0 and pl_pct >= hard_tp:
             exit_reason = f"HARD TAKE-PROFIT {pl_pct:.1f}%"
 
-        # Strategy signal
-        else:
+        # Trailing stop
+        elif entry > 0 and current > 0:
+            high = trailing_high.get(symbol, entry)
+            if high >= entry * (1 + crypto_trail_activation):
+                trail_stop = high * (1 - crypto_trail_pct)
+                if current <= trail_stop:
+                    gain_pct = (high - entry) / entry * 100
+                    exit_reason = (f"TRAILING STOP: price fell {crypto_trail_pct*100:.0f}% "
+                                   f"from peak ${high:.2f} (peak gain was +{gain_pct:.1f}%)")
+
+        # Strategy signal (only if no price-based exit triggered)
+        if not exit_reason:
             bars = api.get_crypto_bars(symbol, "1Day", 100)
             if bars is not None and not bars.empty:
                 analysis = crypto_engine.analyze(bars)
@@ -604,6 +684,7 @@ def _run_crypto_cycle(api, risk, news, telegram, state, portfolio_value, logger)
             if result:
                 log_trade(state, "SELL", symbol, float(pos.get("market_value", 0)),
                           current, pnl=unrealized_pl, reason=exit_reason, is_crypto=True)
+                trailing_high.pop(symbol, None)
                 icon = "🪙"
                 if "STOP" in exit_reason.upper():
                     if config.NOTIFY_ON_STOP_LOSS:

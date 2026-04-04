@@ -172,18 +172,30 @@ class TelegramCommander:
     # ------------------------------------------------------------------
 
     def _send_trades(self):
-        """Send recent trade history from bot_state.json."""
+        """
+        Send recent trade history.
+        Primary source: Alpaca API (works on Railway without bot_state.json).
+        Fallback: local bot_state.json (enriched with bot-recorded P&L).
+        """
         import os
         import json as _json
 
+        # --- Primary: fetch from Alpaca API ---
         trade_log = []
         try:
-            if os.path.exists("bot_state.json"):
-                with open("bot_state.json") as f:
-                    state_data = _json.load(f)
-                trade_log = state_data.get("trade_log", [])
+            trade_log = self.api.get_recent_orders(limit=20) or []
         except Exception:
             pass
+
+        # --- Fallback: local bot_state.json (GitHub Actions environment) ---
+        if not trade_log:
+            try:
+                if os.path.exists("bot_state.json"):
+                    with open("bot_state.json") as f:
+                        state_data = _json.load(f)
+                    trade_log = list(reversed(state_data.get("trade_log", [])))
+            except Exception:
+                pass
 
         if not trade_log:
             msg = (
@@ -195,8 +207,7 @@ class TelegramCommander:
             self._send_message(msg)
             return
 
-        # Show last 15 trades, newest first
-        recent = list(reversed(trade_log[-15:]))
+        recent = trade_log[:20]  # already newest-first from Alpaca API
 
         msg = f"<b>🔁 Recent Trades (last {len(recent)})</b>\n━━━━━━━━━━━━━━━━━━━━━\n\n"
         for t in recent:

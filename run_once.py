@@ -317,7 +317,10 @@ def run():
                 log_trade(state, "BUY", symbol, position_size, price,
                           score=analysis["combined_score"])
                 if config.NOTIFY_ON_BUY:
-                    telegram.notify_buy(symbol, position_size, price, analysis)
+                    try:
+                        telegram.notify_buy(symbol, position_size, price, analysis)
+                    except Exception as _tg_err:
+                        logger.warning(f"Telegram notify_buy failed for {symbol}: {_tg_err}")
 
                 # Place ATR-based stop-loss order with Alpaca (GTC)
                 try:
@@ -705,9 +708,12 @@ def _run_crypto_cycle(api, risk, news, telegram, state, portfolio_value, logger)
             log_trade(state, "BUY", symbol, position_size, price,
                       score=analysis["combined_score"], is_crypto=True)
             if config.NOTIFY_ON_BUY:
-                enriched_analysis = dict(analysis)
-                enriched_analysis["is_crypto"] = True
-                telegram.notify_buy(f"🪙 {symbol}", position_size, price, enriched_analysis)
+                try:
+                    enriched_analysis = dict(analysis)
+                    enriched_analysis["is_crypto"] = True
+                    telegram.notify_buy(f"🪙 {symbol}", position_size, price, enriched_analysis)
+                except Exception as _tg_err:
+                    logger.warning(f"Telegram notify_buy failed for {symbol}: {_tg_err}")
 
             total_crypto_invested += position_size
             crypto_positions.append({

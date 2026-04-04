@@ -18,7 +18,10 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 17,
+  "run_count": 18,
   "trade_log": [],
-  "open_pairs": {}
+  "open_pairs": {},
+  "trailing_high": {
+    "BCHUSD": 444.284666531
+  }
 }

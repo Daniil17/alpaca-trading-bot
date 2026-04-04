@@ -2,10 +2,14 @@ name: Trading Bot
 
 on:
   schedule:
-    # Runs every 5 minutes during US market hours (Mon-Fri 13:30-21:05 UTC = 9:30 AM - 5:05 PM ET)
-    # GitHub Actions cron uses UTC time
-    - cron: '*/5 13-20 * * 1-5'   # Every 5 min, 1 PM - 8 PM UTC weekdays
-    - cron: '0,5,10,15,20,25,30,35,40,45,50,55 21 * * 1-5'  # Until 9 PM UTC (4 PM ET)
+    # WEEKDAYS — every 5 min during US stock market hours (13:30–21:05 UTC = 9:30 AM–5:05 PM ET)
+    - cron: '*/5 13-20 * * 1-5'
+    - cron: '0,5,10,15,20,25,30,35,40,45,50,55 21 * * 1-5'
+    # WEEKDAYS — crypto runs outside market hours too (every 15 min)
+    - cron: '*/15 0-12 * * 1-5'
+    - cron: '*/15 22-23 * * 1-5'
+    # WEEKENDS — crypto runs all day (every 15 min, Sat & Sun)
+    - cron: '*/15 * * * 0,6'
   workflow_dispatch:  # Allows manual trigger from GitHub UI
 
 jobs:

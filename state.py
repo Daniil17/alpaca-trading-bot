@@ -82,6 +82,7 @@ def load_state():
         "run_count": 0,
         "trade_log": [],
         "open_pairs": {},
+        "trailing_high": {},   # symbol → highest price seen since entry (for trailing stops)
     }
 
     if not os.path.exists(STATE_FILE):

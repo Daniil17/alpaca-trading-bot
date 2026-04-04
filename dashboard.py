@@ -347,25 +347,45 @@ def main():
     # ── SECTION 4: P&L Bar Chart ────────────────────────────────────
     if positions:
         st.subheader("💰 Unrealized P&L by Position")
-        df_pl = pd.DataFrame(positions).sort_values("unrealized_pl")
-        colors = ["#00C851" if v >= 0 else "#FF4444" for v in df_pl["unrealized_pl"]]
 
-        fig_bar = go.Figure(go.Bar(
-            x=df_pl["symbol"],
-            y=df_pl["unrealized_pl"],
-            marker_color=colors,
-            text=df_pl["unrealized_pl"].map("${:+,.2f}".format),
-            textposition="outside",
-        ))
-        fig_bar.update_layout(
-            height=300,
-            margin=dict(l=0, r=0, t=10, b=0),
-            xaxis_title=None,
-            yaxis_title="P&L ($)",
-            plot_bgcolor="rgba(0,0,0,0)",
-            paper_bgcolor="rgba(0,0,0,0)",
-        )
-        st.plotly_chart(fig_bar, use_container_width=True, key="pnl_bar")
+        stock_pos = [p for p in positions if not p["is_crypto"]]
+        crypto_pos = [p for p in positions if p["is_crypto"]]
+        pl_tab_all, pl_tab_stocks, pl_tab_crypto = st.tabs([
+            f"All ({len(positions)})",
+            f"📈 Stocks ({len(stock_pos)})",
+            f"🪙 Crypto ({len(crypto_pos)})",
+        ])
+
+        def _render_pl_bar(pos_list, key_suffix):
+            if not pos_list:
+                st.info("No positions in this category.")
+                return
+            df_pl = pd.DataFrame(pos_list).sort_values("unrealized_pl")
+            colors = ["#00C851" if v >= 0 else "#FF4444" for v in df_pl["unrealized_pl"]]
+            fig_bar = go.Figure(go.Bar(
+                x=df_pl["symbol"],
+                y=df_pl["unrealized_pl"],
+                marker_color=colors,
+                text=df_pl["unrealized_pl"].map("${:+,.2f}".format),
+                textposition="outside",
+            ))
+            fig_bar.update_layout(
+                height=300,
+                margin=dict(l=0, r=0, t=10, b=0),
+                xaxis_title=None,
+                yaxis_title="P&L ($)",
+                plot_bgcolor="rgba(0,0,0,0)",
+                paper_bgcolor="rgba(0,0,0,0)",
+            )
+            st.plotly_chart(fig_bar, use_container_width=True, key=f"pnl_bar_{key_suffix}")
+
+        with pl_tab_all:
+            _render_pl_bar(positions, "all")
+        with pl_tab_stocks:
+            _render_pl_bar(stock_pos, "stocks")
+        with pl_tab_crypto:
+            _render_pl_bar(crypto_pos, "crypto")
+
         st.divider()
 
     # ── SECTION 5: Recent Trades ────────────────────────────────────
@@ -378,22 +398,37 @@ def main():
         orders_df["type"] = orders_df["is_crypto"].map({True: "🪙 Crypto", False: "📈 Stock"})
         orders_df["side"] = orders_df["side"].str.upper()
 
-        display_orders = orders_df[["submitted_at", "type", "symbol", "side",
-                                     "qty", "filled_price", "status"]].copy()
-        display_orders.columns = ["Time", "Type", "Symbol", "Side", "Qty/Notional",
-                                   "Fill Price $", "Status"]
-        display_orders["Fill Price $"] = display_orders["Fill Price $"].map(
-            lambda x: f"${x:,.4f}" if x > 0 else "—"
-        )
+        def _make_orders_display(df):
+            d = df[["submitted_at", "type", "symbol", "side",
+                     "qty", "filled_price", "status"]].copy()
+            d.columns = ["Time", "Type", "Symbol", "Side", "Qty/Notional",
+                         "Fill Price $", "Status"]
+            d["Fill Price $"] = d["Fill Price $"].map(
+                lambda x: f"${x:,.4f}" if x > 0 else "—"
+            )
+            return d
 
-        def style_side(val):
-            if val == "BUY":
-                return "color: #00C851; font-weight: bold"
-            elif val == "SELL":
-                return "color: #FF4444; font-weight: bold"
-            return ""
+        stock_orders = orders_df[~orders_df["is_crypto"]]
+        crypto_orders = orders_df[orders_df["is_crypto"]]
 
-        st.dataframe(display_orders, use_container_width=True, hide_index=True)
+        ord_tab_all, ord_tab_stocks, ord_tab_crypto = st.tabs([
+            f"All ({len(orders_df)})",
+            f"📈 Stocks ({len(stock_orders)})",
+            f"🪙 Crypto ({len(crypto_orders)})",
+        ])
+        with ord_tab_all:
+            st.dataframe(_make_orders_display(orders_df), use_container_width=True, hide_index=True)
+        with ord_tab_stocks:
+            if stock_orders.empty:
+                st.info("No stock orders yet.")
+            else:
+                st.dataframe(_make_orders_display(stock_orders), use_container_width=True, hide_index=True)
+        with ord_tab_crypto:
+            if crypto_orders.empty:
+                st.info("No crypto orders yet.")
+            else:
+                st.dataframe(_make_orders_display(crypto_orders), use_container_width=True, hide_index=True)
+
         st.divider()
 
     # ── SECTION 6: Bot Status ───────────────────────────────────────

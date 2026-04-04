@@ -110,7 +110,7 @@ class TelegramNotifier:
 
         strategies = strategy_info.get("strategies", {})
         for name, data in strategies.items():
-            score = data.get("score", 0)
+            score = data.get("score", 0) if isinstance(data, dict) else float(data)
             emoji = "+" if score > 0 else ""
             msg += f"  {name}: {emoji}{score:.2f}\n"
 

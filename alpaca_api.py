@@ -180,8 +180,16 @@ class AlpacaAPI:
         def _call():
             self._rate_limiter.consume()
             positions = self.trading_client.get_all_positions()
-            return [
-                {
+            result = []
+            for pos in positions:
+                # Use asset_class when available — most reliable crypto detection.
+                # Fall back to symbol-based check for older SDK versions.
+                try:
+                    ac = str(pos.asset_class).lower()
+                    is_crypto = "crypto" in ac
+                except Exception:
+                    is_crypto = self.is_crypto(pos.symbol)
+                result.append({
                     "symbol": pos.symbol,
                     "qty": float(pos.qty),
                     "avg_entry_price": float(pos.avg_entry_price),
@@ -190,10 +198,9 @@ class AlpacaAPI:
                     "unrealized_pl": float(pos.unrealized_pl),
                     "unrealized_plpc": float(pos.unrealized_plpc),
                     "side": str(pos.side),
-                    "is_crypto": "/" in pos.symbol,
-                }
-                for pos in positions
-            ]
+                    "is_crypto": is_crypto,
+                })
+            return result
         result = _with_retry(_call)
         return result if result is not None else []
 
@@ -412,7 +419,22 @@ class AlpacaAPI:
 
     @staticmethod
     def is_crypto(symbol: str) -> bool:
-        return "/" in str(symbol)
+        """
+        Detect crypto symbols robustly.
+        Alpaca sometimes returns 'BTC/USD' and sometimes 'BTCUSD' depending
+        on the endpoint / SDK version, so we check both formats.
+        """
+        symbol = str(symbol).upper()
+        if "/" in symbol:
+            return True
+        # Known crypto bases — catches 'BTCUSD', 'ETHUSD', etc.
+        _CRYPTO_BASES = {
+            "BTC", "ETH", "SOL", "AVAX", "LINK", "DOT", "ADA", "DOGE",
+            "LTC", "BCH", "UNI", "AAVE", "XRP", "SHIB", "MKR", "BAT",
+        }
+        if symbol.endswith("USD") and symbol[:-3] in _CRYPTO_BASES:
+            return True
+        return False
 
     def get_crypto_bars(self, symbol: str, timeframe: str = "1Day", limit: int = 100):
         def _call():

@@ -307,6 +307,39 @@ class AlpacaAPI:
         result = _with_retry(_call)
         return result if result is not None else []
 
+    def get_recent_orders(self, limit=25):
+        """
+        Fetch recently closed/filled orders from Alpaca.
+        Used by the Telegram /trades command so Railway can show trade history
+        without needing a local copy of bot_state.json.
+
+        Returns list of dicts with: action, symbol, amount, price, time, is_crypto
+        """
+        def _call():
+            self._rate_limiter.consume()
+            request = GetOrdersRequest(status=QueryOrderStatus.CLOSED, limit=limit)
+            orders = self.trading_client.get_orders(request)
+            result = []
+            for o in orders:
+                try:
+                    fill_price = float(o.filled_avg_price) if o.filled_avg_price else 0.0
+                    qty = float(o.filled_qty or o.qty or 0)
+                    notional = float(o.notional) if o.notional else fill_price * qty
+                    result.append({
+                        "action": str(o.side).replace("OrderSide.", "").upper(),
+                        "symbol": o.symbol,
+                        "amount": round(notional, 2),
+                        "price": fill_price,
+                        "time": o.submitted_at.strftime("%Y-%m-%d %H:%M") if o.submitted_at else "",
+                        "is_crypto": "/" in o.symbol,
+                        "status": str(o.status).replace("OrderStatus.", ""),
+                    })
+                except Exception:
+                    continue
+            return result
+        result = _with_retry(_call)
+        return result if result is not None else []
+
     def short_sell(self, symbol, notional: float = None, qty: float = None):
         """Place a market short-sell order (requires margin account)."""
         def _call():

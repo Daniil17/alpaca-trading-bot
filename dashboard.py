@@ -101,6 +101,25 @@ def fetch_positions():
         return []
     try:
         positions = trading.get_all_positions()
+        _CRYPTO_BASES = {
+            "BTC", "ETH", "SOL", "AVAX", "LINK", "DOT", "ADA", "DOGE",
+            "LTC", "BCH", "UNI", "AAVE", "XRP", "SHIB", "MKR", "BAT",
+        }
+
+        def _is_crypto(p):
+            # asset_class is the most reliable check
+            try:
+                if "crypto" in str(p.asset_class).lower():
+                    return True
+            except Exception:
+                pass
+            sym = str(p.symbol).upper()
+            if "/" in sym:
+                return True
+            if sym.endswith("USD") and sym[:-3] in _CRYPTO_BASES:
+                return True
+            return False
+
         return [
             {
                 "symbol": p.symbol,
@@ -110,7 +129,7 @@ def fetch_positions():
                 "market_value": float(p.market_value),
                 "unrealized_pl": float(p.unrealized_pl),
                 "unrealized_plpc": float(p.unrealized_plpc) * 100,
-                "is_crypto": "/" in p.symbol,
+                "is_crypto": _is_crypto(p),
             }
             for p in positions
         ]
@@ -132,6 +151,17 @@ def fetch_recent_orders(limit=30):
         result = []
         for o in orders:
             try:
+                sym = str(o.symbol).upper()
+                try:
+                    is_crypto = "crypto" in str(o.asset_class).lower()
+                except Exception:
+                    is_crypto = "/" in sym or (
+                        sym.endswith("USD") and sym[:-3] in {
+                            "BTC", "ETH", "SOL", "AVAX", "LINK", "DOT", "ADA",
+                            "DOGE", "LTC", "BCH", "UNI", "AAVE", "XRP", "SHIB",
+                            "MKR", "BAT",
+                        }
+                    )
                 result.append({
                     "symbol": o.symbol,
                     "side": str(o.side).replace("OrderSide.", ""),
@@ -139,7 +169,7 @@ def fetch_recent_orders(limit=30):
                     "filled_price": float(o.filled_avg_price) if o.filled_avg_price else 0,
                     "status": str(o.status),
                     "submitted_at": o.submitted_at.strftime("%Y-%m-%d %H:%M") if o.submitted_at else "",
-                    "is_crypto": "/" in o.symbol,
+                    "is_crypto": is_crypto,
                 })
             except Exception:
                 continue

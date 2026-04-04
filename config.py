@@ -150,6 +150,18 @@ HARD_STOP_LOSS_PERCENT = 8.0      # Never lose more than 8% on a trade
 HARD_TAKE_PROFIT_PERCENT = 15.0   # Always take profit at 15%
 
 # ============================================================
+# TRAILING STOP — STOCKS
+# ============================================================
+# Activates only once a position is up by TRAILING_STOP_ACTIVATION_PCT.
+# After activation the stop trails the high-water mark by TRAILING_STOP_PCT.
+# Example: buy at $100, activation=5%, trail=7%
+#   → activates when price hits $105
+#   → if price runs to $130, stop sits at $130 * 0.93 = $120.90
+#   → if price drops to $120.90 → sell, locking in ~$20.90 gain
+TRAILING_STOP_ACTIVATION_PCT = 0.05   # Start trailing after +5% gain
+TRAILING_STOP_PCT = 0.07              # Trail 7% below the high-water mark
+
+# ============================================================
 # CRYPTO TRADING
 # ============================================================
 # Enable/disable the crypto trading cycle entirely
@@ -194,6 +206,14 @@ CRYPTO_TAKE_PROFIT_ATR_MULTIPLIER = 4.5
 # Hard limits for crypto
 CRYPTO_HARD_STOP_LOSS_PERCENT = 12.0
 CRYPTO_HARD_TAKE_PROFIT_PERCENT = 25.0
+
+# ============================================================
+# TRAILING STOP — CRYPTO
+# ============================================================
+# Wider than stocks because crypto is more volatile.
+# Activates after +8% gain, trails 12% below the peak.
+CRYPTO_TRAILING_STOP_ACTIVATION_PCT = 0.08   # Start trailing after +8% gain
+CRYPTO_TRAILING_STOP_PCT = 0.12              # Trail 12% below the high-water mark
 
 # Minimum combined strategy score to trigger a crypto buy
 CRYPTO_BUY_THRESHOLD = 0.15

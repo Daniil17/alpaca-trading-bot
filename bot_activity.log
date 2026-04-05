@@ -915,3 +915,29 @@
 2026-04-05 16:37:40 | INFO     | Crypto cycle complete. Positions: 1, Invested: $7,029.19
 2026-04-05 16:37:40 | INFO     | State saved (run #38)
 2026-04-05 16:37:40 | INFO     | Cycle complete.
+2026-04-05 17:06:47 | INFO     | =======================================================
+2026-04-05 17:06:47 | INFO     |   TRADING BOT — Single Cycle
+2026-04-05 17:06:47 | INFO     |   2026-04-05 17:06:47 UTC
+2026-04-05 17:06:47 | INFO     |   Mode: PAPER
+2026-04-05 17:06:47 | INFO     | =======================================================
+2026-04-05 17:06:47 | INFO     | State loaded: peak=$100,015.02, run #38, trades=0
+2026-04-05 17:06:47 | INFO     | Connected to Alpaca (PAPER trading)
+2026-04-05 17:06:47 | INFO     | Account mode verified: PAPER | Equity: $99,713.35
+2026-04-05 17:06:51 | INFO     | Processed Telegram commands
+2026-04-05 17:06:51 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-04-05 17:06:51 | INFO     | Portfolio: $99,734.68 | Cash: $71,963.82
+2026-04-05 17:06:51 | INFO     | 
+=======================================================
+2026-04-05 17:06:51 | INFO     |   CRYPTO TRADING CYCLE
+2026-04-05 17:06:51 | INFO     | =======================================================
+2026-04-05 17:06:51 | INFO     | Crypto: 1 positions | $7,065.48 invested (7.1% of portfolio)
+2026-04-05 17:06:51 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-04-05 17:06:51 | ERROR    | Non-retryable error: {"message":"invalid symbol: BCHUSD does not match ^[A-Z]+/[A-Z]+$"}
+
+2026-04-05 17:06:51 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-04-05 17:06:52 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-04-05 17:06:53 | INFO     | No crypto buy signals this cycle
+2026-04-05 17:06:53 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-04-05 17:06:53 | INFO     | Crypto cycle complete. Positions: 1, Invested: $7,065.48
+2026-04-05 17:06:53 | INFO     | State saved (run #39)
+2026-04-05 17:06:53 | INFO     | Cycle complete.

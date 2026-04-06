@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 58,
+  "run_count": 59,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -100,10 +100,45 @@
       "price": 437.155,
       "is_crypto": true,
       "score": 0.202
+    },
+    {
+      "time": "2026-04-06 14:47 BST",
+      "action": "SELL",
+      "symbol": "INTC",
+      "amount": 660.52,
+      "price": 51.7521,
+      "is_crypto": false,
+      "pnl": 23.13,
+      "reason": "Strategy (-0.275)",
+      "score": -0.275
+    },
+    {
+      "time": "2026-04-06 14:47 BST",
+      "action": "BUY",
+      "symbol": "BCH/USD",
+      "amount": 151.46,
+      "price": 438.563,
+      "is_crypto": true,
+      "score": 0.202
     }
   ],
   "open_pairs": {},
   "trailing_high": {
-    "BCHUSD": 444.284666531
+    "BCHUSD": 444.284666531,
+    "AAPL": 258.17,
+    "ABBV": 211.2,
+    "AMZN": 211.9725,
+    "DIS": 96.744196,
+    "INTC": 51.7521,
+    "JPM": 295.57,
+    "MA": 497.06,
+    "META": 582.762,
+    "MSFT": 371.15,
+    "NFLX": 99.43,
+    "NKE": 43.995,
+    "NVDA": 176.9599,
+    "TSLA": 380.99,
+    "UNH": 279.585,
+    "V": 302.68
   }
 }

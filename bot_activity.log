@@ -1619,3 +1619,57 @@
 2026-04-06 15:07:25 | INFO     | Pairs cycle complete. Open pairs: 0
 2026-04-06 15:07:25 | INFO     | State saved (run #61)
 2026-04-06 15:07:25 | INFO     | Cycle complete.
+2026-04-06 16:00:24 | INFO     | =======================================================
+2026-04-06 16:00:24 | INFO     |   TRADING BOT — Single Cycle
+2026-04-06 16:00:24 | INFO     |   2026-04-06 16:00:24 UTC
+2026-04-06 16:00:24 | INFO     |   Mode: PAPER
+2026-04-06 16:00:24 | INFO     | =======================================================
+2026-04-06 16:00:24 | INFO     | State loaded: peak=$100,067.87, run #61, trades=12
+2026-04-06 16:00:24 | INFO     | Connected to Alpaca (PAPER trading)
+2026-04-06 16:00:24 | INFO     | Account mode verified: PAPER | Equity: $99,922.34
+2026-04-06 16:00:28 | INFO     | Processed Telegram commands
+2026-04-06 16:00:28 | INFO     | Portfolio: $99,918.80 | Cash: $59,811.79
+2026-04-06 16:00:28 | INFO     | Pre-fetching bars for 32 symbols...
+2026-04-06 16:00:31 | INFO     | --- Phase 1: Checking exits ---
+2026-04-06 16:00:31 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-04-06 16:00:32 | INFO     | News scan: 60 articles, 2 stocks with sentiment
+2026-04-06 16:00:32 | INFO     | Buy candidates: AVGO (0.351), HD (0.288), BAC (0.247), AMD (0.244), CRM (0.231)
+2026-04-06 16:00:32 | INFO     | --- Phase 3: Executing trades ---
+2026-04-06 16:00:32 | INFO     | BLOCKED: AVGO — Max positions reached (10)
+2026-04-06 16:00:32 | INFO     | BLOCKED: HD — Max positions reached (10)
+2026-04-06 16:00:32 | INFO     | BLOCKED: BAC — Max positions reached (10)
+2026-04-06 16:00:32 | INFO     | BLOCKED: AMD — Max positions reached (10)
+2026-04-06 16:00:32 | INFO     | BLOCKED: CRM — Max positions reached (10)
+2026-04-06 16:00:32 | INFO     | BLOCKED: QCOM — Max positions reached (10)
+2026-04-06 16:00:32 | INFO     | BLOCKED: ADBE — Max positions reached (10)
+2026-04-06 16:00:32 | INFO     | 
+=======================================================
+2026-04-06 16:00:32 | INFO     |   CRYPTO TRADING CYCLE
+2026-04-06 16:00:32 | INFO     | =======================================================
+2026-04-06 16:00:32 | INFO     | Crypto: 1 positions | $19,982.38 invested (20.0% of portfolio)
+2026-04-06 16:00:32 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-04-06 16:00:32 | ERROR    | Non-retryable error: {"message":"invalid symbol: BCHUSD does not match ^[A-Z]+/[A-Z]+$"}
+
+2026-04-06 16:00:32 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-04-06 16:00:33 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-04-06 16:00:34 | INFO     | Crypto buy candidates: BCH/USD (0.202)
+2026-04-06 16:00:34 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-04-06 16:00:34 | INFO     | CRYPTO SKIP: BCH/USD — position too small ($1.38)
+2026-04-06 16:00:34 | INFO     | Crypto cycle complete. Positions: 1, Invested: $19,982.38
+2026-04-06 16:00:34 | INFO     | 
+=======================================================
+2026-04-06 16:00:34 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-04-06 16:00:34 | INFO     | =======================================================
+2026-04-06 16:00:34 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-04-06 16:00:34 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-04-06 16:00:34 | INFO     | PAIR KO/PEP: Z=0.00 — KO/PEP: not cointegrated — skipping
+2026-04-06 16:00:34 | INFO     | PAIR JPM/BAC: Z=0.00 — JPM/BAC: not cointegrated — skipping
+2026-04-06 16:00:34 | INFO     | PAIR META/GOOGL: Z=0.00 — META/GOOGL: not cointegrated — skipping
+2026-04-06 16:00:34 | INFO     | PAIR AMD/INTC: Z=0.00 — AMD/INTC: not cointegrated — skipping
+2026-04-06 16:00:34 | INFO     | PAIR V/MA: signal=EXIT Z=0.17
+2026-04-06 16:00:34 | INFO     | PAIR XOM/CVX: Z=0.00 — XOM/CVX: not cointegrated — skipping
+2026-04-06 16:00:34 | INFO     | PAIR AMZN/COST: Z=0.00 — AMZN/COST: not cointegrated — skipping
+2026-04-06 16:00:35 | INFO     | PAIR JNJ/ABBV: signal=EXIT Z=0.34
+2026-04-06 16:00:35 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-04-06 16:00:35 | INFO     | State saved (run #62)
+2026-04-06 16:00:35 | INFO     | Cycle complete.

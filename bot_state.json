@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 62,
+  "run_count": 63,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -129,6 +129,16 @@
       "price": 437.6245,
       "is_crypto": true,
       "score": 0.202
+    },
+    {
+      "time": "2026-04-06 18:01 BST",
+      "action": "SELL",
+      "symbol": "TSLA",
+      "amount": 985.85,
+      "price": 349.83,
+      "is_crypto": false,
+      "pnl": -87.81,
+      "reason": "HARD STOP-LOSS: -8.2%"
     }
   ],
   "open_pairs": {},
@@ -138,15 +148,14 @@
     "ABBV": 211.2,
     "AMZN": 212.51,
     "DIS": 96.87,
-    "JPM": 296.085,
-    "MA": 499.97,
+    "JPM": 296.24,
+    "MA": 500.645,
     "META": 582.762,
     "MSFT": 372.35,
     "NFLX": 99.715,
     "NKE": 44.065,
     "NVDA": 177.425,
-    "TSLA": 380.99,
-    "UNH": 282.19,
-    "V": 303.535
+    "UNH": 282.585,
+    "V": 303.615
   }
 }

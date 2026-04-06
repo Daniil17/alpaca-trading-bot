@@ -1673,3 +1673,56 @@
 2026-04-06 16:00:35 | INFO     | Pairs cycle complete. Open pairs: 0
 2026-04-06 16:00:35 | INFO     | State saved (run #62)
 2026-04-06 16:00:35 | INFO     | Cycle complete.
+2026-04-06 17:01:31 | INFO     | =======================================================
+2026-04-06 17:01:31 | INFO     |   TRADING BOT — Single Cycle
+2026-04-06 17:01:31 | INFO     |   2026-04-06 17:01:31 UTC
+2026-04-06 17:01:31 | INFO     |   Mode: PAPER
+2026-04-06 17:01:31 | INFO     | =======================================================
+2026-04-06 17:01:31 | INFO     | State loaded: peak=$100,067.87, run #62, trades=12
+2026-04-06 17:01:31 | INFO     | Connected to Alpaca (PAPER trading)
+2026-04-06 17:01:31 | INFO     | Account mode verified: PAPER | Equity: $99,905.51
+2026-04-06 17:01:32 | INFO     | Processed Telegram commands
+2026-04-06 17:01:32 | INFO     | Portfolio: $99,905.79 | Cash: $59,811.79
+2026-04-06 17:01:32 | INFO     | Pre-fetching bars for 32 symbols...
+2026-04-06 17:01:33 | INFO     | --- Phase 1: Checking exits ---
+2026-04-06 17:01:33 | WARNING  | HARD STOP-LOSS: TSLA at -8.2%
+2026-04-06 17:01:33 | INFO     | EXIT: TSLA — HARD STOP-LOSS: -8.2%
+2026-04-06 17:01:33 | INFO     | CLOSED POSITION: TSLA
+2026-04-06 17:01:34 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-04-06 17:01:35 | INFO     | News scan: 60 articles, 4 stocks with sentiment
+2026-04-06 17:01:35 | INFO     | Buy candidates: AMD (0.344), AVGO (0.300), HD (0.288), BAC (0.247), CRM (0.231)
+2026-04-06 17:01:35 | INFO     | --- Phase 3: Executing trades ---
+2026-04-06 17:01:35 | INFO     | BLOCKED: AMD — Max positions reached (10)
+2026-04-06 17:01:35 | INFO     | BLOCKED: AVGO — Max positions reached (10)
+2026-04-06 17:01:35 | INFO     | BLOCKED: HD — Max positions reached (10)
+2026-04-06 17:01:35 | INFO     | BLOCKED: BAC — Max positions reached (10)
+2026-04-06 17:01:35 | INFO     | BLOCKED: CRM — Max positions reached (10)
+2026-04-06 17:01:35 | INFO     | BLOCKED: QCOM — Max positions reached (10)
+2026-04-06 17:01:35 | INFO     | BLOCKED: ADBE — Max positions reached (10)
+2026-04-06 17:01:35 | INFO     | 
+=======================================================
+2026-04-06 17:01:35 | INFO     |   CRYPTO TRADING CYCLE
+2026-04-06 17:01:35 | INFO     | =======================================================
+2026-04-06 17:01:35 | INFO     | Crypto: 1 positions | $19,982.38 invested (20.0% of portfolio)
+2026-04-06 17:01:35 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-04-06 17:01:36 | ERROR    | Non-retryable error: {"message":"invalid symbol: BCHUSD does not match ^[A-Z]+/[A-Z]+$"}
+
+2026-04-06 17:01:36 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-04-06 17:01:36 | INFO     | Crypto: max allocation reached (20%) — skipping buys
+2026-04-06 17:01:36 | INFO     | 
+=======================================================
+2026-04-06 17:01:36 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-04-06 17:01:36 | INFO     | =======================================================
+2026-04-06 17:01:36 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-04-06 17:01:36 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-04-06 17:01:36 | INFO     | PAIR KO/PEP: Z=0.00 — KO/PEP: not cointegrated — skipping
+2026-04-06 17:01:36 | INFO     | PAIR JPM/BAC: Z=0.00 — JPM/BAC: not cointegrated — skipping
+2026-04-06 17:01:36 | INFO     | PAIR META/GOOGL: Z=0.00 — META/GOOGL: not cointegrated — skipping
+2026-04-06 17:01:36 | INFO     | PAIR AMD/INTC: Z=0.00 — AMD/INTC: not cointegrated — skipping
+2026-04-06 17:01:36 | INFO     | PAIR V/MA: signal=EXIT Z=0.17
+2026-04-06 17:01:36 | INFO     | PAIR XOM/CVX: Z=0.00 — XOM/CVX: not cointegrated — skipping
+2026-04-06 17:01:36 | INFO     | PAIR AMZN/COST: Z=0.00 — AMZN/COST: not cointegrated — skipping
+2026-04-06 17:01:36 | INFO     | PAIR JNJ/ABBV: signal=EXIT Z=0.34
+2026-04-06 17:01:36 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-04-06 17:01:36 | INFO     | State saved (run #63)
+2026-04-06 17:01:36 | INFO     | Cycle complete.

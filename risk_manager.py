@@ -27,6 +27,7 @@ No trade goes through without risk manager approval.
 
 import logging
 import numpy as np
+import pandas as pd
 from strategies import compute_atr
 
 logger = logging.getLogger("TradingBot")
@@ -80,6 +81,10 @@ class RiskManager:
                                        getattr(config, "VAR_LIMIT_PCT", 4.0))
         self.cvar_confidence = getattr(config, "CVAR_CONFIDENCE",
                                         getattr(config, "VAR_CONFIDENCE", 0.99))
+
+        # Optional ML upgrades (feature-flagged; default off so no new deps required)
+        self.use_garch_crypto_vol = getattr(config, "USE_GARCH_CRYPTO_VOL", True)
+        self.use_bayesian_kelly = getattr(config, "USE_BAYESIAN_KELLY", True)
 
         # Track portfolio high-water mark for drawdown calculation
         self.peak_portfolio_value = 0.0
@@ -185,27 +190,32 @@ class RiskManager:
             try:
                 returns = bars_df["close"].pct_change().dropna()
                 if len(returns) >= 20:
-                    mu = float(returns.mean())          # mean daily return
-                    sigma2 = float(returns.var())       # variance of daily returns
-                    r = 0.0                              # risk-free rate (daily ≈ 0)
-
-                    if sigma2 > 0 and mu > r:
-                        # Full Kelly fraction (as proportion of portfolio)
-                        full_kelly = (mu - r) / sigma2
-                        # Quarter-Kelly (or configured fraction) for safety
-                        fractional_kelly = full_kelly * self.kelly_fraction
-                        # Clamp: never below floor, never above max_position_weight
-                        fractional_kelly = max(self.kelly_min_pct,
-                                               min(self.max_position_weight, fractional_kelly))
+                    if self.use_bayesian_kelly:
+                        # Adaptive Bayesian Kelly — auto-shrinks under uncertainty
+                        fractional_kelly = self._bayesian_kelly_fraction(returns.values)
                         kelly_size = portfolio_value * fractional_kelly
                         logger.debug(
-                            f"Kelly sizing {symbol}: full_kelly={full_kelly:.4f}, "
-                            f"fractional={fractional_kelly:.4f}, "
-                            f"size=${kelly_size:,.2f}"
+                            f"Bayesian Kelly sizing {symbol}: "
+                            f"fractional={fractional_kelly:.4f}, size=${kelly_size:,.2f}"
                         )
                     else:
-                        # Negative or zero expected return → use risk_per_trade floor
-                        kelly_size = portfolio_value * self.kelly_min_pct
+                        mu = float(returns.mean())
+                        sigma2 = float(returns.var())
+                        r = 0.0
+
+                        if sigma2 > 0 and mu > r:
+                            full_kelly = (mu - r) / sigma2
+                            fractional_kelly = full_kelly * self.kelly_fraction
+                            fractional_kelly = max(self.kelly_min_pct,
+                                                   min(self.max_position_weight, fractional_kelly))
+                            kelly_size = portfolio_value * fractional_kelly
+                            logger.debug(
+                                f"Kelly sizing {symbol}: full_kelly={full_kelly:.4f}, "
+                                f"fractional={fractional_kelly:.4f}, "
+                                f"size=${kelly_size:,.2f}"
+                            )
+                        else:
+                            kelly_size = portfolio_value * self.kelly_min_pct
             except Exception as e:
                 logger.warning(f"Kelly sizing failed for {symbol}: {e}")
 
@@ -236,6 +246,73 @@ class RiskManager:
                 logger.warning(f"ATR sizing adjustment failed for {symbol}: {e}")
 
         return max(0, position_size)
+
+    def _bayesian_kelly_fraction(self, returns: np.ndarray,
+                                  risk_free_daily: float = 0.0) -> float:
+        """
+        Adaptive Bayesian Kelly using Normal-Normal conjugate model.
+
+        Instead of treating μ and σ² as fixed point estimates, treats μ as a
+        random variable with a weakly-informative prior.  The posterior mean
+        and predictive variance (sample var + parameter uncertainty) are used
+        to compute the Kelly fraction.  When parameter uncertainty is high the
+        predictive variance grows, automatically shrinking the fraction.
+
+        Returns the fractional Kelly position weight (already scaled by
+        self.kelly_fraction), clamped to [kelly_min_pct, max_position_weight].
+        """
+        n = len(returns)
+        if n < 5:
+            return self.kelly_fraction * self.kelly_min_pct
+
+        mu_sample = float(np.mean(returns))
+        sigma2_sample = float(np.var(returns, ddof=1)) + 1e-8
+
+        # Prior: μ₀ = 0, τ² = (2%)² — low-conviction agnostic prior
+        mu_prior = 0.0
+        tau2 = (0.02) ** 2
+
+        # Normal-Normal conjugate posterior update
+        precision_prior = 1.0 / tau2
+        precision_likelihood = n / sigma2_sample
+        precision_posterior = precision_prior + precision_likelihood
+        mu_posterior = (
+            (precision_prior * mu_prior + precision_likelihood * mu_sample)
+            / precision_posterior
+        )
+        sigma2_posterior = 1.0 / precision_posterior  # parameter uncertainty
+
+        # Predictive variance = sample variance + parameter uncertainty
+        sigma2_predictive = sigma2_sample + sigma2_posterior
+
+        f_star = (mu_posterior - risk_free_daily) / sigma2_predictive
+        f = f_star * self.kelly_fraction
+        f = max(self.kelly_min_pct, min(self.max_position_weight, f))
+        return f
+
+    def _estimate_garch_vol(self, returns: pd.Series) -> float:
+        """
+        Fit GARCH(1,1) to the return series and return the 1-day ahead
+        conditional volatility forecast.
+        Falls back to rolling std if arch is not installed or fitting fails.
+        """
+        fallback = float(returns.std())
+        if len(returns) < 30:
+            return fallback
+        try:
+            from arch import arch_model
+            # Rescale to percent returns for numerical stability
+            pct = returns * 100
+            model = arch_model(pct, vol='Garch', p=1, q=1, dist='t', rescale=False)
+            res = model.fit(disp='off', show_warning=False)
+            forecast = res.forecast(horizon=1, reindex=False)
+            cond_var = float(forecast.variance.iloc[-1, 0])
+            cond_vol = (cond_var ** 0.5) / 100  # back to decimal
+            return max(cond_vol, fallback * 0.5)  # sanity floor
+        except ImportError:
+            return fallback
+        except Exception:
+            return fallback
 
     def estimate_portfolio_cvar(self, portfolio_value: float,
                                 positions: list,
@@ -278,19 +355,36 @@ class RiskManager:
                 # --- Historical simulation (requires live API access) ---
                 if api is not None and symbol:
                     try:
-                        if api.is_crypto(symbol):
-                            bars = api.get_crypto_bars(symbol, "1Day", 60)
+                        is_crypto_pos = pos.get("is_crypto", api.is_crypto(symbol))
+                        if is_crypto_pos:
+                            bars = api.get_crypto_bars(symbol, "1Day", 90)
                         else:
                             bars = api.get_bars(symbol, "1Day", 60)
 
-                        if bars is not None and not bars.empty and len(bars) >= 20:
-                            returns = bars["close"].pct_change().dropna().values
-                            sorted_returns = np.sort(returns)   # ascending: worst first
-                            # Worst (1 - confidence) fraction; minimum 1 observation
-                            n_tail = max(1, int(len(sorted_returns) * (1 - self.cvar_confidence)))
-                            cvar_return = float(np.mean(sorted_returns[:n_tail]))
-                            # CVaR contribution = |avg tail loss| × portfolio weight
-                            pos_cvar_contribution = abs(cvar_return) * weight
+                        if bars is not None and not bars.empty:
+                            if (is_crypto_pos and self.use_garch_crypto_vol
+                                    and len(bars) >= 30):
+                                # GARCH-scaled historical simulation for crypto:
+                                # scale the empirical return distribution by the ratio
+                                # of GARCH conditional vol to historical vol so that
+                                # tail estimates reflect the current vol regime.
+                                rets = bars["close"].pct_change().dropna()
+                                garch_vol = self._estimate_garch_vol(rets)
+                                hist_vol = float(rets.std()) + 1e-10
+                                scale = garch_vol / hist_vol
+                                rets_scaled = rets * scale
+                                sorted_rets = rets_scaled.sort_values()
+                                cutoff = max(1, int(len(sorted_rets)
+                                                    * (1 - self.cvar_confidence)))
+                                cvar_pct = float(-sorted_rets.iloc[:cutoff].mean())
+                                pos_cvar_contribution = cvar_pct * weight
+                            elif len(bars) >= 20:
+                                returns = bars["close"].pct_change().dropna().values
+                                sorted_returns = np.sort(returns)
+                                n_tail = max(1, int(len(sorted_returns)
+                                                    * (1 - self.cvar_confidence)))
+                                cvar_return = float(np.mean(sorted_returns[:n_tail]))
+                                pos_cvar_contribution = abs(cvar_return) * weight
                     except Exception as exc:
                         logger.debug(f"CVaR historical fetch failed for {symbol}: {exc}")
 

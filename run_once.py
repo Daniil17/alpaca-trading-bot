@@ -42,7 +42,7 @@ if os.environ.get("TELEGRAM_CHAT_ID"):
 # ============================================================
 
 from alpaca_api import AlpacaAPI
-from strategies import StrategyEngine, StrategyPerformanceTracker
+from strategies import StrategyEngine, StrategyPerformanceTracker, BayesianWeightOptimizer
 from risk_manager import RiskManager
 from news_scanner import NewsScanner
 from telegram_bot import TelegramNotifier
@@ -156,9 +156,21 @@ def run():
             if k in saved_pnl:
                 tracker.strategy_pnl[k] = saved_pnl[k]
 
+    # --- Bayesian weight optimizer ---
+    # Runs GP optimisation every 10 cycles; result cached in state and loaded
+    # into engine._bayesian_weights so per-stock analyze() calls are fast.
+    optimizer = None
+    if getattr(config, "USE_BAYES_WEIGHTS", False):
+        optimizer = BayesianWeightOptimizer(
+            strategy_names=list(config.STRATEGY_WEIGHTS.keys()),
+            n_calls=getattr(config, "BAYES_WEIGHT_N_CALLS", 15),
+            window=getattr(config, "BAYES_WEIGHT_WINDOW", 30),
+        )
+
     engine = StrategyEngine(
         weights=config.STRATEGY_WEIGHTS,
         tracker=tracker,
+        optimizer=optimizer,
         rsi_period=config.RSI_PERIOD,
         rsi_oversold=config.RSI_OVERSOLD,
         rsi_overbought=config.RSI_OVERBOUGHT,
@@ -178,6 +190,25 @@ def run():
     risk = RiskManager(config)
     # Restore peak value from state
     risk.peak_portfolio_value = state.get("peak_portfolio_value", 0.0)
+
+    # Restore cached Bayesian weights from previous run
+    if optimizer is not None:
+        cached_weights = state.get("bayes_weights")
+        if cached_weights:
+            engine._bayesian_weights = cached_weights
+
+    # Re-run Bayesian optimisation every 10 cycles (GP is slow — don't run every cycle)
+    run_count = state.get("run_count", 1)
+    if optimizer is not None and run_count % 10 == 0:
+        trade_history = state.get("bayes_trade_history", [])
+        if len(trade_history) >= 10:
+            new_weights = optimizer.optimise(trade_history)
+            engine._bayesian_weights = new_weights
+            state["bayes_weights"] = new_weights
+            logger.info(
+                "Bayesian weights updated: "
+                + ", ".join(f"{k}={v:.3f}" for k, v in new_weights.items())
+            )
 
     news = NewsScanner()
     telegram = TelegramNotifier(config.TELEGRAM_BOT_TOKEN, config.TELEGRAM_CHAT_ID)
@@ -312,11 +343,17 @@ def run():
                           current_price, pnl=unrealized_pl, reason=reason)
                 sold_symbols.add(symbol)
                 trailing_high.pop(symbol, None)   # Clear trailing record on exit
-                # Record P&L in adaptive tracker
-                if tracker is not None:
+                # Record P&L in adaptive tracker and Bayesian history
+                if tracker is not None or optimizer is not None:
                     position_strategies = state.get("position_strategies", {}).pop(symbol, None)
                     if position_strategies:
-                        tracker.record_trade_result(position_strategies, pct_return)
+                        if tracker is not None:
+                            tracker.record_trade_result(position_strategies, pct_return)
+                        if optimizer is not None:
+                            _bh = state.setdefault("bayes_trade_history", [])
+                            _bh.append({"strategy_scores": position_strategies,
+                                        "pct_return": pct_return})
+                            state["bayes_trade_history"] = _bh[-100:]
                 if config.NOTIFY_ON_STOP_LOSS and "STOP" in reason:
                     telegram.notify_stop_loss(symbol, pct_return, unrealized_pl)
                 elif config.NOTIFY_ON_SELL:
@@ -348,12 +385,18 @@ def run():
                                   current, pnl=unrealized_pl, reason=reason)
                         sold_symbols.add(symbol)
                         trailing_high.pop(symbol, None)
-                        # Record P&L in adaptive tracker
-                        if tracker is not None:
+                        # Record P&L in adaptive tracker and Bayesian history
+                        if tracker is not None or optimizer is not None:
                             position_strategies = state.get("position_strategies", {}).pop(symbol, None)
                             if position_strategies:
                                 trail_pct_return = (current - entry) / entry * 100 if entry > 0 else 0.0
-                                tracker.record_trade_result(position_strategies, trail_pct_return)
+                                if tracker is not None:
+                                    tracker.record_trade_result(position_strategies, trail_pct_return)
+                                if optimizer is not None:
+                                    _bh = state.setdefault("bayes_trade_history", [])
+                                    _bh.append({"strategy_scores": position_strategies,
+                                                "pct_return": trail_pct_return})
+                                    state["bayes_trade_history"] = _bh[-100:]
                         if config.NOTIFY_ON_SELL:
                             try:
                                 telegram.notify_sell(symbol, reason, unrealized_pl)
@@ -381,11 +424,17 @@ def run():
                               reason=f"Strategy ({analysis['combined_score']:.3f})",
                               score=analysis["combined_score"])
                     sold_symbols.add(symbol)
-                    # Record P&L in adaptive tracker
-                    if tracker is not None:
+                    # Record P&L in adaptive tracker and Bayesian history
+                    if tracker is not None or optimizer is not None:
                         position_strategies = state.get("position_strategies", {}).pop(symbol, None)
                         if position_strategies:
-                            tracker.record_trade_result(position_strategies, pct_return)
+                            if tracker is not None:
+                                tracker.record_trade_result(position_strategies, pct_return)
+                            if optimizer is not None:
+                                _bh = state.setdefault("bayes_trade_history", [])
+                                _bh.append({"strategy_scores": position_strategies,
+                                            "pct_return": pct_return})
+                                state["bayes_trade_history"] = _bh[-100:]
                     # Sync local position list immediately
                     bot_positions = [p for p in bot_positions if p["symbol"] != symbol]
                     if config.NOTIFY_ON_SELL:
@@ -488,7 +537,11 @@ def run():
                         except Exception as _e:
                             logger.warning(f"Fallback stop-loss placement failed for {symbol}: {_e}")
             else:
-                result = api.buy_market(symbol, notional=position_size)
+                algo_threshold = getattr(config, "ALGO_ORDER_THRESHOLD", 5000)
+                if position_size > algo_threshold:
+                    result = api.place_algo_order(symbol, position_size, "buy", algo="twap")
+                else:
+                    result = api.buy_market(symbol, notional=position_size)
                 if result:
                     try:
                         qty_shares = round(position_size / price, 6)
@@ -552,6 +605,9 @@ def run():
     # Persist adaptive weight history
     if tracker is not None:
         state["strategy_pnl"] = tracker.strategy_pnl
+    # Persist Bayesian weights so next run picks up where we left off
+    if optimizer is not None and engine._bayesian_weights is not None:
+        state["bayes_weights"] = engine._bayesian_weights
     save_state(state)
 
     logger.info("Cycle complete.")

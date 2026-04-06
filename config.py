@@ -292,12 +292,14 @@ DYNAMIC_UNIVERSE_TOP_N = 32   # How many top-liquidity stocks to trade
 USE_ADAPTIVE_WEIGHTS = True   # Enable performance-based strategy weight adaptation
 
 # ============================================================
-# FINBERT SENTIMENT (FUTURE UPGRADE)
+# FINBERT SENTIMENT
 # ============================================================
-# Set USE_FINBERT = True and point FINBERT_API_URL at a running
-# FinBERT inference server to replace the keyword-based scorer.
+# Local FinBERT inference via HuggingFace transformers.
+# Downloads ProsusAI/finbert on first use (~400 MB, cached after).
+# Requires: pip install transformers torch
 USE_FINBERT = False
-FINBERT_API_URL = ""          # e.g. "http://localhost:8000/sentiment"
+FINBERT_API_URL = ""          # e.g. "http://localhost:8000/sentiment" (legacy)
+FINBERT_MAX_HEADLINES = 20    # Max headlines to score per ticker (caps CPU usage)
 
 # ============================================================
 # STATISTICAL ARBITRAGE — PAIRS TRADING
@@ -344,6 +346,40 @@ PAIRS_MAX_ALLOCATION = 0.04   # 4% per leg = 8% total per active pair
 
 # Max simultaneous open pair trades
 PAIRS_MAX_OPEN = 3
+
+# ============================================================
+# BAYESIAN STRATEGY ENSEMBLE WEIGHTS
+# ============================================================
+# Uses a Gaussian Process (scikit-optimize) to find the optimal
+# strategy weights that maximise Sharpe on recent trade history.
+# Requires: pip install scikit-optimize
+USE_BAYES_WEIGHTS = False     # Set True once scikit-optimize is installed
+BAYES_WEIGHT_N_CALLS = 15    # GP iterations per optimisation run
+BAYES_WEIGHT_WINDOW = 30     # Trades to evaluate the objective on
+
+# ============================================================
+# GARCH VOLATILITY FOR CRYPTO CVaR
+# ============================================================
+# Fits GARCH(1,1) to crypto return series for CVaR estimation.
+# Avoids the "ghost effect" of rolling-std on crypto tails.
+# Requires: pip install arch
+USE_GARCH_CRYPTO_VOL = True   # Use GARCH(1,1) for crypto CVaR volatility
+
+# ============================================================
+# ADAPTIVE BAYESIAN KELLY SIZING
+# ============================================================
+# Replaces point-estimate Kelly with a Normal-Normal conjugate
+# model that auto-shrinks position sizes when parameter
+# uncertainty is high (few trades or noisy returns).
+USE_BAYESIAN_KELLY = True     # Adaptive Bayesian Kelly sizing
+
+# ============================================================
+# ALGORITHMIC ORDER EXECUTION
+# ============================================================
+# For large orders, use TWAP execution to reduce market impact.
+ALGO_ORDER_THRESHOLD = 5000   # Use VWAP/TWAP for orders larger than this ($)
+LIMIT_ORDER_CHASE_SECONDS = 30   # Seconds to wait before chasing a limit order
+LIMIT_ORDER_CHASE_TICKS = 3      # Max chase attempts before market order fallback
 
 # ============================================================
 # LOGGING

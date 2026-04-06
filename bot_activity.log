@@ -1369,3 +1369,31 @@
 2026-04-06 10:10:08 | INFO     | Crypto cycle complete. Positions: 2, Invested: $16,020.04
 2026-04-06 10:10:08 | INFO     | State saved (run #55)
 2026-04-06 10:10:08 | INFO     | Cycle complete.
+2026-04-06 11:13:28 | INFO     | =======================================================
+2026-04-06 11:13:28 | INFO     |   TRADING BOT — Single Cycle
+2026-04-06 11:13:28 | INFO     |   2026-04-06 11:13:28 UTC
+2026-04-06 11:13:28 | INFO     |   Mode: PAPER
+2026-04-06 11:13:28 | INFO     | =======================================================
+2026-04-06 11:13:28 | INFO     | State loaded: peak=$100,015.02, run #55, trades=6
+2026-04-06 11:13:28 | INFO     | Connected to Alpaca (PAPER trading)
+2026-04-06 11:13:28 | INFO     | Account mode verified: PAPER | Equity: $99,977.38
+2026-04-06 11:13:33 | INFO     | Processed Telegram commands
+2026-04-06 11:13:33 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-04-06 11:13:33 | INFO     | Portfolio: $99,977.36 | Cash: $63,161.96
+2026-04-06 11:13:33 | INFO     | 
+=======================================================
+2026-04-06 11:13:33 | INFO     |   CRYPTO TRADING CYCLE
+2026-04-06 11:13:33 | INFO     | =======================================================
+2026-04-06 11:13:33 | INFO     | Crypto: 1 positions | $16,064.35 invested (16.1% of portfolio)
+2026-04-06 11:13:33 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-04-06 11:13:33 | ERROR    | Non-retryable error: {"message":"invalid symbol: BCHUSD does not match ^[A-Z]+/[A-Z]+$"}
+
+2026-04-06 11:13:33 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-04-06 11:13:34 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-04-06 11:13:35 | INFO     | Crypto buy candidates: BCH/USD (0.202)
+2026-04-06 11:13:35 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-04-06 11:13:35 | INFO     | CRYPTO BUY: BCH/USD | $1499.66 @ ~$437.9 | Score: 0.202 | Regime: sideways
+2026-04-06 11:13:35 | INFO     | BUY CRYPTO: BCH/USD | $1499.66
+2026-04-06 11:13:35 | INFO     | Crypto cycle complete. Positions: 2, Invested: $17,564.01
+2026-04-06 11:13:35 | INFO     | State saved (run #56)
+2026-04-06 11:13:35 | INFO     | Cycle complete.

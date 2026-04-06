@@ -18,8 +18,18 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 49,
-  "trade_log": [],
+  "run_count": 50,
+  "trade_log": [
+    {
+      "time": "2026-04-06 01:00 BST",
+      "action": "BUY",
+      "symbol": "BCH/USD",
+      "amount": 1494.57,
+      "price": 428.805,
+      "is_crypto": true,
+      "score": 0.202
+    }
+  ],
   "open_pairs": {},
   "trailing_high": {
     "BCHUSD": 444.284666531

@@ -353,7 +353,7 @@ PAIRS_MAX_OPEN = 3
 # Uses a Gaussian Process (scikit-optimize) to find the optimal
 # strategy weights that maximise Sharpe on recent trade history.
 # Requires: pip install scikit-optimize
-USE_BAYES_WEIGHTS = False     # Set True once scikit-optimize is installed
+USE_BAYES_WEIGHTS = True     # Set True once scikit-optimize is installed
 BAYES_WEIGHT_N_CALLS = 15    # GP iterations per optimisation run
 BAYES_WEIGHT_WINDOW = 30     # Trades to evaluate the objective on
 

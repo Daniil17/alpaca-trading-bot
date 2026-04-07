@@ -2142,3 +2142,31 @@
 2026-04-07 09:09:26 | INFO     | Crypto: max allocation reached (20%) — skipping buys
 2026-04-07 09:09:26 | INFO     | State saved (run #78)
 2026-04-07 09:09:26 | INFO     | Cycle complete.
+2026-04-07 10:17:08 | INFO     | =======================================================
+2026-04-07 10:17:08 | INFO     |   TRADING BOT — Single Cycle
+2026-04-07 10:17:08 | INFO     |   2026-04-07 10:17:08 UTC
+2026-04-07 10:17:08 | INFO     |   Mode: PAPER
+2026-04-07 10:17:08 | INFO     | =======================================================
+2026-04-07 10:17:08 | INFO     | State loaded: peak=$100,168.97, run #78, trades=16
+2026-04-07 10:17:08 | INFO     | Connected to Alpaca (PAPER trading)
+2026-04-07 10:17:09 | INFO     | Account mode verified: PAPER | Equity: $99,748.91
+2026-04-07 10:17:13 | INFO     | Processed Telegram commands
+2026-04-07 10:17:14 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-04-07 10:17:14 | INFO     | Portfolio: $99,748.91 | Cash: $60,606.77
+2026-04-07 10:17:14 | INFO     | 
+=======================================================
+2026-04-07 10:17:14 | INFO     |   CRYPTO TRADING CYCLE
+2026-04-07 10:17:14 | INFO     | =======================================================
+2026-04-07 10:17:14 | INFO     | Crypto: 1 positions | $19,947.54 invested (20.0% of portfolio)
+2026-04-07 10:17:14 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-04-07 10:17:14 | ERROR    | Non-retryable error: {"message":"invalid symbol: BCHUSD does not match ^[A-Z]+/[A-Z]+$"}
+
+2026-04-07 10:17:14 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-04-07 10:17:16 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-04-07 10:17:17 | INFO     | Crypto buy candidates: BCH/USD (0.184), BAT/USD (0.160)
+2026-04-07 10:17:17 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-04-07 10:17:17 | INFO     | CRYPTO SKIP: BCH/USD — position too small ($2.24)
+2026-04-07 10:17:17 | INFO     | CRYPTO SKIP: BAT/USD — position too small ($2.24)
+2026-04-07 10:17:17 | INFO     | Crypto cycle complete. Positions: 1, Invested: $19,947.54
+2026-04-07 10:17:17 | INFO     | State saved (run #79)
+2026-04-07 10:17:17 | INFO     | Cycle complete.

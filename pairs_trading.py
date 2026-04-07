@@ -82,10 +82,11 @@ def _adf_pvalue_approx(residuals: np.ndarray) -> float:
 
 
 # ─────────────────────────────────────────────────────────
-# PAIR ANALYSER
+# LEGACY PAIR ANALYSER (static OLS + rolling Z-score)
+# Kept for reference; replaced by KalmanPairAnalyser below.
 # ─────────────────────────────────────────────────────────
 
-class PairAnalyser:
+class _LegacyPairAnalyser:
     """
     Tests a pair of stocks for cointegration and computes the Z-score
     spread used to generate trading signals.
@@ -251,6 +252,143 @@ class PairAnalyser:
 
 
 # ─────────────────────────────────────────────────────────
+# KALMAN FILTER PAIR ANALYSER
+# ─────────────────────────────────────────────────────────
+
+class KalmanPairAnalyser:
+    """
+    Pairs analyser using a Kalman filter to track a time-varying hedge ratio
+    and generate a Z-score spread signal.
+
+    Advantage over static OLS + rolling std:
+      - Hedge ratio β adapts continuously (no fixed lookback window needed)
+      - Z-score is derived from the Kalman prediction error (innovation),
+        which is already normalised by the filter's estimated variance
+      - More robust to regime changes in the pair's cointegration relationship
+
+    State:   θ = [β, α]   (hedge ratio, intercept)
+    Obs:     y_t = β_t·x_t + α_t + v_t      v_t ~ N(0, R)
+    Trans:   θ_t = θ_{t-1} + w_t             w_t ~ N(0, Q)
+    Q = (delta / (1 - delta)) * I,   delta = 0.0001 controls adaptation speed
+    """
+
+    def __init__(self, delta: float = 0.0001, R: float = 0.001,
+                 zscore_entry: float = 2.0, zscore_exit: float = 0.5):
+        self.delta = delta
+        self.R = R
+        self.zscore_entry = zscore_entry
+        self.zscore_exit = zscore_exit
+
+    def fit_and_score(self, price_x: pd.Series, price_y: pd.Series) -> dict:
+        """Run Kalman filter over the full price history; return final beta and Z-score."""
+        n = len(price_x)
+        theta = np.zeros((n, 2))    # state: [beta, alpha]
+        P = np.zeros((n, 2, 2))     # state covariance
+        Q = (self.delta / (1 - self.delta)) * np.eye(2)
+        e = np.zeros(n)             # prediction errors (innovations)
+        S = np.zeros(n)             # innovation variances
+
+        # Initialise
+        theta[0] = [1.0, 0.0]
+        P[0] = np.eye(2)
+
+        for t in range(1, n):
+            # Prediction step (random-walk state model)
+            theta[t] = theta[t - 1]
+            P[t] = P[t - 1] + Q
+
+            # Observation vector: F = [x_t, 1]
+            F = np.array([price_x.iloc[t], 1.0])
+
+            # Innovation (prediction error)
+            y_hat = F @ theta[t]
+            e[t] = price_y.iloc[t] - y_hat
+            S[t] = F @ P[t] @ F.T + self.R
+
+            # Kalman gain
+            K = P[t] @ F / S[t]
+
+            # Update step
+            theta[t] = theta[t] + K * e[t]
+            P[t] = (np.eye(2) - np.outer(K, F)) @ P[t]
+
+        # Z-score from last 60 innovations (rolling window)
+        recent_e = e[-60:]
+        e_mean = np.mean(recent_e)
+        e_std = np.std(recent_e)
+        zscore_rolling = (e[-1] - e_mean) / (e_std + 1e-10)
+
+        return {
+            "beta": float(theta[-1, 0]),
+            "alpha": float(theta[-1, 1]),
+            "zscore": float(zscore_rolling),
+            "prediction_error": float(e[-1]),
+            "prediction_variance": float(S[-1]),
+        }
+
+    def analyse(self, bars_x: pd.DataFrame, bars_y: pd.DataFrame,
+                symbol_x: str, symbol_y: str) -> dict:
+        """
+        Full analysis — returns the same dict structure as _LegacyPairAnalyser.analyse().
+
+        Args:
+            bars_x, bars_y: DataFrames with 'close' column
+            symbol_x, symbol_y: tickers for logging
+
+        Returns dict with:
+            signal:       LONG_X_SHORT_Y | LONG_Y_SHORT_X | HOLD | EXIT
+            zscore:       current Kalman Z-score
+            hedge_ratio:  current β from the filter
+            cointegrated: True (Kalman always produces an estimate)
+            reason:       human-readable explanation
+        """
+        close_x = bars_x["close"]
+        close_y = bars_y["close"]
+        aligned = pd.concat(
+            [close_x.rename("x"), close_y.rename("y")], axis=1
+        ).dropna()
+
+        if len(aligned) < 70:
+            return {
+                "signal": "HOLD",
+                "zscore": 0.0,
+                "hedge_ratio": 1.0,
+                "cointegrated": False,
+                "reason": f"Insufficient data ({len(aligned)} bars)",
+            }
+
+        result = self.fit_and_score(aligned["x"], aligned["y"])
+        beta = result["beta"]
+        zscore = result["zscore"]
+
+        signal = "HOLD"
+        reason = ""
+
+        if zscore > self.zscore_entry:
+            signal = "LONG_X_SHORT_Y"
+            reason = (f"Kalman Z={zscore:.2f} > {self.zscore_entry}: "
+                      f"{symbol_y} overpriced vs {symbol_x}")
+        elif zscore < -self.zscore_entry:
+            signal = "LONG_Y_SHORT_X"
+            reason = (f"Kalman Z={zscore:.2f} < -{self.zscore_entry}: "
+                      f"{symbol_x} overpriced vs {symbol_y}")
+        elif abs(zscore) < self.zscore_exit:
+            signal = "EXIT"
+            reason = f"Kalman Z={zscore:.2f} within exit band: spread reverted"
+        else:
+            reason = f"Kalman Z={zscore:.2f} — neutral band"
+
+        return {
+            "signal": signal,
+            "zscore": round(zscore, 3),
+            "hedge_ratio": round(beta, 4),
+            "cointegrated": True,   # Kalman always produces an estimate
+            "reason": reason,
+            "prediction_error": result["prediction_error"],
+        }
+
+
+# ─────────────────────────────────────────────────────────
 # PAIRS TRADING ENGINE (manages multiple pairs)
 # ─────────────────────────────────────────────────────────
 
@@ -279,7 +417,11 @@ class PairsTradingEngine:
             max_pair_allocation: max % of portfolio per pair leg (default 5%)
         """
         self.pairs = pairs
-        self.analyser = PairAnalyser(zscore_entry, zscore_exit, lookback)
+        # KalmanPairAnalyser replaces the static OLS + rolling-std analyser.
+        # It tracks a time-varying hedge ratio via Kalman filter — more adaptive
+        # to regime changes than a fixed lookback OLS regression.
+        self.analyser = KalmanPairAnalyser(zscore_entry=zscore_entry,
+                                           zscore_exit=zscore_exit)
         self.max_pair_allocation = max_pair_allocation
 
     def scan_all_pairs(self, api, logger_ref=None) -> list:

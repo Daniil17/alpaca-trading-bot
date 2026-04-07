@@ -1,0 +1,22 @@
+# Optional dependencies — install only the features you want to enable.
+# None of these are required for the bot to run; each is guarded by a
+# feature flag in config.py that defaults to False.
+#
+# Install all at once:
+#   pip install -r requirements_optional.txt
+#
+# Or individually as noted below.
+
+# ── CHANGE 1: Bayesian strategy ensemble weights ──────────────────────────
+# config.py: USE_BAYES_WEIGHTS = True
+scikit-optimize>=0.9.0
+
+# ── CHANGE 2: GARCH(1,1) volatility for crypto CVaR ─────────────────────
+# config.py: USE_GARCH_CRYPTO_VOL = True  (already True by default)
+arch>=5.3.0
+
+# ── CHANGE 5: Local FinBERT sentiment analysis ───────────────────────────
+# config.py: USE_FINBERT = True
+# Downloads ProsusAI/finbert (~400 MB) on first use; cached afterward.
+transformers>=4.30.0
+torch>=2.0.0

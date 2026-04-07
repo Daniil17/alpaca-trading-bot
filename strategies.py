@@ -467,6 +467,201 @@ class VWAPStrategy:
 
 
 # ============================================================
+# PERFORMANCE-ADAPTIVE STRATEGY WEIGHT TRACKER
+# ============================================================
+
+class StrategyPerformanceTracker:
+    """
+    Tracks each strategy's recent performance and adjusts ensemble weights
+    dynamically based on a 20-trade rolling window.
+
+    Weights shift toward strategies with better recent Sharpe-like performance.
+    Each strategy is bounded between MIN_WEIGHT and MAX_WEIGHT to prevent
+    any single strategy from dominating or being completely sidelined.
+
+    Usage:
+        tracker = StrategyPerformanceTracker(base_weights)
+        # After a position closes:
+        tracker.record_trade_result(analysis["strategies"], pct_return)
+        # In StrategyEngine.analyze():
+        weights = tracker.get_adjusted_weights()
+    """
+    MIN_WEIGHT = 0.10   # No strategy gets less than 10%
+    MAX_WEIGHT = 0.50   # No strategy gets more than 50%
+
+    def __init__(self, base_weights: dict):
+        self.base_weights = base_weights
+        # Rolling list of signed returns attributed to each strategy
+        self.strategy_pnl: dict = {k: [] for k in base_weights}
+
+    def record_trade_result(self, strategy_scores: dict, pct_return: float):
+        """
+        Called after a position is closed.  Attributes the P&L to the strategy
+        that had the highest absolute score at entry (the "dominant" strategy).
+
+        Args:
+            strategy_scores: analysis["strategies"] dict from entry analysis
+            pct_return:       realised % return (positive = profit, negative = loss)
+        """
+        if not strategy_scores:
+            return
+
+        def _abs_score(v):
+            if isinstance(v, dict):
+                return abs(float(v.get("score", 0)))
+            try:
+                return abs(float(v))
+            except (TypeError, ValueError):
+                return 0.0
+
+        dominant = max(strategy_scores, key=lambda k: _abs_score(strategy_scores[k]))
+
+        for k in self.strategy_pnl:
+            if k == dominant:
+                self.strategy_pnl[k].append(pct_return)
+            # Trim to rolling window
+            if len(self.strategy_pnl[k]) > 20:
+                self.strategy_pnl[k] = self.strategy_pnl[k][-20:]
+
+    def get_adjusted_weights(self) -> dict:
+        """
+        Returns adapted weights.  Falls back to base_weights if no strategy
+        has accumulated at least 5 trades yet.
+        """
+        if all(len(v) < 5 for v in self.strategy_pnl.values()):
+            return self.base_weights.copy()
+
+        # Sharpe-like score per strategy
+        scores = {}
+        for k, returns in self.strategy_pnl.items():
+            if len(returns) < 3:
+                scores[k] = 0.0
+            else:
+                arr = np.array(returns)
+                std = arr.std() + 1e-6
+                scores[k] = arr.mean() / std
+
+        # Shift to positive (min score → 0.01)
+        min_score = min(scores.values())
+        shifted = {k: v - min_score + 0.01 for k, v in scores.items()}
+        total = sum(shifted.values())
+        raw_weights = {k: shifted[k] / total for k in shifted}
+
+        # Clip to [MIN_WEIGHT, MAX_WEIGHT] and renormalise
+        clipped = {
+            k: max(self.MIN_WEIGHT, min(self.MAX_WEIGHT, raw_weights[k]))
+            for k in raw_weights
+        }
+        total_clipped = sum(clipped.values())
+        return {k: v / total_clipped for k, v in clipped.items()}
+
+
+# ============================================================
+# BAYESIAN WEIGHT OPTIMIZER
+# ============================================================
+
+class BayesianWeightOptimizer:
+    """
+    Uses a Gaussian Process surrogate model to find the optimal strategy weights
+    that maximise the Sharpe-like objective on recent trade history.
+
+    Wraps scikit-optimize's gp_minimize. Falls back gracefully if skopt is not
+    installed.
+
+    The 'action space' is the weight vector for N strategies (simplex-constrained).
+    The 'reward' is the portfolio Sharpe ratio achieved when those weights would have
+    been applied to the last window of trades.
+    """
+
+    def __init__(self, strategy_names: list, n_calls: int = 15, window: int = 30):
+        self.strategy_names = strategy_names
+        self.n_calls = n_calls       # GP iterations per optimisation run
+        self.window = window         # recent trade window to evaluate weights on
+        self.best_weights = None
+        self._skopt_available = False
+        try:
+            from skopt import gp_minimize  # noqa: F401
+            from skopt.space import Real   # noqa: F401
+            self._skopt_available = True
+        except ImportError:
+            pass
+
+    def _objective(self, raw_weights, trade_history: list) -> float:
+        """
+        Given a weight vector and trade history (list of dicts with
+        'strategy_scores' and 'pct_return'), compute negative Sharpe.
+        Lower is better for minimisation.
+        """
+        n = len(self.strategy_names)
+        w = np.array(raw_weights)
+        w = np.clip(w, 0.01, 1.0)
+        w = w / w.sum()
+        weights = dict(zip(self.strategy_names, w))
+
+        returns = []
+        for trade in trade_history[-self.window:]:
+            scores = trade.get("strategy_scores", {})
+            if not scores:
+                continue
+            composite = sum(
+                weights.get(k, 0) * (v.get("score", 0) if isinstance(v, dict) else float(v))
+                for k, v in scores.items()
+            )
+            pct = trade.get("pct_return", 0)
+            if composite > 0 and pct > 0:
+                returns.append(pct)
+            elif composite > 0 and pct <= 0:
+                returns.append(pct)
+            elif composite < 0 and pct < 0:
+                returns.append(abs(pct))  # correct short signal
+            else:
+                returns.append(-abs(pct))
+
+        if len(returns) < 5:
+            return 0.0
+
+        arr = np.array(returns)
+        sharpe = arr.mean() / (arr.std() + 1e-8)
+        return -sharpe  # minimise negative Sharpe
+
+    def optimise(self, trade_history: list) -> dict:
+        """
+        Run Bayesian Optimisation. Returns the best weight dict found.
+        Falls back to equal weights if skopt is unavailable or data is insufficient.
+        """
+        n = len(self.strategy_names)
+        equal = {k: 1.0 / n for k in self.strategy_names}
+
+        if not self._skopt_available or len(trade_history) < 10:
+            return equal
+
+        try:
+            from skopt import gp_minimize
+            from skopt.space import Real
+
+            space = [Real(0.05, 0.60, name=k) for k in self.strategy_names]
+
+            result = gp_minimize(
+                lambda w: self._objective(w, trade_history),
+                space,
+                n_calls=self.n_calls,
+                random_state=42,
+                noise=0.01,
+                verbose=False,
+            )
+
+            raw = np.array(result.x)
+            raw = np.clip(raw, 0.05, 0.60)
+            raw = raw / raw.sum()
+            self.best_weights = dict(zip(self.strategy_names, raw.tolist()))
+            return self.best_weights
+
+        except Exception as e:
+            logger.warning(f"BayesianWeightOptimizer failed: {e} — using equal weights")
+            return equal
+
+
+# ============================================================
 # COMBINED STRATEGY SCORER
 # ============================================================
 
@@ -476,13 +671,20 @@ class StrategyEngine:
     Each strategy scores independently, then scores are blended.
     """
 
-    def __init__(self, weights, **kwargs):
+    def __init__(self, weights, tracker: "StrategyPerformanceTracker" = None,
+                 optimizer: "BayesianWeightOptimizer" = None, **kwargs):
         """
         Args:
-            weights: dict of strategy name -> weight (should sum to 1.0)
-            **kwargs: strategy-specific parameters from config
+            weights:   dict of strategy name -> weight (should sum to 1.0)
+            tracker:   optional StrategyPerformanceTracker for adaptive weights
+            optimizer: optional BayesianWeightOptimizer; when set, its cached
+                       weights (stored in _bayesian_weights) override the tracker
+            **kwargs:  strategy-specific parameters from config
         """
         self.weights = weights
+        self.tracker = tracker
+        self.optimizer = optimizer
+        self._bayesian_weights = None  # populated externally every N cycles
 
         self.mean_reversion = MeanReversionStrategy(
             rsi_period=kwargs.get("rsi_period", 14),
@@ -524,12 +726,21 @@ class StrategyEngine:
         news_result = self.news_sentiment.score(bars_df, sentiment_score)
         vwap_result = self.vwap.score(bars_df)
 
+        # Weight priority: Bayesian optimizer > adaptive tracker > base weights.
+        # _bayesian_weights is populated externally every N cycles to avoid
+        # re-running the GP on every per-stock call.
+        weights = self.weights
+        if self._bayesian_weights is not None:
+            weights = self._bayesian_weights
+        elif self.tracker is not None:
+            weights = self.tracker.get_adjusted_weights()
+
         # Weighted combination
         combined = (
-            self.weights.get("mean_reversion", 0.25) * mr_result["score"]
-            + self.weights.get("momentum", 0.25) * mom_result["score"]
-            + self.weights.get("news_sentiment", 0.25) * news_result["score"]
-            + self.weights.get("vwap", 0.25) * vwap_result["score"]
+            weights.get("mean_reversion", 0.25) * mr_result["score"]
+            + weights.get("momentum", 0.25) * mom_result["score"]
+            + weights.get("news_sentiment", 0.25) * news_result["score"]
+            + weights.get("vwap", 0.25) * vwap_result["score"]
         )
 
         # Determine signal with thresholds

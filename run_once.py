@@ -42,7 +42,7 @@ if os.environ.get("TELEGRAM_CHAT_ID"):
 # ============================================================
 
 from alpaca_api import AlpacaAPI
-from strategies import StrategyEngine
+from strategies import StrategyEngine, StrategyPerformanceTracker, BayesianWeightOptimizer
 from risk_manager import RiskManager
 from news_scanner import NewsScanner
 from telegram_bot import TelegramNotifier
@@ -77,6 +77,53 @@ def setup_logging():
 # MAIN SINGLE-CYCLE RUN
 # ============================================================
 
+def get_dynamic_stock_universe(api, base_universe: list, top_n: int = 32) -> list:
+    """
+    Filter base_universe to the top_n most liquid stocks by dollar volume
+    (daily_volume × close_price).  Falls back to the full base_universe
+    silently if snapshots are unavailable.
+    """
+    logger_ref = logging.getLogger("TradingBot")
+    try:
+        snapshots = api.get_stock_snapshots(base_universe)
+        if not snapshots:
+            return base_universe
+
+        scored = []
+        for symbol in base_universe:
+            snap = snapshots.get(symbol)
+            if snap is None:
+                continue
+            try:
+                daily_bar = getattr(snap, "daily_bar", None)
+                if daily_bar is None:
+                    continue
+                close = float(daily_bar.close) if daily_bar.close else 0.0
+                volume = float(daily_bar.volume) if daily_bar.volume else 0.0
+                dollar_volume = close * volume
+                scored.append((symbol, dollar_volume))
+            except Exception:
+                continue
+
+        if not scored:
+            return base_universe
+
+        scored.sort(key=lambda x: x[1], reverse=True)
+        result = [s for s, _ in scored[:top_n]]
+        cutoff_dv = scored[min(top_n - 1, len(scored) - 1)][1]
+        logger_ref.info(
+            f"Dynamic universe: {len(result)}/{len(base_universe)} symbols selected "
+            f"(cutoff ${cutoff_dv / 1e6:.1f}M daily dollar vol)"
+        )
+        return result
+
+    except Exception as exc:
+        logging.getLogger("TradingBot").warning(
+            f"Dynamic universe screening failed ({exc}) — using full universe"
+        )
+        return base_universe
+
+
 def run():
     logger = setup_logging()
 
@@ -99,8 +146,31 @@ def run():
     api = AlpacaAPI(config.ALPACA_API_KEY, config.ALPACA_SECRET_KEY,
                     paper=config.PAPER_TRADING)
 
+    # --- Adaptive strategy weight tracker ---
+    # Loads rolling PnL history from state so weights persist across runs.
+    tracker = None
+    if getattr(config, "USE_ADAPTIVE_WEIGHTS", True):
+        tracker = StrategyPerformanceTracker(config.STRATEGY_WEIGHTS)
+        saved_pnl = state.get("strategy_pnl", {})
+        for k in tracker.strategy_pnl:
+            if k in saved_pnl:
+                tracker.strategy_pnl[k] = saved_pnl[k]
+
+    # --- Bayesian weight optimizer ---
+    # Runs GP optimisation every 10 cycles; result cached in state and loaded
+    # into engine._bayesian_weights so per-stock analyze() calls are fast.
+    optimizer = None
+    if getattr(config, "USE_BAYES_WEIGHTS", False):
+        optimizer = BayesianWeightOptimizer(
+            strategy_names=list(config.STRATEGY_WEIGHTS.keys()),
+            n_calls=getattr(config, "BAYES_WEIGHT_N_CALLS", 15),
+            window=getattr(config, "BAYES_WEIGHT_WINDOW", 30),
+        )
+
     engine = StrategyEngine(
         weights=config.STRATEGY_WEIGHTS,
+        tracker=tracker,
+        optimizer=optimizer,
         rsi_period=config.RSI_PERIOD,
         rsi_oversold=config.RSI_OVERSOLD,
         rsi_overbought=config.RSI_OVERBOUGHT,
@@ -120,6 +190,25 @@ def run():
     risk = RiskManager(config)
     # Restore peak value from state
     risk.peak_portfolio_value = state.get("peak_portfolio_value", 0.0)
+
+    # Restore cached Bayesian weights from previous run
+    if optimizer is not None:
+        cached_weights = state.get("bayes_weights")
+        if cached_weights:
+            engine._bayesian_weights = cached_weights
+
+    # Re-run Bayesian optimisation every 10 cycles (GP is slow — don't run every cycle)
+    run_count = state.get("run_count", 1)
+    if optimizer is not None and run_count % 10 == 0:
+        trade_history = state.get("bayes_trade_history", [])
+        if len(trade_history) >= 10:
+            new_weights = optimizer.optimise(trade_history)
+            engine._bayesian_weights = new_weights
+            state["bayes_weights"] = new_weights
+            logger.info(
+                "Bayesian weights updated: "
+                + ", ".join(f"{k}={v:.3f}" for k, v in new_weights.items())
+            )
 
     news = NewsScanner()
     telegram = TelegramNotifier(config.TELEGRAM_BOT_TOKEN, config.TELEGRAM_CHAT_ID)
@@ -192,10 +281,21 @@ def run():
 
     if run_stock_cycle:
         # ============================================================
+        # DYNAMIC UNIVERSE SCREENING
+        # ============================================================
+        # Filter to the top-N most liquid stocks by dollar volume each cycle.
+        # Held positions are always included regardless of liquidity rank.
+        if getattr(config, "USE_DYNAMIC_UNIVERSE", True):
+            top_n = getattr(config, "DYNAMIC_UNIVERSE_TOP_N", 32)
+            stock_universe = get_dynamic_stock_universe(api, config.STOCK_UNIVERSE, top_n)
+        else:
+            stock_universe = config.STOCK_UNIVERSE
+
+        # ============================================================
         # BAR CACHE — fetch once, reuse in exit and buy phases
         # ============================================================
         universe_symbols = (
-            {p["symbol"] for p in bot_positions} | set(config.STOCK_UNIVERSE)
+            {p["symbol"] for p in bot_positions} | set(stock_universe)
         )
         bars_cache = {}
         logger.info(f"Pre-fetching bars for {len(universe_symbols)} symbols...")
@@ -223,7 +323,10 @@ def run():
                 prev_high = trailing_high.get(symbol, entry)
                 trailing_high[symbol] = max(prev_high, current)
 
-        # Hard stop/take-profit exits (risk manager)
+        # Software-side safety backup for hard stop-loss and take-profit.
+        # When USE_BRACKET_ORDERS is True, Alpaca's matching engine handles
+        # SL/TP atomically at entry — this check only fires if the bracket
+        # legs were somehow cancelled or the position was opened without brackets.
         exits = risk.check_positions_for_exit(bot_positions)
         exited_symbols = {pos["symbol"] for pos in exits}
 
@@ -232,6 +335,7 @@ def run():
             reason = pos.get("exit_reason", "Risk exit")
             unrealized_pl = float(pos.get("unrealized_pl", 0))
             current_price = float(pos.get("current_price", 0))
+            pct_return = float(pos.get("unrealized_plpc", 0)) * 100
             logger.info(f"EXIT: {symbol} — {reason}")
             result = api.close_position(symbol)
             if result:
@@ -239,9 +343,19 @@ def run():
                           current_price, pnl=unrealized_pl, reason=reason)
                 sold_symbols.add(symbol)
                 trailing_high.pop(symbol, None)   # Clear trailing record on exit
+                # Record P&L in adaptive tracker and Bayesian history
+                if tracker is not None or optimizer is not None:
+                    position_strategies = state.get("position_strategies", {}).pop(symbol, None)
+                    if position_strategies:
+                        if tracker is not None:
+                            tracker.record_trade_result(position_strategies, pct_return)
+                        if optimizer is not None:
+                            _bh = state.setdefault("bayes_trade_history", [])
+                            _bh.append({"strategy_scores": position_strategies,
+                                        "pct_return": pct_return})
+                            state["bayes_trade_history"] = _bh[-100:]
                 if config.NOTIFY_ON_STOP_LOSS and "STOP" in reason:
-                    pct = float(pos.get("unrealized_plpc", 0)) * 100
-                    telegram.notify_stop_loss(symbol, pct, unrealized_pl)
+                    telegram.notify_stop_loss(symbol, pct_return, unrealized_pl)
                 elif config.NOTIFY_ON_SELL:
                     telegram.notify_sell(symbol, reason, unrealized_pl)
 
@@ -271,6 +385,18 @@ def run():
                                   current, pnl=unrealized_pl, reason=reason)
                         sold_symbols.add(symbol)
                         trailing_high.pop(symbol, None)
+                        # Record P&L in adaptive tracker and Bayesian history
+                        if tracker is not None or optimizer is not None:
+                            position_strategies = state.get("position_strategies", {}).pop(symbol, None)
+                            if position_strategies:
+                                trail_pct_return = (current - entry) / entry * 100 if entry > 0 else 0.0
+                                if tracker is not None:
+                                    tracker.record_trade_result(position_strategies, trail_pct_return)
+                                if optimizer is not None:
+                                    _bh = state.setdefault("bayes_trade_history", [])
+                                    _bh.append({"strategy_scores": position_strategies,
+                                                "pct_return": trail_pct_return})
+                                    state["bayes_trade_history"] = _bh[-100:]
                         if config.NOTIFY_ON_SELL:
                             try:
                                 telegram.notify_sell(symbol, reason, unrealized_pl)
@@ -290,6 +416,7 @@ def run():
                 logger.info(f"STRATEGY SELL: {symbol} (score: {analysis['combined_score']:.3f})")
                 unrealized_pl = float(pos.get("unrealized_pl", 0))
                 current_price = float(pos.get("current_price", 0))
+                pct_return = float(pos.get("unrealized_plpc", 0)) * 100
                 result = api.close_position(symbol)
                 if result:
                     log_trade(state, "SELL", symbol, float(pos.get("market_value", 0)),
@@ -297,6 +424,17 @@ def run():
                               reason=f"Strategy ({analysis['combined_score']:.3f})",
                               score=analysis["combined_score"])
                     sold_symbols.add(symbol)
+                    # Record P&L in adaptive tracker and Bayesian history
+                    if tracker is not None or optimizer is not None:
+                        position_strategies = state.get("position_strategies", {}).pop(symbol, None)
+                        if position_strategies:
+                            if tracker is not None:
+                                tracker.record_trade_result(position_strategies, pct_return)
+                            if optimizer is not None:
+                                _bh = state.setdefault("bayes_trade_history", [])
+                                _bh.append({"strategy_scores": position_strategies,
+                                            "pct_return": pct_return})
+                                state["bayes_trade_history"] = _bh[-100:]
                     # Sync local position list immediately
                     bot_positions = [p for p in bot_positions if p["symbol"] != symbol]
                     if config.NOTIFY_ON_SELL:
@@ -308,10 +446,10 @@ def run():
         logger.info("--- Phase 2: Scanning for opportunities ---")
 
         held_symbols = {p["symbol"] for p in bot_positions} | sold_symbols
-        news_scores = news.get_sentiment_scores(config.STOCK_UNIVERSE, exclude_symbols=held_symbols)
+        news_scores = news.get_sentiment_scores(stock_universe, exclude_symbols=held_symbols)
 
         candidates = []
-        for symbol in config.STOCK_UNIVERSE:
+        for symbol in stock_universe:
             if symbol in held_symbols:
                 continue
             bars = bars_cache.get(symbol)
@@ -347,7 +485,7 @@ def run():
             bars = candidate["bars"]
 
             allowed, reason, position_size = risk.can_open_position(
-                symbol, portfolio_value, bot_positions, bars
+                symbol, portfolio_value, bot_positions, bars, api=api
             )
 
             if not allowed:
@@ -366,30 +504,62 @@ def run():
             if not price:
                 continue
 
-            logger.info(f"BUY: {symbol} | ${position_size:.2f} @ ~${price} | "
-                        f"Score: {analysis['combined_score']:.3f}")
+            # Compute ATR-based stop-loss and take-profit levels
+            stp = risk.calculate_stop_take_profit(symbol, price, bars)
+            stop_loss_price = stp["stop_loss"]
+            take_profit_price = stp["take_profit"]
 
-            result = api.buy_market(symbol, notional=position_size)
+            logger.info(
+                f"BUY: {symbol} | ${position_size:.2f} @ ~${price} | "
+                f"Score: {analysis['combined_score']:.3f} | "
+                f"SL=${stop_loss_price:.2f} TP=${take_profit_price:.2f}"
+            )
+
+            # --- Bracket order (atomic SL + TP at Alpaca's matching engine) ---
+            # Architectural note: bracket orders submit the stop-loss and take-profit
+            # legs atomically at entry.  This eliminates the gap risk of the bot's
+            # 5-minute polling cycle — exits fire at the broker level even when the
+            # bot is not running.  The software-side check_positions_for_exit above
+            # remains as a backup in case a bracket leg gets cancelled.
+            if getattr(config, "USE_BRACKET_ORDERS", True):
+                result = api.place_bracket_order(
+                    symbol, position_size, "buy", stop_loss_price, take_profit_price
+                )
+                if result is None:
+                    # Bracket order failed — fall back to plain market order + stop
+                    logger.warning(f"Bracket order failed for {symbol} — falling back to market + stop")
+                    result = api.buy_market(symbol, notional=position_size)
+                    if result:
+                        try:
+                            qty_shares = round(position_size / price, 6)
+                            if stop_loss_price > 0 and qty_shares > 0:
+                                api.sell_stop(symbol, stop_loss_price, qty_shares)
+                        except Exception as _e:
+                            logger.warning(f"Fallback stop-loss placement failed for {symbol}: {_e}")
+            else:
+                algo_threshold = getattr(config, "ALGO_ORDER_THRESHOLD", 5000)
+                if position_size > algo_threshold:
+                    result = api.place_algo_order(symbol, position_size, "buy", algo="twap")
+                else:
+                    result = api.buy_market(symbol, notional=position_size)
+                if result:
+                    try:
+                        qty_shares = round(position_size / price, 6)
+                        if stop_loss_price > 0 and qty_shares > 0:
+                            api.sell_stop(symbol, stop_loss_price, qty_shares)
+                    except Exception as _e:
+                        logger.warning(f"Could not place stop-loss for {symbol}: {_e}")
+
             if result:
                 log_trade(state, "BUY", symbol, position_size, price,
                           score=analysis["combined_score"])
+                # Store strategy breakdown for adaptive weight tracking on close
+                state.setdefault("position_strategies", {})[symbol] = analysis["strategies"]
                 if config.NOTIFY_ON_BUY:
                     try:
                         telegram.notify_buy(symbol, position_size, price, analysis)
                     except Exception as _tg_err:
                         logger.warning(f"Telegram notify_buy failed for {symbol}: {_tg_err}")
-
-                # Place ATR-based stop-loss order with Alpaca (GTC)
-                try:
-                    import pandas as pd
-                    atr = _calculate_atr(bars)
-                    if atr and atr > 0 and price > 0:
-                        stop_price = round(price - config.STOP_LOSS_ATR_MULTIPLIER * atr, 2)
-                        qty_shares = round(position_size / price, 6)
-                        if stop_price > 0 and qty_shares > 0:
-                            api.sell_stop(symbol, stop_price, qty_shares)
-                except Exception as e:
-                    logger.warning(f"Could not place stop-loss for {symbol}: {e}")
 
                 bot_positions.append({
                     "symbol": symbol, "market_value": position_size,
@@ -432,6 +602,12 @@ def run():
     # SAVE STATE FOR NEXT RUN
     # ============================================================
     state["peak_portfolio_value"] = risk.peak_portfolio_value
+    # Persist adaptive weight history
+    if tracker is not None:
+        state["strategy_pnl"] = tracker.strategy_pnl
+    # Persist Bayesian weights so next run picks up where we left off
+    if optimizer is not None and engine._bayesian_weights is not None:
+        state["bayes_weights"] = engine._bayesian_weights
     save_state(state)
 
     logger.info("Cycle complete.")

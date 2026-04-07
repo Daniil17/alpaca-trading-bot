@@ -258,6 +258,50 @@ VAR_LIMIT_PCT = 3.0        # Block new positions if 1-day VaR > 3%
 VAR_CONFIDENCE = 0.99      # 99% confidence interval
 
 # ============================================================
+# CVaR (EXPECTED SHORTFALL) CIRCUIT BREAKER
+# ============================================================
+# CVaR (Conditional VaR / Expected Shortfall) is the average loss
+# in the worst scenarios beyond the VaR threshold. It is inherently
+# larger than VaR and gives a better picture of true tail risk.
+# Uses historical simulation over 60 days of daily returns.
+CVAR_LIMIT_PCT = 4.0          # Block new positions if 1-day 99% CVaR exceeds this % of portfolio
+CVAR_CONFIDENCE = 0.99        # Confidence level for CVaR calculation
+
+# ============================================================
+# BRACKET ORDERS
+# ============================================================
+# When True, stop-loss and take-profit are submitted atomically
+# to Alpaca's matching engine at entry, eliminating gap risk from
+# the bot's 5-minute polling interval.
+USE_BRACKET_ORDERS = True     # Submit stop/take-profit to Alpaca matching engine at entry
+
+# ============================================================
+# DYNAMIC UNIVERSE SCREENING
+# ============================================================
+# Each cycle, filter the stock universe down to the most liquid
+# names by dollar volume (price × volume). Reduces exposure to
+# thin stocks with wide spreads.
+USE_DYNAMIC_UNIVERSE = True   # Screen stocks by liquidity each cycle
+DYNAMIC_UNIVERSE_TOP_N = 32   # How many top-liquidity stocks to trade
+
+# ============================================================
+# ADAPTIVE STRATEGY WEIGHTS
+# ============================================================
+# Shifts ensemble weights toward strategies with better recent
+# Sharpe-like performance over a 20-trade rolling window.
+USE_ADAPTIVE_WEIGHTS = True   # Enable performance-based strategy weight adaptation
+
+# ============================================================
+# FINBERT SENTIMENT
+# ============================================================
+# Local FinBERT inference via HuggingFace transformers.
+# Downloads ProsusAI/finbert on first use (~400 MB, cached after).
+# Requires: pip install transformers torch
+USE_FINBERT = False
+FINBERT_API_URL = ""          # e.g. "http://localhost:8000/sentiment" (legacy)
+FINBERT_MAX_HEADLINES = 20    # Max headlines to score per ticker (caps CPU usage)
+
+# ============================================================
 # STATISTICAL ARBITRAGE — PAIRS TRADING
 # ============================================================
 # Market-neutral cointegration strategy. For each pair, the bot:
@@ -302,6 +346,40 @@ PAIRS_MAX_ALLOCATION = 0.04   # 4% per leg = 8% total per active pair
 
 # Max simultaneous open pair trades
 PAIRS_MAX_OPEN = 3
+
+# ============================================================
+# BAYESIAN STRATEGY ENSEMBLE WEIGHTS
+# ============================================================
+# Uses a Gaussian Process (scikit-optimize) to find the optimal
+# strategy weights that maximise Sharpe on recent trade history.
+# Requires: pip install scikit-optimize
+USE_BAYES_WEIGHTS = False     # Set True once scikit-optimize is installed
+BAYES_WEIGHT_N_CALLS = 15    # GP iterations per optimisation run
+BAYES_WEIGHT_WINDOW = 30     # Trades to evaluate the objective on
+
+# ============================================================
+# GARCH VOLATILITY FOR CRYPTO CVaR
+# ============================================================
+# Fits GARCH(1,1) to crypto return series for CVaR estimation.
+# Avoids the "ghost effect" of rolling-std on crypto tails.
+# Requires: pip install arch
+USE_GARCH_CRYPTO_VOL = True   # Use GARCH(1,1) for crypto CVaR volatility
+
+# ============================================================
+# ADAPTIVE BAYESIAN KELLY SIZING
+# ============================================================
+# Replaces point-estimate Kelly with a Normal-Normal conjugate
+# model that auto-shrinks position sizes when parameter
+# uncertainty is high (few trades or noisy returns).
+USE_BAYESIAN_KELLY = True     # Adaptive Bayesian Kelly sizing
+
+# ============================================================
+# ALGORITHMIC ORDER EXECUTION
+# ============================================================
+# For large orders, use TWAP execution to reduce market impact.
+ALGO_ORDER_THRESHOLD = 5000   # Use VWAP/TWAP for orders larger than this ($)
+LIMIT_ORDER_CHASE_SECONDS = 30   # Seconds to wait before chasing a limit order
+LIMIT_ORDER_CHASE_TICKS = 3      # Max chase attempts before market order fallback
 
 # ============================================================
 # LOGGING

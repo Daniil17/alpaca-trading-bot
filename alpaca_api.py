@@ -21,14 +21,17 @@ from alpaca.trading.requests import (
     LimitOrderRequest,
     StopOrderRequest,
     GetOrdersRequest,
+    TakeProfitRequest,
+    StopLossRequest,
 )
-from alpaca.trading.enums import OrderSide, TimeInForce, QueryOrderStatus
+from alpaca.trading.enums import OrderSide, TimeInForce, QueryOrderStatus, OrderClass
 from alpaca.data.historical import StockHistoricalDataClient, CryptoHistoricalDataClient
 from alpaca.data.requests import (
     StockBarsRequest,
     StockLatestQuoteRequest,
     CryptoBarsRequest,
     CryptoLatestQuoteRequest,
+    StockSnapshotRequest,
 )
 from alpaca.data.timeframe import TimeFrame
 
@@ -289,6 +292,177 @@ class AlpacaAPI:
             return self._order_to_dict(order)
         return _with_retry(_call)
 
+    def place_bracket_order(self, symbol: str, notional: float, side: str,
+                             stop_loss_price: float, take_profit_price: float):
+        """
+        Place a bracket order: entry (market) + stop-loss + take-profit submitted
+        atomically to Alpaca's matching engine.
+
+        This replaces software-side stop checking and eliminates gap risk between
+        the bot's 5-minute polling intervals — the broker holds and executes the
+        exit legs regardless of whether the bot is running.
+
+        Crypto uses TimeInForce.GTC (markets never close).
+        Stocks use TimeInForce.DAY.
+        """
+        is_crypto_sym = self.is_crypto(symbol)
+        tif = TimeInForce.GTC if is_crypto_sym else TimeInForce.DAY
+        order_side = OrderSide.BUY if side.lower() == "buy" else OrderSide.SELL
+
+        def _call():
+            self._rate_limiter.consume()
+            order_data = MarketOrderRequest(
+                symbol=symbol,
+                side=order_side,
+                time_in_force=tif,
+                notional=round(notional, 2),
+                order_class=OrderClass.BRACKET,
+                stop_loss=StopLossRequest(stop_price=round(stop_loss_price, 2)),
+                take_profit=TakeProfitRequest(limit_price=round(take_profit_price, 2)),
+            )
+            order = self.trading_client.submit_order(order_data)
+            logger.info(
+                f"BRACKET ORDER: {side.upper()} {symbol} | ${notional:.2f} | "
+                f"SL=${stop_loss_price:.2f} TP=${take_profit_price:.2f}"
+            )
+            return self._order_to_dict(order)
+        return _with_retry(_call)
+
+    def place_limit_order(self, symbol: str, notional: float, side: str,
+                           limit_price: float = None, time_in_force=None,
+                           chase_seconds: int = 30, chase_ticks: int = 3):
+        """
+        Place a limit order with an order-chasing loop.
+
+        If limit_price is None, the current bid (BUY) or ask (SELL) is used.
+        After `chase_seconds` the unfilled order is cancelled and re-submitted
+        one tick closer to mid.  This repeats up to `chase_ticks` times.
+        After all attempts are exhausted a market order is placed as fallback.
+        """
+        # Determine initial limit price from quote if not provided
+        if limit_price is None:
+            quote = self.get_latest_quote(symbol)
+            if quote:
+                if side.lower() == "buy":
+                    limit_price = quote.get("bid_price") or quote.get("ask_price")
+                else:
+                    limit_price = quote.get("ask_price") or quote.get("bid_price")
+        if not limit_price:
+            logger.warning(f"No quote for {symbol} — falling back to market order")
+            return (self.buy_market(symbol, notional=notional) if side.lower() == "buy"
+                    else self.sell_market(symbol, notional=notional))
+
+        is_crypto_sym = self.is_crypto(symbol)
+        tif = time_in_force or (TimeInForce.GTC if is_crypto_sym else TimeInForce.DAY)
+        order_side = OrderSide.BUY if side.lower() == "buy" else OrderSide.SELL
+
+        current_price = float(limit_price)
+
+        for attempt in range(chase_ticks + 1):
+            lp = round(current_price, 2)
+
+            def _submit(price=lp):
+                self._rate_limiter.consume()
+                order_data = LimitOrderRequest(
+                    symbol=symbol,
+                    side=order_side,
+                    time_in_force=tif,
+                    limit_price=price,
+                    notional=round(notional, 2),
+                )
+                order = self.trading_client.submit_order(order_data)
+                logger.info(
+                    f"LIMIT ORDER (attempt {attempt + 1}/{chase_ticks + 1}): "
+                    f"{side.upper()} {symbol} @ ${price:.2f} | ${notional:.2f}"
+                )
+                return self._order_to_dict(order), str(order.id)
+
+            submit_result = _with_retry(_submit)
+            if submit_result is None:
+                break
+
+            order_dict, order_id = submit_result
+
+            # Poll for fill
+            filled = False
+            polls = max(1, chase_seconds // 5)
+            for _ in range(polls):
+                time.sleep(5)
+                status = self._get_order_status(order_id)
+                if status in ("filled", "partially_filled"):
+                    filled = True
+                    break
+
+            if filled:
+                return order_dict
+
+            # Cancel and prepare next chase
+            self._cancel_order_by_id(order_id)
+
+            if attempt < chase_ticks:
+                quote = self.get_latest_quote(symbol)
+                if quote:
+                    bid = quote.get("bid_price", current_price)
+                    ask = quote.get("ask_price", current_price)
+                    spread = max(0.0, ask - bid)
+                    tick = max(0.01, round(spread * 0.25, 4))
+                else:
+                    tick = 0.01
+                if side.lower() == "buy":
+                    current_price = current_price + tick
+                else:
+                    current_price = current_price - tick
+
+        # All attempts exhausted — market fallback
+        logger.warning(
+            f"Limit order chase exhausted for {symbol} after {chase_ticks} attempts "
+            f"— falling back to market order"
+        )
+        if side.lower() == "buy":
+            return self.buy_market(symbol, notional=notional)
+        return self.sell_market(symbol, notional=notional)
+
+    def place_algo_order(self, symbol: str, notional: float, side: str,
+                          algo: str = "vwap") -> dict:
+        """
+        Place a VWAP or TWAP algorithmic order for large notional amounts.
+
+        Alpaca's current SDK does not expose a native `instructions` parameter
+        for algo execution types, so this falls back to a manual TWAP
+        implementation that splits the notional into equal-sized tranches
+        executed at timed intervals.
+
+        algo: 'vwap' or 'twap' (both route to manual TWAP for now)
+        """
+        logger.info(
+            f"ALGO ORDER ({algo.upper()}): {side.upper()} {symbol} | ${notional:.2f}"
+        )
+        return self._manual_twap(symbol, notional, side)
+
+    def _manual_twap(self, symbol: str, notional: float, side: str,
+                      n_tranches: int = 5, interval_seconds: int = 60) -> dict:
+        """
+        Manual TWAP: split order into n_tranches of equal notional,
+        executing each at `interval_seconds` intervals.
+        Returns the result of the last successfully submitted tranche.
+        """
+        tranche_notional = notional / n_tranches
+        last_result = None
+        for i in range(n_tranches):
+            logger.info(
+                f"TWAP tranche {i + 1}/{n_tranches}: {side.upper()} {symbol} "
+                f"| ${tranche_notional:.2f}"
+            )
+            if side.lower() == "buy":
+                result = self.buy_market(symbol, notional=tranche_notional)
+            else:
+                result = self.sell_market(symbol, notional=tranche_notional)
+            if result:
+                last_result = result
+            if i < n_tranches - 1:
+                time.sleep(interval_seconds)
+        return last_result
+
     def close_position(self, symbol):
         def _call():
             self._rate_limiter.consume()
@@ -397,6 +571,65 @@ class AlpacaAPI:
                 df = df.droplevel(0)
             return df.tail(limit)
         return _with_retry(_call)
+
+    def get_stock_snapshots(self, symbols: list) -> dict:
+        """
+        Fetch the latest snapshot (daily OHLCV + quote) for a list of symbols.
+        Returns a dict mapping symbol → snapshot object.
+        Used by get_dynamic_stock_universe for liquidity screening.
+        """
+        def _call():
+            self._rate_limiter.consume()
+            request = StockSnapshotRequest(symbol_or_symbols=symbols)
+            return self.data_client.get_stock_snapshot(request)
+        result = _with_retry(_call)
+        return result if result is not None else {}
+
+    def get_latest_quote(self, symbol: str) -> dict:
+        """Returns dict with bid_price, ask_price, bid_size, ask_size."""
+        is_crypto_sym = self.is_crypto(symbol)
+
+        def _call():
+            self._rate_limiter.consume()
+            if is_crypto_sym:
+                request = CryptoLatestQuoteRequest(symbol_or_symbols=symbol)
+                quotes = self.crypto_data_client.get_crypto_latest_quote(request)
+            else:
+                request = StockLatestQuoteRequest(symbol_or_symbols=symbol)
+                quotes = self.data_client.get_stock_latest_quote(request)
+            quote = quotes.get(symbol) if isinstance(quotes, dict) else quotes
+            if quote is None:
+                return None
+            return {
+                "bid_price": float(quote.bid_price) if quote.bid_price else 0.0,
+                "ask_price": float(quote.ask_price) if quote.ask_price else 0.0,
+                "bid_size": float(getattr(quote, "bid_size", 0) or 0),
+                "ask_size": float(getattr(quote, "ask_size", 0) or 0),
+            }
+        return _with_retry(_call)
+
+    def _get_order_status(self, order_id: str) -> str:
+        """Return normalised order status string or 'unknown' on error."""
+        try:
+            from uuid import UUID
+            self._rate_limiter.consume()
+            order = self.trading_client.get_order_by_id(UUID(order_id))
+            return str(order.status).lower().replace("orderstatus.", "")
+        except Exception as exc:
+            logger.debug(f"Could not get order status for {order_id}: {exc}")
+            return "unknown"
+
+    def _cancel_order_by_id(self, order_id: str) -> bool:
+        """Cancel an open order by ID. Returns True on success."""
+        try:
+            from uuid import UUID
+            self._rate_limiter.consume()
+            self.trading_client.cancel_order_by_id(UUID(order_id))
+            logger.debug(f"Cancelled order {order_id}")
+            return True
+        except Exception as exc:
+            logger.debug(f"Could not cancel order {order_id}: {exc}")
+            return False
 
     def get_latest_price(self, symbol):
         def _call():

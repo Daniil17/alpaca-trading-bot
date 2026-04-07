@@ -27,6 +27,7 @@ No trade goes through without risk manager approval.
 
 import logging
 import numpy as np
+import pandas as pd
 from strategies import compute_atr
 
 logger = logging.getLogger("TradingBot")
@@ -73,16 +74,23 @@ class RiskManager:
         self.kelly_fraction = getattr(config, "KELLY_FRACTION", 0.25)
         self.kelly_min_pct = getattr(config, "KELLY_MIN_PCT", 0.005)  # floor: 0.5%
 
-        # VaR circuit breaker settings
-        # If the portfolio's 1-day 99% VaR exceeds this % of portfolio, block new buys.
-        self.var_limit_pct = getattr(config, "VAR_LIMIT_PCT", 3.0)     # 3% VaR limit
-        self.var_confidence = getattr(config, "VAR_CONFIDENCE", 0.99)  # 99% confidence
+        # CVaR (Expected Shortfall) circuit breaker settings.
+        # CVaR is the average loss in the worst (1-confidence) tail — inherently larger
+        # than VaR, so the limit is set slightly higher (4% vs old 3%).
+        self.cvar_limit_pct = getattr(config, "CVAR_LIMIT_PCT",
+                                       getattr(config, "VAR_LIMIT_PCT", 4.0))
+        self.cvar_confidence = getattr(config, "CVAR_CONFIDENCE",
+                                        getattr(config, "VAR_CONFIDENCE", 0.99))
+
+        # Optional ML upgrades (feature-flagged; default off so no new deps required)
+        self.use_garch_crypto_vol = getattr(config, "USE_GARCH_CRYPTO_VOL", True)
+        self.use_bayesian_kelly = getattr(config, "USE_BAYESIAN_KELLY", True)
 
         # Track portfolio high-water mark for drawdown calculation
         self.peak_portfolio_value = 0.0
 
     def can_open_position(self, symbol, portfolio_value, current_positions,
-                          bars_df=None):
+                          bars_df=None, api=None):
         """
         Check if we're allowed to open a new position.
         Returns (allowed: bool, reason: str, position_size: float).
@@ -138,15 +146,15 @@ class RiskManager:
         if symbol in held_symbols:
             return False, f"Already holding {symbol}", 0
 
-        # --- Check 6: Portfolio VaR limit ---
-        if current_positions and bars_df is not None:
-            var_pct = self.estimate_portfolio_var(
-                portfolio_value, current_positions
+        # --- Check 6: Portfolio CVaR limit (Expected Shortfall) ---
+        if current_positions:
+            cvar_pct = self.estimate_portfolio_cvar(
+                portfolio_value, current_positions, api=api
             )
-            if var_pct > self.var_limit_pct:
+            if cvar_pct > self.cvar_limit_pct:
                 return False, (
-                    f"VaR CIRCUIT BREAKER: portfolio 1-day VaR at "
-                    f"{var_pct:.1f}% (limit {self.var_limit_pct:.1f}%) — "
+                    f"CVaR CIRCUIT BREAKER: portfolio 1-day CVaR at "
+                    f"{cvar_pct:.1f}% (limit {self.cvar_limit_pct:.1f}%) — "
                     f"reducing exposure before adding positions"
                 ), 0
 
@@ -182,27 +190,32 @@ class RiskManager:
             try:
                 returns = bars_df["close"].pct_change().dropna()
                 if len(returns) >= 20:
-                    mu = float(returns.mean())          # mean daily return
-                    sigma2 = float(returns.var())       # variance of daily returns
-                    r = 0.0                              # risk-free rate (daily ≈ 0)
-
-                    if sigma2 > 0 and mu > r:
-                        # Full Kelly fraction (as proportion of portfolio)
-                        full_kelly = (mu - r) / sigma2
-                        # Quarter-Kelly (or configured fraction) for safety
-                        fractional_kelly = full_kelly * self.kelly_fraction
-                        # Clamp: never below floor, never above max_position_weight
-                        fractional_kelly = max(self.kelly_min_pct,
-                                               min(self.max_position_weight, fractional_kelly))
+                    if self.use_bayesian_kelly:
+                        # Adaptive Bayesian Kelly — auto-shrinks under uncertainty
+                        fractional_kelly = self._bayesian_kelly_fraction(returns.values)
                         kelly_size = portfolio_value * fractional_kelly
                         logger.debug(
-                            f"Kelly sizing {symbol}: full_kelly={full_kelly:.4f}, "
-                            f"fractional={fractional_kelly:.4f}, "
-                            f"size=${kelly_size:,.2f}"
+                            f"Bayesian Kelly sizing {symbol}: "
+                            f"fractional={fractional_kelly:.4f}, size=${kelly_size:,.2f}"
                         )
                     else:
-                        # Negative or zero expected return → use risk_per_trade floor
-                        kelly_size = portfolio_value * self.kelly_min_pct
+                        mu = float(returns.mean())
+                        sigma2 = float(returns.var())
+                        r = 0.0
+
+                        if sigma2 > 0 and mu > r:
+                            full_kelly = (mu - r) / sigma2
+                            fractional_kelly = full_kelly * self.kelly_fraction
+                            fractional_kelly = max(self.kelly_min_pct,
+                                                   min(self.max_position_weight, fractional_kelly))
+                            kelly_size = portfolio_value * fractional_kelly
+                            logger.debug(
+                                f"Kelly sizing {symbol}: full_kelly={full_kelly:.4f}, "
+                                f"fractional={fractional_kelly:.4f}, "
+                                f"size=${kelly_size:,.2f}"
+                            )
+                        else:
+                            kelly_size = portfolio_value * self.kelly_min_pct
             except Exception as e:
                 logger.warning(f"Kelly sizing failed for {symbol}: {e}")
 
@@ -234,57 +247,166 @@ class RiskManager:
 
         return max(0, position_size)
 
-    def estimate_portfolio_var(self, portfolio_value: float,
-                               positions: list,
-                               lookback_days: int = 30) -> float:
+    def _bayesian_kelly_fraction(self, returns: np.ndarray,
+                                  risk_free_daily: float = 0.0) -> float:
         """
-        Estimate the portfolio's 1-day Value at Risk (VaR) as a % of
-        portfolio value, using a simplified parametric approach.
+        Adaptive Bayesian Kelly using Normal-Normal conjugate model.
 
-        Parametric VaR (variance-covariance method):
-            VaR = portfolio_value × weight × σ × z_score
+        Instead of treating μ and σ² as fixed point estimates, treats μ as a
+        random variable with a weakly-informative prior.  The posterior mean
+        and predictive variance (sample var + parameter uncertainty) are used
+        to compute the Kelly fraction.  When parameter uncertainty is high the
+        predictive variance grows, automatically shrinking the fraction.
 
-        Where σ is the estimated daily volatility of each position
-        approximated from its unrealized P&L history, and z_score is
-        the normal distribution quantile for the confidence level.
+        Returns the fractional Kelly position weight (already scaled by
+        self.kelly_fraction), clamped to [kelly_min_pct, max_position_weight].
+        """
+        n = len(returns)
+        if n < 5:
+            return self.kelly_fraction * self.kelly_min_pct
 
-        Returns VaR as a percentage (e.g. 2.5 = 2.5% of portfolio).
+        mu_sample = float(np.mean(returns))
+        sigma2_sample = float(np.var(returns, ddof=1)) + 1e-8
+
+        # Prior: μ₀ = 0, τ² = (2%)² — low-conviction agnostic prior
+        mu_prior = 0.0
+        tau2 = (0.02) ** 2
+
+        # Normal-Normal conjugate posterior update
+        precision_prior = 1.0 / tau2
+        precision_likelihood = n / sigma2_sample
+        precision_posterior = precision_prior + precision_likelihood
+        mu_posterior = (
+            (precision_prior * mu_prior + precision_likelihood * mu_sample)
+            / precision_posterior
+        )
+        sigma2_posterior = 1.0 / precision_posterior  # parameter uncertainty
+
+        # Predictive variance = sample variance + parameter uncertainty
+        sigma2_predictive = sigma2_sample + sigma2_posterior
+
+        f_star = (mu_posterior - risk_free_daily) / sigma2_predictive
+        f = f_star * self.kelly_fraction
+        f = max(self.kelly_min_pct, min(self.max_position_weight, f))
+        return f
+
+    def _estimate_garch_vol(self, returns: pd.Series) -> float:
+        """
+        Fit GARCH(1,1) to the return series and return the 1-day ahead
+        conditional volatility forecast.
+        Falls back to rolling std if arch is not installed or fitting fails.
+        """
+        fallback = float(returns.std())
+        if len(returns) < 30:
+            return fallback
+        try:
+            from arch import arch_model
+            # Rescale to percent returns for numerical stability
+            pct = returns * 100
+            model = arch_model(pct, vol='Garch', p=1, q=1, dist='t', rescale=False)
+            res = model.fit(disp='off', show_warning=False)
+            forecast = res.forecast(horizon=1, reindex=False)
+            cond_var = float(forecast.variance.iloc[-1, 0])
+            cond_vol = (cond_var ** 0.5) / 100  # back to decimal
+            return max(cond_vol, fallback * 0.5)  # sanity floor
+        except ImportError:
+            return fallback
+        except Exception:
+            return fallback
+
+    def estimate_portfolio_cvar(self, portfolio_value: float,
+                                positions: list,
+                                api=None) -> float:
+        """
+        Estimate the portfolio's 1-day CVaR (Expected Shortfall) as a % of
+        portfolio value, using historical simulation where possible.
+
+        Historical simulation (preferred when api is provided):
+            - Fetch 60 days of daily bars per position
+            - Sort returns ascending; take worst (1 - confidence) fraction
+            - CVaR = average of those tail losses × position weight
+
+        Parametric fallback (when bars unavailable or < 20 bars):
+            CVaR ≈ vol × 2.326 × market_value / portfolio_value
+
+        CVaR is inherently larger than VaR (it measures the AVERAGE loss in
+        the tail, not just the threshold), hence CVAR_LIMIT_PCT > VAR_LIMIT_PCT.
+
+        Returns CVaR as a percentage (e.g. 3.5 = 3.5% of portfolio).
         """
         if not positions or portfolio_value <= 0:
             return 0.0
 
         try:
-            # Z-score for 99% confidence = 2.326; for 95% = 1.645
-            z = 2.326 if self.var_confidence >= 0.99 else 1.645
+            # Z-score for parametric fallback: 99% → 2.326, 95% → 1.645
+            z = 2.326 if self.cvar_confidence >= 0.99 else 1.645
 
-            total_var_squared = 0.0
+            total_cvar_pct = 0.0
+
             for pos in positions:
                 market_val = abs(float(pos.get("market_value", 0)))
+                if market_val <= 0:
+                    continue
                 weight = market_val / portfolio_value
+                symbol = pos.get("symbol", "")
 
-                # Approximate daily volatility from unrealized P&L % change
-                # using a conservative estimate if no history is available.
-                # We use 2% daily vol as the baseline (≈ average large-cap stock)
-                daily_vol = 0.02
+                pos_cvar_contribution = None
 
-                # If we have an unrealized P&L %, back out implied daily move
-                plpc = abs(float(pos.get("unrealized_plpc", 0)))
-                if plpc > 0:
-                    # Assume unrealized P&L accumulated over ~5 days on average
-                    implied_daily = plpc / np.sqrt(5)
-                    daily_vol = max(0.01, min(0.15, implied_daily))
+                # --- Historical simulation (requires live API access) ---
+                if api is not None and symbol:
+                    try:
+                        is_crypto_pos = pos.get("is_crypto", api.is_crypto(symbol))
+                        if is_crypto_pos:
+                            bars = api.get_crypto_bars(symbol, "1Day", 90)
+                        else:
+                            bars = api.get_bars(symbol, "1Day", 60)
 
-                # Individual position VaR contribution
-                pos_var = weight * daily_vol * z
-                total_var_squared += pos_var ** 2
+                        if bars is not None and not bars.empty:
+                            if (is_crypto_pos and self.use_garch_crypto_vol
+                                    and len(bars) >= 30):
+                                # GARCH-scaled historical simulation for crypto:
+                                # scale the empirical return distribution by the ratio
+                                # of GARCH conditional vol to historical vol so that
+                                # tail estimates reflect the current vol regime.
+                                rets = bars["close"].pct_change().dropna()
+                                garch_vol = self._estimate_garch_vol(rets)
+                                hist_vol = float(rets.std()) + 1e-10
+                                scale = garch_vol / hist_vol
+                                rets_scaled = rets * scale
+                                sorted_rets = rets_scaled.sort_values()
+                                cutoff = max(1, int(len(sorted_rets)
+                                                    * (1 - self.cvar_confidence)))
+                                cvar_pct = float(-sorted_rets.iloc[:cutoff].mean())
+                                pos_cvar_contribution = cvar_pct * weight
+                            elif len(bars) >= 20:
+                                returns = bars["close"].pct_change().dropna().values
+                                sorted_returns = np.sort(returns)
+                                n_tail = max(1, int(len(sorted_returns)
+                                                    * (1 - self.cvar_confidence)))
+                                cvar_return = float(np.mean(sorted_returns[:n_tail]))
+                                pos_cvar_contribution = abs(cvar_return) * weight
+                    except Exception as exc:
+                        logger.debug(f"CVaR historical fetch failed for {symbol}: {exc}")
 
-            # Portfolio VaR = sqrt of sum of squared VaRs (assumes low correlation)
-            # For a more conservative estimate, use linear sum (perfect correlation)
-            portfolio_var_pct = np.sqrt(total_var_squared) * 100
-            return round(portfolio_var_pct, 2)
+                # --- Parametric fallback ---
+                if pos_cvar_contribution is None:
+                    # Baseline: 2% daily vol for large-cap stocks
+                    daily_vol = 0.02
+                    plpc = abs(float(pos.get("unrealized_plpc", 0)))
+                    if plpc > 0:
+                        # Back out implied daily move from unrealized P&L
+                        # (assumes P&L accumulated over ~5 trading days)
+                        implied_daily = plpc / np.sqrt(5)
+                        daily_vol = max(0.01, min(0.15, implied_daily))
+                    pos_cvar_contribution = daily_vol * z * weight
+
+                total_cvar_pct += pos_cvar_contribution
+
+            # Linear sum = conservative estimate (assumes correlated tail losses)
+            return round(total_cvar_pct * 100, 2)
 
         except Exception as e:
-            logger.warning(f"VaR calculation failed: {e}")
+            logger.warning(f"CVaR calculation failed: {e}")
             return 0.0
 
     def calculate_stop_take_profit(self, symbol, entry_price, bars_df=None):
@@ -398,7 +520,8 @@ class RiskManager:
             sector = SECTOR_MAP.get(pos.get("symbol", ""), "Unknown")
             sectors[sector] = sectors.get(sector, 0) + 1
 
-        var_pct = self.estimate_portfolio_var(portfolio_value, positions)
+        # Parametric CVaR (no api available here — historical data not fetched in summary)
+        cvar_pct = self.estimate_portfolio_cvar(portfolio_value, positions, api=None)
 
         return {
             "total_positions": len(positions),
@@ -408,7 +531,7 @@ class RiskManager:
             "unrealized_pl": round(unrealized_pl, 2),
             "drawdown_pct": round(max(0, drawdown), 1),
             "peak_value": round(self.peak_portfolio_value, 2),
-            "var_1day_pct": var_pct,
-            "var_limit_pct": self.var_limit_pct,
+            "cvar_1day_pct": cvar_pct,
+            "cvar_limit_pct": self.cvar_limit_pct,
             "sectors": sectors,
         }

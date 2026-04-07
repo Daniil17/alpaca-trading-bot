@@ -2221,3 +2221,55 @@
 2026-04-07 12:12:09 | INFO     | Crypto cycle complete. Positions: 2, Invested: $19,918.70
 2026-04-07 12:12:09 | INFO     | State saved (run #81)
 2026-04-07 12:12:09 | INFO     | Cycle complete.
+2026-04-07 14:03:19 | INFO     | =======================================================
+2026-04-07 14:03:19 | INFO     |   TRADING BOT — Single Cycle
+2026-04-07 14:03:19 | INFO     |   2026-04-07 14:03:19 UTC
+2026-04-07 14:03:19 | INFO     |   Mode: PAPER
+2026-04-07 14:03:19 | INFO     | =======================================================
+2026-04-07 14:03:19 | INFO     | State loaded: peak=$100,168.97, run #81, trades=17
+2026-04-07 14:03:19 | INFO     | Connected to Alpaca (PAPER trading)
+2026-04-07 14:03:20 | INFO     | Account mode verified: PAPER | Equity: $99,723.02
+2026-04-07 14:03:25 | INFO     | Processed Telegram commands
+2026-04-07 14:03:25 | INFO     | Portfolio: $99,723.67 | Cash: $60,571.74
+2026-04-07 14:03:25 | INFO     | Dynamic universe: 32/32 symbols selected (cutoff $1.8M daily dollar vol)
+2026-04-07 14:03:25 | INFO     | Pre-fetching bars for 32 symbols...
+2026-04-07 14:03:28 | INFO     | --- Phase 1: Checking exits ---
+2026-04-07 14:03:28 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-04-07 14:03:30 | INFO     | News scan: 60 articles, 4 stocks with sentiment
+2026-04-07 14:03:31 | INFO     | Buy candidates: AVGO (0.401), TSLA (0.356), HD (0.288), BAC (0.247), AMD (0.244)
+2026-04-07 14:03:31 | INFO     | --- Phase 3: Executing trades ---
+2026-04-07 14:03:31 | INFO     | BLOCKED: AVGO — Max positions reached (10)
+2026-04-07 14:03:31 | INFO     | BLOCKED: TSLA — Max positions reached (10)
+2026-04-07 14:03:31 | INFO     | BLOCKED: HD — Max positions reached (10)
+2026-04-07 14:03:31 | INFO     | BLOCKED: BAC — Max positions reached (10)
+2026-04-07 14:03:31 | INFO     | BLOCKED: AMD — Max positions reached (10)
+2026-04-07 14:03:31 | INFO     | BLOCKED: CRM — Max positions reached (10)
+2026-04-07 14:03:31 | INFO     | BLOCKED: QCOM — Max positions reached (10)
+2026-04-07 14:03:31 | INFO     | BLOCKED: ADBE — Max positions reached (10)
+2026-04-07 14:03:31 | INFO     | 
+=======================================================
+2026-04-07 14:03:31 | INFO     |   CRYPTO TRADING CYCLE
+2026-04-07 14:03:31 | INFO     | =======================================================
+2026-04-07 14:03:31 | INFO     | Crypto: 1 positions | $20,121.39 invested (20.2% of portfolio)
+2026-04-07 14:03:31 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-04-07 14:03:31 | ERROR    | Non-retryable error: {"message":"invalid symbol: BCHUSD does not match ^[A-Z]+/[A-Z]+$"}
+
+2026-04-07 14:03:31 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-04-07 14:03:31 | INFO     | Crypto: max allocation reached (20%) — skipping buys
+2026-04-07 14:03:31 | INFO     | 
+=======================================================
+2026-04-07 14:03:31 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-04-07 14:03:31 | INFO     | =======================================================
+2026-04-07 14:03:31 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-04-07 14:03:31 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-04-07 14:03:31 | INFO     | PAIR KO/PEP: signal=EXIT Z=-0.01
+2026-04-07 14:03:32 | INFO     | PAIR JPM/BAC: signal=EXIT Z=0.35
+2026-04-07 14:03:32 | INFO     | PAIR META/GOOGL: signal=EXIT Z=0.20
+2026-04-07 14:03:32 | INFO     | PAIR AMD/INTC: signal=EXIT Z=0.31
+2026-04-07 14:03:32 | INFO     | PAIR V/MA: signal=EXIT Z=-0.44
+2026-04-07 14:03:32 | INFO     | PAIR XOM/CVX: Z=0.68 — Kalman Z=0.68 — neutral band
+2026-04-07 14:03:33 | INFO     | PAIR AMZN/COST: signal=EXIT Z=-0.02
+2026-04-07 14:03:33 | INFO     | PAIR JNJ/ABBV: Z=0.53 — Kalman Z=0.53 — neutral band
+2026-04-07 14:03:33 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-04-07 14:03:33 | INFO     | State saved (run #82)
+2026-04-07 14:03:33 | INFO     | Cycle complete.

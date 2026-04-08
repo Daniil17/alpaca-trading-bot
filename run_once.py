@@ -59,6 +59,10 @@ from pairs_trading import PairsTradingEngine
 def setup_logging():
     log = logging.getLogger("TradingBot")
     log.setLevel(logging.INFO)
+    # Guard: skip adding handlers if they already exist (e.g. when called
+    # repeatedly from main.py's persistent loop on Railway).
+    if log.handlers:
+        return log
     fmt = logging.Formatter(
         "%(asctime)s | %(levelname)-8s | %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",

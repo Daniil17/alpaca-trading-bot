@@ -3086,3 +3086,55 @@
 2026-04-08 18:45:31 | INFO     | Pairs cycle complete. Open pairs: 0
 2026-04-08 18:45:31 | INFO     | State saved (run #106)
 2026-04-08 18:45:31 | INFO     | Cycle complete.
+2026-04-08 19:51:32 | INFO     | =======================================================
+2026-04-08 19:51:32 | INFO     |   TRADING BOT — Single Cycle
+2026-04-08 19:51:32 | INFO     |   2026-04-08 19:51:32 UTC
+2026-04-08 19:51:32 | INFO     |   Mode: PAPER
+2026-04-08 19:51:32 | INFO     | =======================================================
+2026-04-08 19:51:32 | INFO     | State loaded: peak=$100,898.67, run #106, trades=17
+2026-04-08 19:51:32 | INFO     | Connected to Alpaca (PAPER trading)
+2026-04-08 19:51:32 | INFO     | Account mode verified: PAPER | Equity: $100,671.91
+2026-04-08 19:51:37 | INFO     | Processed Telegram commands
+2026-04-08 19:51:37 | INFO     | Portfolio: $100,673.24 | Cash: $60,571.74
+2026-04-08 19:51:37 | INFO     | Dynamic universe: 32/32 symbols selected (cutoff $26.7M daily dollar vol)
+2026-04-08 19:51:37 | INFO     | Pre-fetching bars for 32 symbols...
+2026-04-08 19:51:40 | INFO     | --- Phase 1: Checking exits ---
+2026-04-08 19:51:40 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-04-08 19:51:41 | INFO     | News scan: 60 articles, 4 stocks with sentiment
+2026-04-08 19:51:41 | INFO     | Buy candidates: CRM (0.283), TSLA (0.254), QCOM (0.221), ADBE (0.205), HD (0.197)
+2026-04-08 19:51:41 | INFO     | --- Phase 3: Executing trades ---
+2026-04-08 19:51:41 | INFO     | BLOCKED: CRM — Max positions reached (10)
+2026-04-08 19:51:41 | INFO     | BLOCKED: TSLA — Max positions reached (10)
+2026-04-08 19:51:41 | INFO     | BLOCKED: QCOM — Max positions reached (10)
+2026-04-08 19:51:41 | INFO     | BLOCKED: ADBE — Max positions reached (10)
+2026-04-08 19:51:41 | INFO     | BLOCKED: HD — Max positions reached (10)
+2026-04-08 19:51:41 | INFO     | BLOCKED: AMD — Max positions reached (10)
+2026-04-08 19:51:41 | INFO     | BLOCKED: AVGO — Max positions reached (10)
+2026-04-08 19:51:41 | INFO     | BLOCKED: BAC — Max positions reached (10)
+2026-04-08 19:51:41 | INFO     | 
+=======================================================
+2026-04-08 19:51:41 | INFO     |   CRYPTO TRADING CYCLE
+2026-04-08 19:51:41 | INFO     | =======================================================
+2026-04-08 19:51:41 | INFO     | Crypto: 1 positions | $20,528.82 invested (20.4% of portfolio)
+2026-04-08 19:51:41 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-04-08 19:51:41 | ERROR    | Non-retryable error: {"message":"invalid symbol: BCHUSD does not match ^[A-Z]+/[A-Z]+$"}
+
+2026-04-08 19:51:41 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-04-08 19:51:42 | INFO     | Crypto: max allocation reached (20%) — skipping buys
+2026-04-08 19:51:42 | INFO     | 
+=======================================================
+2026-04-08 19:51:42 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-04-08 19:51:42 | INFO     | =======================================================
+2026-04-08 19:51:42 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-04-08 19:51:42 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-04-08 19:51:42 | INFO     | PAIR KO/PEP: Z=-0.69 — Kalman Z=-0.69 — neutral band
+2026-04-08 19:51:42 | INFO     | PAIR JPM/BAC: Z=-1.12 — Kalman Z=-1.12 — neutral band
+2026-04-08 19:51:42 | INFO     | PAIR META/GOOGL: signal=EXIT Z=0.40
+2026-04-08 19:51:42 | INFO     | PAIR AMD/INTC: Z=-0.58 — Kalman Z=-0.58 — neutral band
+2026-04-08 19:51:42 | INFO     | PAIR V/MA: Z=-0.63 — Kalman Z=-0.63 — neutral band
+2026-04-08 19:51:43 | INFO     | PAIR XOM/CVX: Z=1.52 — Kalman Z=1.52 — neutral band
+2026-04-08 19:51:43 | INFO     | PAIR AMZN/COST: Z=1.06 — Kalman Z=1.06 — neutral band
+2026-04-08 19:51:43 | INFO     | PAIR JNJ/ABBV: signal=EXIT Z=-0.28
+2026-04-08 19:51:43 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-04-08 19:51:43 | INFO     | State saved (run #107)
+2026-04-08 19:51:43 | INFO     | Cycle complete.

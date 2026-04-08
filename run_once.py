@@ -276,7 +276,8 @@ def run():
     sold_symbols = set()   # Track symbols sold this cycle to sync local list
 
     # --- Prune stale trailing_high entries (positions closed by Alpaca stop orders) ---
-    active_symbols = {p["symbol"] for p in all_positions}
+    # Normalize to no-slash form so "BCH/USD" and "BCHUSD" map to the same key.
+    active_symbols = {p["symbol"].replace("/", "") for p in all_positions}
     stale = [s for s in state.get("trailing_high", {}) if s not in active_symbols]
     for s in stale:
         state["trailing_high"].pop(s, None)
@@ -818,13 +819,15 @@ def _run_crypto_cycle(api, risk, news, telegram, state, portfolio_value, logger)
     # Update crypto high-water marks first
     for pos in crypto_positions:
         symbol = pos["symbol"]
+        sym_key = symbol.replace("/", "")   # normalize "BCH/USD" → "BCHUSD"
         entry = float(pos.get("avg_entry_price", 0))
         current = float(pos.get("current_price", 0))
         if entry > 0 and current > 0:
-            trailing_high[symbol] = max(trailing_high.get(symbol, entry), current)
+            trailing_high[sym_key] = max(trailing_high.get(sym_key, entry), current)
 
     for pos in crypto_positions:
         symbol = pos["symbol"]
+        sym_key = symbol.replace("/", "")   # normalize for trailing_high key lookups
         entry = float(pos.get("avg_entry_price", 0))
         current = float(pos.get("current_price", 0))
         pl_pct = float(pos.get("unrealized_plpc", 0)) * 100
@@ -842,7 +845,7 @@ def _run_crypto_cycle(api, risk, news, telegram, state, portfolio_value, logger)
 
         # Trailing stop
         elif entry > 0 and current > 0:
-            high = trailing_high.get(symbol, entry)
+            high = trailing_high.get(sym_key, entry)
             if high >= entry * (1 + crypto_trail_activation):
                 trail_stop = high * (1 - crypto_trail_pct)
                 if current <= trail_stop:
@@ -864,7 +867,7 @@ def _run_crypto_cycle(api, risk, news, telegram, state, portfolio_value, logger)
             if result:
                 log_trade(state, "SELL", symbol, float(pos.get("market_value", 0)),
                           current, pnl=unrealized_pl, reason=exit_reason, is_crypto=True)
-                trailing_high.pop(symbol, None)
+                trailing_high.pop(sym_key, None)
                 icon = "🪙"
                 if "STOP" in exit_reason.upper():
                     if config.NOTIFY_ON_STOP_LOSS:

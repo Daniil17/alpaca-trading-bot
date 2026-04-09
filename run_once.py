@@ -715,7 +715,27 @@ def _run_pairs_cycle(api, telegram, state, portfolio_value, logger):
 
         result = pairs_engine.analyser.analyse(bars_x, bars_y, symbol_x, symbol_y)
 
-        if result["signal"] == "EXIT" or not result["cointegrated"]:
+        # Kalman analyser always returns cointegrated=True (it produces an estimate
+        # regardless), so we add a time-based circuit breaker: force-exit any pair
+        # that has been open for more than 30 calendar days without reverting.
+        max_pair_days = 30
+        entry_date_str = trade.get("entry_date")
+        days_open = 0
+        if entry_date_str:
+            try:
+                from datetime import date as _date
+                days_open = (date.today() - _date.fromisoformat(entry_date_str)).days
+            except Exception:
+                pass
+
+        stale = days_open >= max_pair_days
+        if stale:
+            result["reason"] = (
+                f"Pair open {days_open} days without full reversion "
+                f"(max {max_pair_days}) — force exit"
+            )
+
+        if result["signal"] == "EXIT" or stale:
             logger.info(f"PAIRS EXIT: {symbol_x}/{symbol_y} — {result['reason']}")
             # Close both legs
             api.close_position(symbol_x)
@@ -797,6 +817,7 @@ def _run_pairs_cycle(api, telegram, state, portfolio_value, logger):
                 "signal": trade_signal,
                 "hedge_ratio": hedge_ratio,
                 "entry_zscore": sig["zscore"],
+                "entry_date": str(date.today()),
             }
             log_trade(state, "BUY", f"{long_sym}↔{short_sym}",
                       long_notional + short_notional,
@@ -908,6 +929,9 @@ def _run_crypto_cycle(api, risk, news, telegram, state, portfolio_value, logger)
                 log_trade(state, "SELL", symbol, float(pos.get("market_value", 0)),
                           current, pnl=unrealized_pl, reason=exit_reason, is_crypto=True)
                 trailing_high.pop(sym_key, None)
+                # Mirror stock sell-cooldown so the bot can't whipsaw back into the
+                # same crypto within SELL_COOLDOWN_HOURS after closing a position.
+                state.setdefault("sell_cooldowns", {})[symbol] = time.time()
                 icon = "🪙"
                 if "STOP" in exit_reason.upper():
                     if config.NOTIFY_ON_STOP_LOSS:
@@ -940,9 +964,21 @@ def _run_crypto_cycle(api, risk, news, telegram, state, portfolio_value, logger)
         exclude_symbols=set(),
     )
 
+    # --- Sell cooldown: don't re-buy a crypto too soon after selling ---
+    cooldown_secs = getattr(config, "SELL_COOLDOWN_HOURS", 24) * 3600
+    now_ts = time.time()
+    crypto_cooldowns = {
+        sym: ts for sym, ts in state.get("sell_cooldowns", {}).items()
+        if now_ts - ts < cooldown_secs
+    }
+
     candidates = []
     for symbol in config.CRYPTO_UNIVERSE:
         if symbol in held_crypto:
+            continue
+        if symbol in crypto_cooldowns:
+            hrs = (now_ts - crypto_cooldowns[symbol]) / 3600
+            logger.debug(f"CRYPTO COOLDOWN: {symbol} sold {hrs:.1f}h ago — skipping")
             continue
 
         bars = api.get_crypto_bars(symbol, "1Day", 100)

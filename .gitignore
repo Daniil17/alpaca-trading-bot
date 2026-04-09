@@ -1,0 +1,21 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Logs
+*.log
+bot_activity.log
+
+# Local secrets (never commit real credentials)
+.env
+secrets.toml
+
+# OS artefacts
+.DS_Store
+Thumbs.db

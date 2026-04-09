@@ -246,8 +246,9 @@ def run():
     # --- Process Telegram commands (respond to button presses / messages) ---
     commander = TelegramCommander(config.TELEGRAM_BOT_TOKEN, config.TELEGRAM_CHAT_ID, api)
 
-    # On first run ever, register bot commands in Telegram menu
-    if state.get("run_count", 0) <= 1:
+    # Register bot commands in Telegram menu on first run and every 50 cycles
+    # (keeps the menu in sync after code deploys without spamming the API)
+    if state.get("run_count", 0) % 50 == 1:
         send_startup_menu(config.TELEGRAM_BOT_TOKEN, config.TELEGRAM_CHAT_ID)
         logger.info("Telegram bot menu registered")
 

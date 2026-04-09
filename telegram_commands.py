@@ -16,6 +16,7 @@ Also provides inline keyboard buttons so the user can tap instead of typing.
 
 import logging
 import json
+import threading
 import time
 import requests
 from datetime import datetime
@@ -503,19 +504,29 @@ class TelegramCommander:
         self._send_message(msg, buttons)
 
     def _run_backtest(self, symbol: str, days: int):
-        """Run walk-forward backtest and send results to Telegram."""
+        """Run walk-forward backtest in a background thread and send results to Telegram."""
         self._send_message(
             f"<b>🧪 Running backtest…</b>\n"
             f"Symbol: <b>{symbol}</b> | Period: <b>{days} days</b>\n"
             "<i>This may take 10–30 seconds.</i>"
         )
-        try:
-            from backtest import backtest as _backtest
-            _df, m = _backtest(symbol, days, print_results=False, api=self.api)
-        except Exception as exc:
-            logger.warning(f"Backtest error for {symbol}: {exc}")
-            self._send_message(f"<b>Backtest failed</b> for {symbol}:\n<code>{exc}</code>")
-            return
+
+        def _worker():
+            try:
+                from backtest import backtest as _backtest
+                _df, m = _backtest(symbol, days, print_results=False, api=self.api)
+            except Exception as exc:
+                logger.warning(f"Backtest error for {symbol}: {exc}")
+                self._send_message(f"<b>Backtest failed</b> for {symbol}:\n<code>{exc}</code>")
+                return
+
+            self._send_backtest_result(symbol, days, m)
+
+        t = threading.Thread(target=_worker, daemon=False, name=f"backtest-{symbol}")
+        t.start()
+
+    def _send_backtest_result(self, symbol: str, days: int, m):
+        """Format and send the backtest result message."""
 
         if m is None:
             self._send_message(

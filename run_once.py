@@ -14,6 +14,7 @@ Environment variables (set as GitHub Secrets):
 
 import os
 import sys
+import time
 import logging
 from datetime import date, datetime
 
@@ -80,6 +81,25 @@ def setup_logging():
 # ============================================================
 # MAIN SINGLE-CYCLE RUN
 # ============================================================
+
+def _record_exit_pnl(state, symbol, pct_return, tracker, optimizer):
+    """
+    Record a closed position's P&L in the adaptive weight tracker and
+    Bayesian trade history. Extracted to avoid the 3-way copy-paste that
+    existed in the hard-stop, trailing-stop, and strategy-sell exit paths.
+    """
+    if tracker is None and optimizer is None:
+        return
+    position_strategies = state.get("position_strategies", {}).pop(symbol, None)
+    if not position_strategies:
+        return
+    if tracker is not None:
+        tracker.record_trade_result(position_strategies, pct_return)
+    if optimizer is not None:
+        bh = state.setdefault("bayes_trade_history", [])
+        bh.append({"strategy_scores": position_strategies, "pct_return": pct_return})
+        state["bayes_trade_history"] = bh[-100:]
+
 
 def get_dynamic_stock_universe(api, base_universe: list, top_n: int = 32) -> list:
     """
@@ -187,19 +207,25 @@ def run():
         news_pullback_rsi_low=config.NEWS_PULLBACK_RSI_LOW,
         news_pullback_rsi_high=config.NEWS_PULLBACK_RSI_HIGH,
         news_rsi_spike_confirm=config.NEWS_RSI_SPIKE_CONFIRM,
-        vwap_buy_threshold=config.VWAP_BUY_THRESHOLD,
-        vwap_sell_threshold=config.VWAP_SELL_THRESHOLD,
+        vpt_lookback=getattr(config, "VPT_LOOKBACK", 20),
     )
 
     risk = RiskManager(config)
-    # Restore peak value from state
+    # Restore peak value from state with sanity checks to guard against
+    # state loss (Railway redeploy, corrupted file) silently disabling the
+    # drawdown breaker.
     risk.peak_portfolio_value = state.get("peak_portfolio_value", 0.0)
 
-    # Restore cached Bayesian weights from previous run
+    # Restore cached Bayesian weights — but only if they match current strategy names.
+    # If we renamed a strategy (e.g. vwap → volume_flow) the cached keys are stale.
     if optimizer is not None:
         cached_weights = state.get("bayes_weights")
         if cached_weights:
-            engine._bayesian_weights = cached_weights
+            expected_keys = set(config.STRATEGY_WEIGHTS.keys())
+            if expected_keys == set(cached_weights.keys()):
+                engine._bayesian_weights = cached_weights
+            else:
+                logger.info("Strategy names changed — discarding stale Bayesian weights cache")
 
     # Re-run Bayesian optimisation every 10 cycles (GP is slow — don't run every cycle)
     run_count = state.get("run_count", 1)
@@ -245,6 +271,21 @@ def run():
 
     portfolio_value = account["portfolio_value"]
     logger.info(f"Portfolio: ${portfolio_value:,.2f} | Cash: ${account['cash']:,.2f}")
+
+    # Sanity-check restored peak value — a stale or zeroed peak silently
+    # disables the drawdown circuit breaker until a new high is reached.
+    if risk.peak_portfolio_value == 0 and portfolio_value > 0:
+        logger.warning(
+            f"⚠️  Peak portfolio value was 0 (state lost or first run) — "
+            f"initialising to current value ${portfolio_value:,.2f}"
+        )
+        risk.peak_portfolio_value = portfolio_value
+    elif risk.peak_portfolio_value > 0 and portfolio_value > risk.peak_portfolio_value * 1.5:
+        logger.warning(
+            f"⚠️  Stored peak ${risk.peak_portfolio_value:,.2f} looks stale "
+            f"(current ${portfolio_value:,.2f} is 50%+ higher) — resetting peak."
+        )
+        risk.peak_portfolio_value = portfolio_value
 
     # Update peak value
     if portfolio_value > risk.peak_portfolio_value:
@@ -348,17 +389,8 @@ def run():
                           current_price, pnl=unrealized_pl, reason=reason)
                 sold_symbols.add(symbol)
                 trailing_high.pop(symbol, None)   # Clear trailing record on exit
-                # Record P&L in adaptive tracker and Bayesian history
-                if tracker is not None or optimizer is not None:
-                    position_strategies = state.get("position_strategies", {}).pop(symbol, None)
-                    if position_strategies:
-                        if tracker is not None:
-                            tracker.record_trade_result(position_strategies, pct_return)
-                        if optimizer is not None:
-                            _bh = state.setdefault("bayes_trade_history", [])
-                            _bh.append({"strategy_scores": position_strategies,
-                                        "pct_return": pct_return})
-                            state["bayes_trade_history"] = _bh[-100:]
+                state.setdefault("sell_cooldowns", {})[symbol] = time.time()
+                _record_exit_pnl(state, symbol, pct_return, tracker, optimizer)
                 if config.NOTIFY_ON_STOP_LOSS and "STOP" in reason:
                     telegram.notify_stop_loss(symbol, pct_return, unrealized_pl)
                 elif config.NOTIFY_ON_SELL:
@@ -390,18 +422,9 @@ def run():
                                   current, pnl=unrealized_pl, reason=reason)
                         sold_symbols.add(symbol)
                         trailing_high.pop(symbol, None)
-                        # Record P&L in adaptive tracker and Bayesian history
-                        if tracker is not None or optimizer is not None:
-                            position_strategies = state.get("position_strategies", {}).pop(symbol, None)
-                            if position_strategies:
-                                trail_pct_return = (current - entry) / entry * 100 if entry > 0 else 0.0
-                                if tracker is not None:
-                                    tracker.record_trade_result(position_strategies, trail_pct_return)
-                                if optimizer is not None:
-                                    _bh = state.setdefault("bayes_trade_history", [])
-                                    _bh.append({"strategy_scores": position_strategies,
-                                                "pct_return": trail_pct_return})
-                                    state["bayes_trade_history"] = _bh[-100:]
+                        state.setdefault("sell_cooldowns", {})[symbol] = time.time()
+                        trail_pct_return = (current - entry) / entry * 100 if entry > 0 else 0.0
+                        _record_exit_pnl(state, symbol, trail_pct_return, tracker, optimizer)
                         if config.NOTIFY_ON_SELL:
                             try:
                                 telegram.notify_sell(symbol, reason, unrealized_pl)
@@ -429,17 +452,8 @@ def run():
                               reason=f"Strategy ({analysis['combined_score']:.3f})",
                               score=analysis["combined_score"])
                     sold_symbols.add(symbol)
-                    # Record P&L in adaptive tracker and Bayesian history
-                    if tracker is not None or optimizer is not None:
-                        position_strategies = state.get("position_strategies", {}).pop(symbol, None)
-                        if position_strategies:
-                            if tracker is not None:
-                                tracker.record_trade_result(position_strategies, pct_return)
-                            if optimizer is not None:
-                                _bh = state.setdefault("bayes_trade_history", [])
-                                _bh.append({"strategy_scores": position_strategies,
-                                            "pct_return": pct_return})
-                                state["bayes_trade_history"] = _bh[-100:]
+                    state.setdefault("sell_cooldowns", {})[symbol] = time.time()
+                    _record_exit_pnl(state, symbol, pct_return, tracker, optimizer)
                     # Sync local position list immediately
                     bot_positions = [p for p in bot_positions if p["symbol"] != symbol]
                     if config.NOTIFY_ON_SELL:
@@ -451,29 +465,54 @@ def run():
         logger.info("--- Phase 2: Scanning for opportunities ---")
 
         held_symbols = {p["symbol"] for p in bot_positions} | sold_symbols
-        news_scores = news.get_sentiment_scores(stock_universe, exclude_symbols=held_symbols)
 
-        candidates = []
-        for symbol in stock_universe:
-            if symbol in held_symbols:
-                continue
-            bars = bars_cache.get(symbol)
-            if bars is None:
-                continue
-            sentiment = news_scores.get(symbol, 0.0)
-            analysis = engine.analyze(bars, sentiment_score=sentiment)
-            if analysis["signal"] in ("STRONG_BUY", "BUY"):
-                candidates.append({"symbol": symbol, "analysis": analysis, "bars": bars})
-
-        candidates.sort(key=lambda c: c["analysis"]["combined_score"], reverse=True)
-
-        if candidates:
-            logger.info("Buy candidates: " + ", ".join(
-                f"{c['symbol']} ({c['analysis']['combined_score']:.3f})"
-                for c in candidates[:5]
-            ))
+        # --- Daily scan gate ---
+        # Strategy scores use 1Day bars that don't change intraday, so running
+        # the full buy scan ~78×/day (every 5 min) produces identical signals.
+        # Skip buy scanning after the first run of each trading day; exits are
+        # always managed regardless (hard stops, trailing stops above).
+        today_str = str(date.today())
+        if state.get("last_full_scan_date") == today_str:
+            logger.info("Buy scan already ran today — skipping (exits still managed)")
+            candidates = []
         else:
-            logger.info("No buy signals this cycle")
+            # --- Sell cooldown: don't re-buy a stock too soon after selling ---
+            cooldown_secs = getattr(config, "SELL_COOLDOWN_HOURS", 24) * 3600
+            now_ts = time.time()
+            sell_cooldowns = {
+                sym: ts for sym, ts in state.get("sell_cooldowns", {}).items()
+                if now_ts - ts < cooldown_secs
+            }
+            state["sell_cooldowns"] = sell_cooldowns
+
+            news_scores = news.get_sentiment_scores(stock_universe, exclude_symbols=held_symbols)
+
+            candidates = []
+            for symbol in stock_universe:
+                if symbol in held_symbols:
+                    continue
+                if symbol in sell_cooldowns:
+                    hrs = (now_ts - sell_cooldowns[symbol]) / 3600
+                    logger.debug(f"COOLDOWN: {symbol} sold {hrs:.1f}h ago — skipping")
+                    continue
+                bars = bars_cache.get(symbol)
+                if bars is None:
+                    continue
+                sentiment = news_scores.get(symbol, 0.0)
+                analysis = engine.analyze(bars, sentiment_score=sentiment)
+                if analysis["signal"] in ("STRONG_BUY", "BUY"):
+                    candidates.append({"symbol": symbol, "analysis": analysis, "bars": bars})
+
+            candidates.sort(key=lambda c: c["analysis"]["combined_score"], reverse=True)
+            state["last_full_scan_date"] = today_str
+
+            if candidates:
+                logger.info("Buy candidates: " + ", ".join(
+                    f"{c['symbol']} ({c['analysis']['combined_score']:.3f})"
+                    for c in candidates[:5]
+                ))
+            else:
+                logger.info("No buy signals this cycle")
 
         # ============================================================
         # PHASE 3: EXECUTE BUYS + place stop-loss orders

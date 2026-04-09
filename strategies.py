@@ -9,7 +9,14 @@ Strategies:
 1. Mean Reversion  — RSI + Bollinger Bands (buy oversold, sell overbought)
 2. Momentum        — EMA crossover + ADX trend strength
 3. News Sentiment  — News-driven with pullback entry (avoids buying spikes)
-4. VWAP            — Volume-weighted price analysis (institutional benchmark)
+4. Volume Flow     — Volume-Price Trend (VPT) on daily bars; replaces VWAP
+                     which is an intraday indicator meaningless on daily bars.
+
+Regime Detection (applied to all strategies):
+   RegimeDetector uses ADX to classify the market as TRENDING or RANGING
+   and adjusts ensemble weights accordingly — dampening mean reversion in
+   trends and momentum in ranges — so the two strategies stop cancelling
+   each other out.
 """
 
 import logging
@@ -99,16 +106,23 @@ def compute_atr(high, low, close, period=14):
     return tr.ewm(alpha=1/period, min_periods=period).mean()
 
 
-def compute_vwap(high, low, close, volume):
+def compute_vpt(close, volume):
     """
-    Volume Weighted Average Price.
-    Institutional benchmark — price below VWAP suggests undervalued.
+    Volume-Price Trend (VPT) — daily-timeframe alternative to VWAP.
+
+    VWAP is an *intraday* indicator that resets each day; applying cumsum()
+    across daily bars produces a long-run weighted average that diverges
+    further from price every day and carries no fair-value meaning.
+
+    VPT is designed for daily data and captures the same institutional-flow
+    intuition: large volume on up-days signals accumulation (bullish), large
+    volume on down-days signals distribution (bearish).
+
+    Returns a pandas Series of cumulative VPT values.
     """
-    typical_price = (high + low + close) / 3
-    cumulative_tp_vol = (typical_price * volume).cumsum()
-    cumulative_vol = volume.cumsum()
-    vwap = cumulative_tp_vol / cumulative_vol.replace(0, np.nan)
-    return vwap
+    pct_change = close.pct_change().fillna(0)
+    vpt = (pct_change * volume).cumsum()
+    return vpt
 
 
 # ============================================================
@@ -392,78 +406,135 @@ class NewsSentimentStrategy:
 
 
 # ============================================================
-# STRATEGY 4: VWAP (Volume Weighted Average Price)
+# STRATEGY 4: VOLUME FLOW (Volume-Price Trend on daily bars)
 # ============================================================
 
-class VWAPStrategy:
+class VolumeFlowStrategy:
     """
-    Institutional benchmark strategy.
-    Buy when price is significantly below VWAP (getting a discount).
-    Sell when price is significantly above VWAP (at a premium).
+    Replaces VWAPStrategy. Uses Volume-Price Trend (VPT) on daily bars.
 
-    VWAP acts like a "fair value" line that big institutions target.
+    VWAP is an intraday indicator — applying it across 100 daily bars
+    produces a long-run price average that diverges further from current
+    price each day and carries no fair-value meaning at this timeframe.
+
+    VPT captures the same institutional-flow intuition on daily data:
+    - Rising VPT slope = accumulation (institutions buying on up-days) → bullish
+    - Falling VPT slope = distribution (heavy selling on down-days) → bearish
+    Volume ratio confirms conviction.
     """
 
-    def __init__(self, buy_threshold=-0.02, sell_threshold=0.02):
-        self.buy_threshold = buy_threshold   # -2% below VWAP = buy
-        self.sell_threshold = sell_threshold  # +2% above VWAP = sell
+    def __init__(self, lookback=20):
+        self.lookback = lookback
 
     def score(self, bars_df):
         """Score from -1 to +1."""
         close = bars_df["close"]
-        high = bars_df["high"]
-        low = bars_df["low"]
         volume = bars_df["volume"]
 
-        if len(close) < 20:
+        if len(close) < self.lookback + 5:
             return {"score": 0, "reason": "Not enough data"}
 
-        vwap = compute_vwap(high, low, close, volume)
+        vpt = compute_vpt(close, volume)
 
-        current_price = float(close.iloc[-1])
-        current_vwap = float(vwap.iloc[-1])
+        # VPT slope over lookback window (normalised so it's scale-invariant)
+        vpt_recent = vpt.iloc[-self.lookback:]
+        vpt_start = float(vpt_recent.iloc[0])
+        vpt_end = float(vpt_recent.iloc[-1])
+        slope = (vpt_end - vpt_start) / (abs(vpt_start) + 1e-8)
 
-        if current_vwap <= 0:
-            return {"score": 0, "reason": "VWAP calculation error"}
-
-        # How far is price from VWAP? (as a percentage)
-        deviation = (current_price - current_vwap) / current_vwap
+        # Volume ratio for confirmation
+        avg_vol = float(volume.rolling(self.lookback).mean().iloc[-1])
+        cur_vol = float(volume.iloc[-1])
+        vol_ratio = cur_vol / avg_vol if avg_vol > 0 else 1.0
 
         score = 0.0
         reasons = []
 
-        if deviation < self.buy_threshold:
-            # Price below VWAP — discount
-            score = min(1.0, abs(deviation) / abs(self.buy_threshold) * 0.5)
-            reasons.append(f"Price {deviation*100:.1f}% below VWAP (discount)")
-        elif deviation > self.sell_threshold:
-            # Price above VWAP — premium
-            score = -min(1.0, deviation / self.sell_threshold * 0.5)
-            reasons.append(f"Price {deviation*100:.1f}% above VWAP (premium)")
+        if slope > 0.05:
+            score = min(1.0, slope * 2)
+            reasons.append(f"VPT rising (accumulation, slope {slope:.3f})")
+        elif slope < -0.05:
+            score = max(-1.0, slope * 2)
+            reasons.append(f"VPT falling (distribution, slope {slope:.3f})")
         else:
-            reasons.append(f"Price near VWAP ({deviation*100:+.1f}%)")
+            reasons.append(f"VPT flat ({slope:+.3f})")
 
-        # Volume confirmation: high volume adds conviction
-        avg_volume = float(volume.rolling(20).mean().iloc[-1])
-        current_volume = float(volume.iloc[-1])
-        if avg_volume > 0:
-            vol_ratio = current_volume / avg_volume
-            if vol_ratio > 1.5 and score != 0:
-                score *= 1.3
+        # Volume confirmation: high volume strengthens signal, low volume dampens it
+        if score != 0:
+            if vol_ratio > 1.5:
+                score = max(-1.0, min(1.0, score * 1.3))
                 reasons.append(f"High volume ({vol_ratio:.1f}x avg)")
-            elif vol_ratio < 0.5 and score != 0:
-                score *= 0.7
+            elif vol_ratio < 0.5:
+                score = max(-1.0, min(1.0, score * 0.7))
                 reasons.append(f"Low volume ({vol_ratio:.1f}x avg)")
 
         score = max(-1.0, min(1.0, score))
 
         return {
             "score": round(score, 3),
-            "price": round(current_price, 2),
-            "vwap": round(current_vwap, 2),
-            "deviation_pct": round(deviation * 100, 2),
-            "reason": " | ".join(reasons),
+            "vpt_slope": round(slope, 4),
+            "vol_ratio": round(vol_ratio, 2),
+            "reason": " | ".join(reasons) if reasons else "Neutral",
         }
+
+
+# ============================================================
+# REGIME DETECTOR
+# ============================================================
+
+class RegimeDetector:
+    """
+    Classifies the current market regime using ADX:
+      - TRENDING (ADX > trend_threshold): favour momentum, dampen mean reversion.
+        In strong trends mean reversion trades against the prevailing flow.
+      - RANGING  (ADX < range_threshold): favour mean reversion, dampen momentum.
+        In choppy markets momentum produces whipsaws.
+      - MIXED    (between thresholds): use base weights unchanged.
+
+    Returns weight multipliers that are applied to the ensemble before
+    normalisation, so they always sum to 1.0.
+    """
+
+    def __init__(self, adx_period=14, trend_threshold=25, range_threshold=20):
+        self.adx_period = adx_period
+        self.trend_threshold = trend_threshold
+        self.range_threshold = range_threshold
+
+    def detect(self, bars_df) -> dict:
+        """Returns regime info and per-strategy weight multipliers."""
+        if len(bars_df) < self.adx_period + 10:
+            return {"regime": "MIXED", "adx": None, "adjustments": {}}
+
+        adx, _, _ = compute_adx(
+            bars_df["high"], bars_df["low"], bars_df["close"],
+            self.adx_period,
+        )
+        current_adx = float(adx.iloc[-1])
+
+        if current_adx > self.trend_threshold:
+            return {
+                "regime": "TRENDING",
+                "adx": round(current_adx, 1),
+                "adjustments": {
+                    "mean_reversion": 0.5,   # halve: don't fight the trend
+                    "momentum": 1.5,          # boost: ride the trend
+                },
+            }
+        elif current_adx < self.range_threshold:
+            return {
+                "regime": "RANGING",
+                "adx": round(current_adx, 1),
+                "adjustments": {
+                    "mean_reversion": 1.5,   # boost: mean reversion shines in ranges
+                    "momentum": 0.5,          # dampen: momentum whipsaws in ranges
+                },
+            }
+        else:
+            return {
+                "regime": "MIXED",
+                "adx": round(current_adx, 1),
+                "adjustments": {},
+            }
 
 
 # ============================================================
@@ -704,9 +775,13 @@ class StrategyEngine:
             pullback_rsi_high=kwargs.get("news_pullback_rsi_high", 55),
             spike_confirm=kwargs.get("news_rsi_spike_confirm", 65),
         )
-        self.vwap = VWAPStrategy(
-            buy_threshold=kwargs.get("vwap_buy_threshold", -0.02),
-            sell_threshold=kwargs.get("vwap_sell_threshold", 0.02),
+        self.volume_flow = VolumeFlowStrategy(
+            lookback=kwargs.get("vpt_lookback", 20),
+        )
+        self.regime_detector = RegimeDetector(
+            adx_period=kwargs.get("adx_period", 14),
+            trend_threshold=kwargs.get("adx_threshold", 25),
+            range_threshold=kwargs.get("regime_range_threshold", 20),
         )
 
     def analyze(self, bars_df, sentiment_score=0.0):
@@ -720,11 +795,11 @@ class StrategyEngine:
         Returns:
             dict with combined_score, individual scores, and final signal
         """
-        # Score each strategy
+        # Score each strategy independently
         mr_result = self.mean_reversion.score(bars_df)
         mom_result = self.momentum.score(bars_df)
         news_result = self.news_sentiment.score(bars_df, sentiment_score)
-        vwap_result = self.vwap.score(bars_df)
+        vf_result = self.volume_flow.score(bars_df)
 
         # Weight priority: Bayesian optimizer > adaptive tracker > base weights.
         # _bayesian_weights is populated externally every N cycles to avoid
@@ -735,12 +810,24 @@ class StrategyEngine:
         elif self.tracker is not None:
             weights = self.tracker.get_adjusted_weights()
 
+        # --- Regime-aware weight adjustment ---
+        # ADX classifies the market as TRENDING or RANGING and multiplies the
+        # per-strategy weights accordingly, then re-normalises to sum=1.
+        # This stops momentum and mean reversion constantly cancelling each other.
+        regime = self.regime_detector.detect(bars_df)
+        adjustments = regime.get("adjustments", {})
+        if adjustments:
+            adjusted = {k: weights.get(k, 0) * adjustments.get(k, 1.0) for k in weights}
+            total = sum(adjusted.values())
+            if total > 0:
+                weights = {k: v / total for k, v in adjusted.items()}
+
         # Weighted combination
         combined = (
-            weights.get("mean_reversion", 0.25) * mr_result["score"]
-            + weights.get("momentum", 0.25) * mom_result["score"]
-            + weights.get("news_sentiment", 0.25) * news_result["score"]
-            + weights.get("vwap", 0.25) * vwap_result["score"]
+            weights.get("mean_reversion", 0.30) * mr_result["score"]
+            + weights.get("momentum", 0.30) * mom_result["score"]
+            + weights.get("news_sentiment", 0.10) * news_result["score"]
+            + weights.get("volume_flow", 0.30) * vf_result["score"]
         )
 
         # Determine signal with thresholds
@@ -758,10 +845,11 @@ class StrategyEngine:
         return {
             "combined_score": round(combined, 3),
             "signal": signal,
+            "regime": regime.get("regime", "MIXED"),
             "strategies": {
                 "mean_reversion": mr_result,
                 "momentum": mom_result,
                 "news_sentiment": news_result,
-                "vwap": vwap_result,
+                "volume_flow": vf_result,
             },
         }

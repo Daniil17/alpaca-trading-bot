@@ -133,6 +133,11 @@ class RiskManager:
 
         # --- Check 4: Sector concentration ---
         symbol_sector = SECTOR_MAP.get(symbol, "Unknown")
+        if symbol_sector == "Unknown":
+            logger.warning(
+                f"⚠️  {symbol} not in SECTOR_MAP — sector concentration limit bypassed. "
+                f"Add it to risk_manager.SECTOR_MAP to enforce the sector cap."
+            )
         sector_count = sum(
             1 for p in current_positions
             if SECTOR_MAP.get(p.get("symbol", ""), "Unknown") == symbol_sector

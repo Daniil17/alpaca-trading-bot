@@ -72,13 +72,15 @@ MAX_SAME_SECTOR_POSITIONS = 3
 # Total should equal 1.0
 
 STRATEGY_WEIGHTS = {
-    "mean_reversion": 0.25,    # Buy oversold, sell overbought (RSI + Bollinger)
-    "momentum": 0.25,          # Ride strong trends (EMA crossover + ADX)
-    "news_sentiment": 0.25,    # News-driven with pullback entry
-    "vwap": 0.25,              # Institutional volume-price analysis
+    "mean_reversion": 0.30,    # Buy oversold, sell overbought (RSI + Bollinger)
+    "momentum": 0.30,          # Ride strong trends (EMA crossover + ADX)
+    "news_sentiment": 0.10,    # News-driven with pullback entry (low weight: keyword RSS is noisy)
+    "volume_flow": 0.30,       # Volume-Price Trend on daily bars (replaced VWAP)
 }
 # WARNING: weights must sum to 1.0 — run_once.py will log a warning at startup
 # if they don't. Unequal sums skew combined scores and signal thresholds.
+# Regime detection in StrategyEngine further adjusts these weights per-symbol
+# based on ADX: trending markets boost momentum, ranging markets boost mean reversion.
 
 # ============================================================
 # MEAN REVERSION SETTINGS (Strategy 1)
@@ -106,12 +108,13 @@ NEWS_PULLBACK_RSI_HIGH = 55   # Buy zone upper bound after news spike
 NEWS_RSI_SPIKE_CONFIRM = 65   # RSI must have recently hit this
 
 # ============================================================
-# VWAP SETTINGS (Strategy 4)
+# VOLUME FLOW SETTINGS (Strategy 4 — VPT on daily bars)
 # ============================================================
-# VWAP = Volume Weighted Average Price
-# Institutions use VWAP as a benchmark. Price below VWAP = potential buy.
-VWAP_BUY_THRESHOLD = -0.02    # Buy when price is 2%+ below VWAP
-VWAP_SELL_THRESHOLD = 0.02    # Sell when price is 2%+ above VWAP
+# VPT = Volume-Price Trend. Replaces VWAP which is an intraday indicator
+# meaningless when applied across daily bars.
+# Rising VPT = institutional accumulation (bullish).
+# Falling VPT = institutional distribution (bearish).
+VPT_LOOKBACK = 20             # Rolling window for VPT slope calculation (trading days)
 
 # ============================================================
 # STOCK UNIVERSE
@@ -135,6 +138,14 @@ CHECK_INTERVAL_SECONDS = 300   # 5 minutes
 
 # Only trade during market hours? (9:30 AM - 4:00 PM ET)
 RESPECT_MARKET_HOURS = True
+
+# ============================================================
+# SELL COOLDOWN — prevent whipsawing
+# ============================================================
+# After selling a stock, block re-buying it for this many hours.
+# Prevents the bot from selling AAPL at cycle N and buying it back
+# at cycle N+1 (5 minutes later), wasting spread and risking PDT violations.
+SELL_COOLDOWN_HOURS = 24
 
 # ============================================================
 # STOP-LOSS & TAKE-PROFIT

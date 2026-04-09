@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 131,
+  "run_count": 132,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -198,6 +198,6 @@
     "mean_reversion": [],
     "momentum": [],
     "news_sentiment": [],
-    "vwap": []
+    "volume_flow": []
   }
 }

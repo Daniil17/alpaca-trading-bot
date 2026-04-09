@@ -244,13 +244,15 @@ def run():
     telegram = TelegramNotifier(config.TELEGRAM_BOT_TOKEN, config.TELEGRAM_CHAT_ID)
 
     # --- Process Telegram commands (respond to button presses / messages) ---
+    # Note: when running under main.py (Railway), a dedicated listener thread
+    # already polls every second and calls send_startup_menu at startup.
+    # run_once still creates its own commander for GitHub Actions deployments
+    # where there is no persistent listener thread.
     commander = TelegramCommander(config.TELEGRAM_BOT_TOKEN, config.TELEGRAM_CHAT_ID, api)
 
-    # Register bot commands in Telegram menu on first run and every 50 cycles
-    # (keeps the menu in sync after code deploys without spamming the API)
-    if state.get("run_count", 0) % 50 == 1:
-        send_startup_menu(config.TELEGRAM_BOT_TOKEN, config.TELEGRAM_CHAT_ID)
-        logger.info("Telegram bot menu registered")
+    # Always register bot commands so the Telegram menu stays in sync after
+    # any code deploy.  setMyCommands is idempotent and cheap (one HTTPS call).
+    send_startup_menu(config.TELEGRAM_BOT_TOKEN, config.TELEGRAM_CHAT_ID)
 
     # Process any pending user commands (button presses, /status, etc.)
     commander.process_updates()

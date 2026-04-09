@@ -127,6 +127,8 @@ class TelegramCommander:
         self._last_command_time = now
 
         if text in ("/start", "/help"):
+            # Re-register the command menu so Telegram's picker stays current.
+            send_startup_menu(self.bot_token, self.chat_id)
             self._send_help()
         elif text == "/status":
             self._send_status()

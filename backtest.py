@@ -56,17 +56,35 @@ def _max_drawdown(equity_curve: np.ndarray) -> float:
     return float(np.max(drawdown))
 
 
-def backtest(symbol: str, days: int = 365, initial_capital: float = 100_000.0):
+def backtest(
+    symbol: str,
+    days: int = 365,
+    initial_capital: float = 100_000.0,
+    api=None,
+    print_results: bool = True,
+):
     """
     Walk-forward backtest for a single symbol.
 
-    Returns a DataFrame of individual trades, or None if insufficient data.
+    Parameters
+    ----------
+    symbol          : ticker to test
+    days            : number of trading days to walk forward
+    initial_capital : starting cash for the simulation
+    api             : AlpacaAPI instance to reuse; a new one is created if None
+    print_results   : whether to print the summary table to stdout
+
+    Returns
+    -------
+    (df, metrics) where df is a DataFrame of individual trades and metrics
+    is a summary dict.  Returns (None, None) if insufficient data.
     """
-    api = AlpacaAPI(
-        config.ALPACA_API_KEY,
-        config.ALPACA_SECRET_KEY,
-        paper=True,
-    )
+    if api is None:
+        api = AlpacaAPI(
+            config.ALPACA_API_KEY,
+            config.ALPACA_SECRET_KEY,
+            paper=True,
+        )
 
     # Fetch extra bars so the first window has full indicator lookback
     total_bars = days + 120
@@ -75,7 +93,7 @@ def backtest(symbol: str, days: int = 365, initial_capital: float = 100_000.0):
 
     if bars is None or len(bars) < 120:
         logger.error(f"Not enough historical data for {symbol} (got {len(bars) if bars is not None else 0} bars)")
-        return None
+        return None, None
 
     engine = StrategyEngine(
         weights=config.STRATEGY_WEIGHTS,
@@ -167,9 +185,10 @@ def backtest(symbol: str, days: int = 365, initial_capital: float = 100_000.0):
 
     # --- Results ---
     if not trades:
-        print(f"\nNo trades generated for {symbol} over {days} days.")
-        print("Try a longer period or check that the symbol has sufficient data.")
-        return None
+        if print_results:
+            print(f"\nNo trades generated for {symbol} over {days} days.")
+            print("Try a longer period or check that the symbol has sufficient data.")
+        return None, None
 
     df = pd.DataFrame(trades)
     winners = df[df["pnl"] > 0]
@@ -197,32 +216,59 @@ def backtest(symbol: str, days: int = 365, initial_capital: float = 100_000.0):
 
     # Exit reason breakdown
     reason_counts = df["reason"].value_counts().to_dict()
+
     # Regime breakdown (win rate per regime)
-    regime_stats = df.groupby("regime")["pnl"].agg(
+    regime_stats_df = df.groupby("regime")["pnl"].agg(
         trades="count", wins=lambda x: (x > 0).sum()
     ).assign(win_rate=lambda r: r["wins"] / r["trades"] * 100)
+    regime_stats = {
+        regime: {"trades": int(row["trades"]), "win_rate": float(row["win_rate"])}
+        for regime, row in regime_stats_df.iterrows()
+    }
 
-    width = 54
-    print(f"\n{'=' * width}")
-    print(f"  BACKTEST RESULTS — {symbol} ({days} days)")
-    print(f"{'=' * width}")
-    print(f"  Trades:           {len(df)}")
-    print(f"  Win rate:         {win_rate:.1f}%")
-    print(f"  Profit factor:    {profit_factor:.2f}x")
-    print(f"  Total P&L:        ${total_pnl:+,.2f}")
-    print(f"  Avg winner:       +{avg_win:.2f}%")
-    print(f"  Avg loser:        {avg_loss:.2f}%")
-    print(f"  Sharpe (ann.):    {sharpe:.2f}")
-    print(f"  Max drawdown:     ${max_dd:,.2f}")
-    print(f"  Avg hold:         {df['holding_days'].mean():.1f} days")
-    print(f"  Final capital:    ${capital:,.2f}  (started ${initial_capital:,.2f})")
-    print(f"  Exit reasons:     {reason_counts}")
-    print(f"\n  Regime breakdown:")
-    for regime, row in regime_stats.iterrows():
-        print(f"    {regime:<12} {int(row['trades']):>3} trades  {row['win_rate']:.0f}% win rate")
-    print(f"{'=' * width}\n")
+    total_pnl_pct = (capital - initial_capital) / initial_capital * 100
 
-    return df
+    metrics = {
+        "symbol": symbol,
+        "days": days,
+        "initial_capital": initial_capital,
+        "final_capital": round(capital, 2),
+        "trade_count": len(df),
+        "win_rate": round(win_rate, 1),
+        "profit_factor": round(profit_factor, 2),
+        "total_pnl": round(total_pnl, 2),
+        "total_pnl_pct": round(total_pnl_pct, 2),
+        "avg_win_pct": round(avg_win, 2),
+        "avg_loss_pct": round(avg_loss, 2),
+        "sharpe": round(sharpe, 2),
+        "max_drawdown": round(max_dd, 2),
+        "avg_hold_days": round(float(df["holding_days"].mean()), 1),
+        "exit_reasons": reason_counts,
+        "regime_stats": regime_stats,
+    }
+
+    if print_results:
+        width = 54
+        print(f"\n{'=' * width}")
+        print(f"  BACKTEST RESULTS — {symbol} ({days} days)")
+        print(f"{'=' * width}")
+        print(f"  Trades:           {len(df)}")
+        print(f"  Win rate:         {win_rate:.1f}%")
+        print(f"  Profit factor:    {profit_factor:.2f}x")
+        print(f"  Total P&L:        ${total_pnl:+,.2f}")
+        print(f"  Avg winner:       +{avg_win:.2f}%")
+        print(f"  Avg loser:        {avg_loss:.2f}%")
+        print(f"  Sharpe (ann.):    {sharpe:.2f}")
+        print(f"  Max drawdown:     ${max_dd:,.2f}")
+        print(f"  Avg hold:         {df['holding_days'].mean():.1f} days")
+        print(f"  Final capital:    ${capital:,.2f}  (started ${initial_capital:,.2f})")
+        print(f"  Exit reasons:     {reason_counts}")
+        print(f"\n  Regime breakdown:")
+        for regime, row in regime_stats_df.iterrows():
+            print(f"    {regime:<12} {int(row['trades']):>3} trades  {row['win_rate']:.0f}% win rate")
+        print(f"{'=' * width}\n")
+
+    return df, metrics
 
 
 if __name__ == "__main__":

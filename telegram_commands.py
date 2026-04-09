@@ -141,6 +141,17 @@ class TelegramCommander:
             self._send_trades()
         elif text == "/menu":
             self._send_menu()
+        elif text.startswith("/backtest"):
+            # /backtest [SYMBOL [DAYS]]
+            parts = text.split()
+            symbol = parts[1].upper() if len(parts) > 1 else "AAPL"
+            try:
+                days = int(parts[2]) if len(parts) > 2 else 365
+                days = max(60, min(days, 1000))  # clamp to sane range
+            except ValueError:
+                self._send_message("<b>Usage:</b> /backtest SYMBOL [DAYS]\nExample: <code>/backtest AAPL 365</code>")
+                return
+            self._run_backtest(symbol, days)
         # Ignore unknown messages silently
 
     def _handle_callback(self, callback):
@@ -166,6 +177,15 @@ class TelegramCommander:
             self._send_trades()
         elif data == "help":
             self._send_help()
+        elif data.startswith("backtest:"):
+            # callback_data format: "backtest:AAPL:365"
+            parts = data.split(":")
+            symbol = parts[1] if len(parts) > 1 else "AAPL"
+            try:
+                days = int(parts[2]) if len(parts) > 2 else 365
+            except ValueError:
+                days = 365
+            self._run_backtest(symbol, days)
 
     # ------------------------------------------------------------------
     # RESPONSE HANDLERS
@@ -272,10 +292,11 @@ class TelegramCommander:
             "Tap a button below or type a command:\n\n"
             "/status — Portfolio overview\n"
             "/positions — Open positions\n"
-            "/profit — Profit & loss\n"
+            "/profit — Profit &amp; loss\n"
             "/trades — Recent trade history\n"
             "/balance — Account balance\n"
             "/dashboard — Open web dashboard\n"
+            "/backtest SYMBOL [DAYS] — Walk-forward backtest\n"
             "/menu — Show buttons\n"
         )
         buttons = [
@@ -290,6 +311,9 @@ class TelegramCommander:
             [
                 {"text": "🏦 Balance", "callback_data": "balance"},
                 {"text": "🖥️ Dashboard", "callback_data": "dashboard"},
+            ],
+            [
+                {"text": "🧪 Backtest AAPL", "callback_data": "backtest:AAPL:365"},
             ],
         ]
         self._send_message(msg, buttons)
@@ -309,6 +333,9 @@ class TelegramCommander:
             [
                 {"text": "🏦 Balance", "callback_data": "balance"},
                 {"text": "🖥️ Dashboard", "callback_data": "dashboard"},
+            ],
+            [
+                {"text": "🧪 Backtest AAPL", "callback_data": "backtest:AAPL:365"},
             ],
         ]
         self._send_message(msg, buttons)
@@ -475,6 +502,71 @@ class TelegramCommander:
         ]
         self._send_message(msg, buttons)
 
+    def _run_backtest(self, symbol: str, days: int):
+        """Run walk-forward backtest and send results to Telegram."""
+        self._send_message(
+            f"<b>🧪 Running backtest…</b>\n"
+            f"Symbol: <b>{symbol}</b> | Period: <b>{days} days</b>\n"
+            "<i>This may take 10–30 seconds.</i>"
+        )
+        try:
+            from backtest import backtest as _backtest
+            _df, m = _backtest(symbol, days, print_results=False, api=self.api)
+        except Exception as exc:
+            logger.warning(f"Backtest error for {symbol}: {exc}")
+            self._send_message(f"<b>Backtest failed</b> for {symbol}:\n<code>{exc}</code>")
+            return
+
+        if m is None:
+            self._send_message(
+                f"<b>No trades</b> generated for <b>{symbol}</b> over {days} days.\n"
+                "Try a longer period or a different symbol."
+            )
+            return
+
+        # Format exit reasons
+        reasons = m["exit_reasons"]
+        reason_parts = []
+        for label, key in [("Strategy", "strategy"), ("Stop", "hard_stop"), ("TP", "take_profit")]:
+            n = reasons.get(key, 0)
+            if n:
+                reason_parts.append(f"{label}: {n}")
+        reason_str = " | ".join(reason_parts) if reason_parts else "—"
+
+        # Format regime breakdown
+        regime_lines = ""
+        for regime, stats in sorted(m["regime_stats"].items()):
+            regime_lines += f"  {regime:<10} {stats['trades']:>3} trades  {stats['win_rate']:.0f}% win\n"
+
+        pnl_sign = "+" if m["total_pnl"] >= 0 else ""
+        pf_str = f"{m['profit_factor']:.2f}x" if m["profit_factor"] != float("inf") else "∞"
+
+        msg = (
+            f"<b>🧪 Backtest — {symbol}</b>\n"
+            f"━━━━━━━━━━━━━━━━━━━━━\n"
+            f"Period: {days} days | Capital: ${m['initial_capital']:,.0f}\n\n"
+            f"<b>📊 Summary</b>\n"
+            f"Trades:        {m['trade_count']}\n"
+            f"Win rate:      {m['win_rate']:.1f}%\n"
+            f"Profit factor: {pf_str}\n"
+            f"Total P&amp;L:     {pnl_sign}${m['total_pnl']:,.2f} ({pnl_sign}{m['total_pnl_pct']:.1f}%)\n"
+            f"Avg winner:    +{m['avg_win_pct']:.2f}%\n"
+            f"Avg loser:     {m['avg_loss_pct']:.2f}%\n"
+            f"Sharpe:        {m['sharpe']:.2f}\n"
+            f"Max drawdown:  ${m['max_drawdown']:,.2f}\n"
+            f"Avg hold:      {m['avg_hold_days']:.1f} days\n"
+            f"Final capital: ${m['final_capital']:,.2f}\n\n"
+            f"<b>🚪 Exit reasons</b>\n{reason_str}\n\n"
+            f"<b>🌊 By regime</b>\n<code>{regime_lines}</code>"
+        )
+        buttons = [
+            [
+                {"text": "🔄 Re-run", "callback_data": f"backtest:{symbol}:{days}"},
+                {"text": "📊 Status", "callback_data": "status"},
+            ],
+        ]
+        self._send_message(msg, buttons)
+
     def _send_balance(self):
         """Send detailed account balance."""
         account = self.api.get_account()
@@ -576,6 +668,7 @@ def send_startup_menu(bot_token, chat_id):
         {"command": "trades", "description": "Recent buy/sell history"},
         {"command": "balance", "description": "Account balance details"},
         {"command": "dashboard", "description": "Open web dashboard"},
+        {"command": "backtest", "description": "Walk-forward backtest: /backtest AAPL 365"},
         {"command": "menu", "description": "Show button menu"},
         {"command": "help", "description": "List all commands"},
     ]

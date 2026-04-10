@@ -4560,3 +4560,26 @@
 2026-04-10 19:53:55 | INFO     | Pairs cycle complete. Open pairs: 0
 2026-04-10 19:53:55 | INFO     | State saved (run #152)
 2026-04-10 19:53:55 | INFO     | Cycle complete.
+2026-04-10 20:31:16 | INFO     | =======================================================
+2026-04-10 20:31:16 | INFO     |   TRADING BOT — Single Cycle
+2026-04-10 20:31:16 | INFO     |   2026-04-10 20:31:16 UTC
+2026-04-10 20:31:16 | INFO     |   Mode: PAPER
+2026-04-10 20:31:16 | INFO     | =======================================================
+2026-04-10 20:31:16 | INFO     | State loaded: peak=$101,029.84, run #152, trades=17
+2026-04-10 20:31:16 | INFO     | Connected to Alpaca (PAPER trading)
+2026-04-10 20:31:16 | INFO     | Account mode verified: PAPER | Equity: $100,358.53
+2026-04-10 20:31:21 | INFO     | Processed Telegram commands
+2026-04-10 20:31:21 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-04-10 20:31:21 | INFO     | Portfolio: $100,358.53 | Cash: $34,717.80
+2026-04-10 20:31:21 | INFO     | 
+=======================================================
+2026-04-10 20:31:21 | INFO     |   CRYPTO TRADING CYCLE
+2026-04-10 20:31:21 | INFO     | =======================================================
+2026-04-10 20:31:21 | INFO     | Crypto: 1 positions | $20,527.62 invested (20.5% of portfolio)
+2026-04-10 20:31:21 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-04-10 20:31:21 | ERROR    | Non-retryable error: {"message":"invalid symbol: BCHUSD does not match ^[A-Z]+/[A-Z]+$"}
+
+2026-04-10 20:31:21 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-04-10 20:31:21 | INFO     | Crypto: max allocation reached (20%) — skipping buys
+2026-04-10 20:31:21 | INFO     | State saved (run #153)
+2026-04-10 20:31:21 | INFO     | Cycle complete.

@@ -4302,3 +4302,46 @@
 2026-04-10 14:18:08 | INFO     | Pairs cycle complete. Open pairs: 0
 2026-04-10 14:18:08 | INFO     | State saved (run #146)
 2026-04-10 14:18:08 | INFO     | Cycle complete.
+2026-04-10 15:10:48 | INFO     | =======================================================
+2026-04-10 15:10:48 | INFO     |   TRADING BOT — Single Cycle
+2026-04-10 15:10:48 | INFO     |   2026-04-10 15:10:48 UTC
+2026-04-10 15:10:48 | INFO     |   Mode: PAPER
+2026-04-10 15:10:48 | INFO     | =======================================================
+2026-04-10 15:10:48 | INFO     | State loaded: peak=$101,029.84, run #146, trades=17
+2026-04-10 15:10:48 | INFO     | Connected to Alpaca (PAPER trading)
+2026-04-10 15:10:48 | INFO     | Account mode verified: PAPER | Equity: $100,387.71
+2026-04-10 15:10:53 | INFO     | Processed Telegram commands
+2026-04-10 15:10:53 | INFO     | Portfolio: $100,391.74 | Cash: $34,717.80
+2026-04-10 15:10:53 | INFO     | Dynamic universe: 32/32 symbols selected (cutoff $4.7M daily dollar vol)
+2026-04-10 15:10:53 | INFO     | Pre-fetching bars for 32 symbols...
+2026-04-10 15:10:54 | INFO     | --- Phase 1: Checking exits ---
+2026-04-10 15:10:54 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-04-10 15:10:54 | INFO     | Buy scan already ran today — skipping (exits still managed)
+2026-04-10 15:10:54 | INFO     | --- Phase 3: Executing trades ---
+2026-04-10 15:10:54 | INFO     | 
+=======================================================
+2026-04-10 15:10:54 | INFO     |   CRYPTO TRADING CYCLE
+2026-04-10 15:10:54 | INFO     | =======================================================
+2026-04-10 15:10:54 | INFO     | Crypto: 1 positions | $20,501.04 invested (20.4% of portfolio)
+2026-04-10 15:10:54 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-04-10 15:10:55 | ERROR    | Non-retryable error: {"message":"invalid symbol: BCHUSD does not match ^[A-Z]+/[A-Z]+$"}
+
+2026-04-10 15:10:55 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-04-10 15:10:55 | INFO     | Crypto: max allocation reached (20%) — skipping buys
+2026-04-10 15:10:55 | INFO     | 
+=======================================================
+2026-04-10 15:10:55 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-04-10 15:10:55 | INFO     | =======================================================
+2026-04-10 15:10:55 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-04-10 15:10:55 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-04-10 15:10:55 | INFO     | PAIR KO/PEP: Z=0.97 — Kalman Z=0.97 — neutral band
+2026-04-10 15:10:55 | INFO     | PAIR JPM/BAC: Z=-0.89 — Kalman Z=-0.89 — neutral band
+2026-04-10 15:10:55 | INFO     | PAIR META/GOOGL: Z=1.43 — Kalman Z=1.43 — neutral band
+2026-04-10 15:10:55 | INFO     | PAIR AMD/INTC: Z=0.60 — Kalman Z=0.60 — neutral band
+2026-04-10 15:10:56 | INFO     | PAIR V/MA: signal=EXIT Z=-0.07
+2026-04-10 15:10:56 | INFO     | PAIR XOM/CVX: Z=-1.90 — Kalman Z=-1.90 — neutral band
+2026-04-10 15:10:56 | INFO     | PAIR AMZN/COST: signal=EXIT Z=0.49
+2026-04-10 15:10:56 | INFO     | PAIR JNJ/ABBV: Z=-1.33 — Kalman Z=-1.33 — neutral band
+2026-04-10 15:10:56 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-04-10 15:10:56 | INFO     | State saved (run #147)
+2026-04-10 15:10:56 | INFO     | Cycle complete.

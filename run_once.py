@@ -460,7 +460,12 @@ def run():
                     # Sync local position list immediately
                     bot_positions = [p for p in bot_positions if p["symbol"] != symbol]
                     if config.NOTIFY_ON_SELL:
-                        telegram.notify_sell(symbol, f"Strategy ({analysis['combined_score']:.3f})", unrealized_pl)
+                        telegram.notify_sell(
+                            symbol,
+                            f"Strategy signal: {analysis['signal']} (score {analysis['combined_score']:.3f})",
+                            unrealized_pl,
+                            analysis=analysis,
+                        )
 
         # ============================================================
         # PHASE 2: FIND BUYS (use cached bars — no redundant API calls)

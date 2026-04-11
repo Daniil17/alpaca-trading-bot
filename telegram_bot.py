@@ -117,18 +117,32 @@ class TelegramNotifier:
         msg += f"\n<code>{_now().strftime('%H:%M:%S')}</code>"
         self.send(msg)
 
-    def notify_sell(self, symbol, reason, pnl=None):
-        """Send a sell/close notification."""
+    def notify_sell(self, symbol, reason, pnl=None, analysis=None):
+        """Send a sell/close notification, including strategy scores when available."""
         pnl_str = f"${pnl:+.2f}" if pnl is not None else "pending"
-        emoji = "+" if pnl and pnl > 0 else ""
+        header_emoji = "📈" if (pnl is not None and pnl > 0) else "📉"
         msg = (
-            f"<b>POSITION CLOSED</b>\n"
+            f"<b>{header_emoji} POSITION CLOSED</b>\n"
             f"━━━━━━━━━━━━━━━━\n"
             f"<b>Symbol:</b> {symbol}\n"
             f"<b>Reason:</b> {reason}\n"
             f"<b>P&L:</b> {pnl_str}\n"
-            f"\n<code>{_now().strftime('%H:%M:%S')}</code>"
         )
+
+        # Include per-strategy scores and regime when the analysis dict is provided
+        if analysis:
+            strategies = analysis.get("strategies", {})
+            if strategies:
+                msg += f"\n<i>Strategy scores (why sold):</i>\n"
+                for name, data in strategies.items():
+                    score = data.get("score", 0) if isinstance(data, dict) else float(data)
+                    arrow = "🔴" if score < -0.1 else "🟡" if score < 0.1 else "🟢"
+                    msg += f"  {arrow} {name}: {score:+.2f}\n"
+            regime = analysis.get("regime")
+            if regime:
+                msg += f"<b>Regime:</b> {regime}\n"
+
+        msg += f"\n<code>{_now().strftime('%H:%M:%S')}</code>"
         self.send(msg)
 
     def notify_stop_loss(self, symbol, loss_pct, unrealized_pl):

@@ -145,16 +145,26 @@ class TelegramCommander:
         elif text == "/menu":
             self._send_menu()
         elif text.startswith("/backtest"):
-            # /backtest [SYMBOL [DAYS]]
+            # /backtest [SYMBOL|all [DAYS]]
             parts = text.split()
-            symbol = parts[1].upper() if len(parts) > 1 else "AAPL"
+            symbol = parts[1].upper() if len(parts) > 1 else "ALL"
             try:
                 days = int(parts[2]) if len(parts) > 2 else 365
                 days = max(60, min(days, 1000))  # clamp to sane range
             except ValueError:
-                self._send_message("<b>Usage:</b> /backtest SYMBOL [DAYS]\nExample: <code>/backtest AAPL 365</code>")
+                self._send_message(
+                    "<b>Usage:</b>\n"
+                    "  /backtest all [DAYS] — full portfolio (all stocks)\n"
+                    "  /backtest SYMBOL [DAYS] — single symbol\n\n"
+                    "Examples:\n"
+                    "  <code>/backtest all 365</code>\n"
+                    "  <code>/backtest AAPL 252</code>"
+                )
                 return
-            self._run_backtest(symbol, days)
+            if symbol == "ALL":
+                self._run_portfolio_backtest(days)
+            else:
+                self._run_backtest(symbol, days)
         # Ignore unknown messages silently
 
     def _handle_callback(self, callback):
@@ -181,14 +191,17 @@ class TelegramCommander:
         elif data == "help":
             self._send_help()
         elif data.startswith("backtest:"):
-            # callback_data format: "backtest:AAPL:365"
+            # callback_data format: "backtest:AAPL:365" or "backtest:ALL:365"
             parts = data.split(":")
-            symbol = parts[1] if len(parts) > 1 else "AAPL"
+            symbol = parts[1] if len(parts) > 1 else "ALL"
             try:
                 days = int(parts[2]) if len(parts) > 2 else 365
             except ValueError:
                 days = 365
-            self._run_backtest(symbol, days)
+            if symbol.upper() == "ALL":
+                self._run_portfolio_backtest(days)
+            else:
+                self._run_backtest(symbol, days)
 
     # ------------------------------------------------------------------
     # RESPONSE HANDLERS
@@ -299,7 +312,8 @@ class TelegramCommander:
             "/trades — Recent trade history\n"
             "/balance — Account balance\n"
             "/dashboard — Open web dashboard\n"
-            "/backtest SYMBOL [DAYS] — Walk-forward backtest\n"
+            "/backtest all [DAYS] — Full portfolio backtest\n"
+            "/backtest SYMBOL [DAYS] — Single symbol backtest\n"
             "/menu — Show buttons\n"
         )
         buttons = [
@@ -314,6 +328,9 @@ class TelegramCommander:
             [
                 {"text": "🏦 Balance", "callback_data": "balance"},
                 {"text": "🖥️ Dashboard", "callback_data": "dashboard"},
+            ],
+            [
+                {"text": "📦 Full Portfolio Backtest", "callback_data": "backtest:ALL:365"},
             ],
             [
                 {"text": "🧪 Backtest AAPL", "callback_data": "backtest:AAPL:365"},
@@ -336,6 +353,9 @@ class TelegramCommander:
             [
                 {"text": "🏦 Balance", "callback_data": "balance"},
                 {"text": "🖥️ Dashboard", "callback_data": "dashboard"},
+            ],
+            [
+                {"text": "📦 Full Portfolio Backtest", "callback_data": "backtest:ALL:365"},
             ],
             [
                 {"text": "🧪 Backtest AAPL", "callback_data": "backtest:AAPL:365"},
@@ -580,6 +600,116 @@ class TelegramCommander:
         ]
         self._send_message(msg, buttons)
 
+    def _run_portfolio_backtest(self, days: int):
+        """
+        Run walk-forward backtest for ALL symbols in the stock universe in parallel.
+        Sends an aggregate summary showing best/worst performers and overall metrics.
+        """
+        universe = getattr(_config, "STOCK_UNIVERSE", []) if _config else []
+        if not universe:
+            self._send_message("<b>Error:</b> No STOCK_UNIVERSE defined in config.")
+            return
+
+        count = len(universe)
+        self._send_message(
+            f"<b>📦 Running Full Portfolio Backtest…</b>\n"
+            f"Testing <b>{count} symbols</b> over <b>{days} days</b>\n"
+            f"<i>Running in parallel — expect results in ~60 seconds.</i>"
+        )
+
+        def _worker():
+            from backtest import backtest as _backtest
+            from concurrent.futures import ThreadPoolExecutor, as_completed
+
+            results = {}
+
+            def _run_one(sym):
+                try:
+                    _df, m = _backtest(sym, days, print_results=False, api=self.api)
+                    return sym, m
+                except Exception as exc:
+                    logger.debug(f"Portfolio backtest skipped {sym}: {exc}")
+                    return sym, None
+
+            # 5 parallel workers — stays well within Alpaca rate limits
+            with ThreadPoolExecutor(max_workers=5) as pool:
+                futures = {pool.submit(_run_one, sym): sym for sym in universe}
+                for future in as_completed(futures):
+                    sym, m = future.result()
+                    if m is not None:
+                        results[sym] = m
+
+            self._send_portfolio_backtest_result(results, days, universe)
+
+        t = threading.Thread(target=_worker, daemon=False, name="portfolio-backtest")
+        t.start()
+
+    def _send_portfolio_backtest_result(self, results: dict, days: int, universe: list):
+        """Format and send the portfolio-level backtest summary."""
+        if not results:
+            self._send_message(
+                "<b>No portfolio backtest results.</b>\n"
+                "All symbols had insufficient data. Try a longer period."
+            )
+            return
+
+        tested = len(results)
+        total_symbols = len(universe)
+        no_data = total_symbols - tested
+
+        # Aggregate across all symbols
+        all_trades = sum(m["trade_count"] for m in results.values())
+        all_wins = sum(
+            round(m["trade_count"] * m["win_rate"] / 100)
+            for m in results.values()
+        )
+        agg_win_rate = (all_wins / all_trades * 100) if all_trades > 0 else 0.0
+        avg_pnl_pct = sum(m["total_pnl_pct"] for m in results.values()) / tested
+        avg_sharpe = sum(m["sharpe"] for m in results.values()) / tested
+        avg_maxdd_pct = sum(
+            m["max_drawdown"] / m["initial_capital"] * 100
+            for m in results.values()
+        ) / tested
+        profitable_count = sum(1 for m in results.values() if m["total_pnl_pct"] > 0)
+
+        # Rank symbols by P&L%
+        ranked = sorted(results.items(), key=lambda x: x[1]["total_pnl_pct"], reverse=True)
+        top5 = ranked[:5]
+        bottom5 = ranked[-5:]
+
+        top_lines = ""
+        for sym, m in top5:
+            top_lines += f"  {sym:<6} {m['total_pnl_pct']:+.1f}%  win={m['win_rate']:.0f}%  n={m['trade_count']}\n"
+
+        bottom_lines = ""
+        for sym, m in reversed(bottom5):
+            bottom_lines += f"  {sym:<6} {m['total_pnl_pct']:+.1f}%  win={m['win_rate']:.0f}%  n={m['trade_count']}\n"
+
+        no_data_str = f" ({no_data} had no data)" if no_data else ""
+
+        msg = (
+            f"<b>📦 Portfolio Backtest — {days} days</b>\n"
+            f"━━━━━━━━━━━━━━━━━━━━━\n"
+            f"Symbols tested: {tested}/{total_symbols}{no_data_str}\n\n"
+            f"<b>📊 Aggregate Results</b>\n"
+            f"Total trades:    {all_trades}\n"
+            f"Win rate:        {agg_win_rate:.1f}%\n"
+            f"Avg P&amp;L/symbol: {avg_pnl_pct:+.1f}%\n"
+            f"Avg Sharpe:      {avg_sharpe:.2f}\n"
+            f"Avg max DD:      {avg_maxdd_pct:.1f}%\n"
+            f"Profitable:      {profitable_count}/{tested} symbols\n\n"
+            f"<b>🏆 Top 5 Performers</b>\n<code>{top_lines}</code>\n"
+            f"<b>💀 Bottom 5 Performers</b>\n<code>{bottom_lines}</code>"
+            f"\n<code>{_now().strftime('%Y-%m-%d %H:%M %Z')}</code>"
+        )
+        buttons = [
+            [
+                {"text": "🔄 Re-run", "callback_data": f"backtest:ALL:{days}"},
+                {"text": "📊 Status", "callback_data": "status"},
+            ],
+        ]
+        self._send_message(msg, buttons)
+
     def _send_balance(self):
         """Send detailed account balance."""
         account = self.api.get_account()
@@ -668,9 +798,14 @@ class TelegramCommander:
 
 def send_startup_menu(bot_token, chat_id):
     """
-    Send the interactive menu on bot startup.
+    Register bot commands and send the interactive menu on bot startup.
     Can be called standalone to set up the menu.
+    Returns True on success, False on failure.
     """
+    if not bot_token or bot_token in ("TELEGRAM_BOT_TOKEN", "YOUR_TELEGRAM_BOT_TOKEN_HERE"):
+        logger.debug("send_startup_menu: token not configured — skipping")
+        return False
+
     base_url = f"https://api.telegram.org/bot{bot_token}"
 
     # Set bot commands (shows in Telegram's command menu)
@@ -687,10 +822,17 @@ def send_startup_menu(bot_token, chat_id):
     ]
 
     try:
-        requests.post(
+        resp = requests.post(
             f"{base_url}/setMyCommands",
             json={"commands": commands},
             timeout=10,
         )
-    except Exception:
-        pass
+        if resp.status_code == 200 and resp.json().get("ok"):
+            logger.info("Telegram command menu registered successfully (/backtest and others active)")
+            return True
+        else:
+            logger.warning(f"setMyCommands failed: HTTP {resp.status_code} — {resp.text[:200]}")
+            return False
+    except Exception as e:
+        logger.warning(f"send_startup_menu error: {e}")
+        return False

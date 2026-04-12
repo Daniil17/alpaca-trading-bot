@@ -117,30 +117,60 @@ class TelegramNotifier:
         msg += f"\n<code>{_now().strftime('%H:%M:%S')}</code>"
         self.send(msg)
 
+    # Human-readable names for each strategy module
+    _STRATEGY_LABELS = {
+        "mean_reversion": "Mean Reversion (RSI+BB)",
+        "momentum":       "Momentum (EMA+ADX)",
+        "news_sentiment": "News Sentiment",
+        "volume_flow":    "Volume Flow (VPT)",
+    }
+
+    @staticmethod
+    def _score_desc(score: float) -> str:
+        """Translate a [-1, +1] combined score to a plain-English label."""
+        if score <= -0.4:  return "strongly bearish"
+        if score <= -0.15: return "bearish"
+        if score <   0.15: return "neutral"
+        if score <   0.4:  return "bullish"
+        return "strongly bullish"
+
     def notify_sell(self, symbol, reason, pnl=None, analysis=None):
-        """Send a sell/close notification, including strategy scores when available."""
-        pnl_str = f"${pnl:+.2f}" if pnl is not None else "pending"
+        """
+        Send a sell/close notification.
+        When `analysis` is provided (strategy exits), shows each strategy's
+        vote in plain English so the reason is immediately clear.
+        """
+        pnl_str      = f"${pnl:+.2f}" if pnl is not None else "pending"
         header_emoji = "📈" if (pnl is not None and pnl > 0) else "📉"
+        signal       = (analysis or {}).get("signal", "")
+        regime       = (analysis or {}).get("regime", "")
+
+        # Build a clear exit-reason line
+        if signal:
+            exit_line = f"{signal} signal — {reason}"
+        else:
+            exit_line = reason
+        if regime:
+            exit_line += f"  |  Regime: {regime}"
+
         msg = (
-            f"<b>{header_emoji} POSITION CLOSED</b>\n"
+            f"<b>{header_emoji} POSITION CLOSED — {symbol}</b>\n"
             f"━━━━━━━━━━━━━━━━\n"
-            f"<b>Symbol:</b> {symbol}\n"
-            f"<b>Reason:</b> {reason}\n"
-            f"<b>P&L:</b> {pnl_str}\n"
+            f"<b>Exit:</b> {exit_line}\n"
+            f"<b>P&L:</b>  {pnl_str}\n"
         )
 
-        # Include per-strategy scores and regime when the analysis dict is provided
+        # Per-strategy votes with plain-English description
         if analysis:
             strategies = analysis.get("strategies", {})
             if strategies:
-                msg += f"\n<i>Strategy scores (why sold):</i>\n"
+                msg += "\n<b>How each strategy voted:</b>\n"
                 for name, data in strategies.items():
                     score = data.get("score", 0) if isinstance(data, dict) else float(data)
-                    arrow = "🔴" if score < -0.1 else "🟡" if score < 0.1 else "🟢"
-                    msg += f"  {arrow} {name}: {score:+.2f}\n"
-            regime = analysis.get("regime")
-            if regime:
-                msg += f"<b>Regime:</b> {regime}\n"
+                    icon  = "🔴" if score < -0.15 else "🟡" if score < 0.15 else "🟢"
+                    label = self._STRATEGY_LABELS.get(name, name.replace("_", " ").title())
+                    desc  = self._score_desc(score)
+                    msg  += f"  {icon} {label}: {score:+.2f}  ({desc})\n"
 
         msg += f"\n<code>{_now().strftime('%H:%M:%S')}</code>"
         self.send(msg)

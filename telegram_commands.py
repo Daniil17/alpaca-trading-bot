@@ -144,6 +144,8 @@ class TelegramCommander:
             self._send_trades()
         elif text == "/menu":
             self._send_menu()
+        elif text == "/analyse":
+            self._send_analyse()
         elif text.startswith("/backtest"):
             # /backtest [SYMBOL|all [DAYS]]
             parts = text.split()
@@ -190,6 +192,8 @@ class TelegramCommander:
             self._send_trades()
         elif data == "help":
             self._send_help()
+        elif data == "analyse":
+            self._send_analyse()
         elif data.startswith("backtest:"):
             # callback_data format: "backtest:AAPL:365" or "backtest:ALL:365"
             parts = data.split(":")
@@ -306,12 +310,13 @@ class TelegramCommander:
             "<b>Trading Bot Commands</b>\n"
             "━━━━━━━━━━━━━━━━━━━━━\n\n"
             "Tap a button below or type a command:\n\n"
-            "/status — Portfolio overview\n"
-            "/positions — Open positions\n"
-            "/profit — Profit &amp; loss\n"
+            "/status — Portfolio overview (open + closed P&amp;L)\n"
+            "/positions — Open positions with live P&amp;L\n"
+            "/profit — Full profit &amp; loss breakdown\n"
             "/trades — Recent trade history\n"
             "/balance — Account balance\n"
             "/dashboard — Open web dashboard\n"
+            "/analyse — Performance analysis for strategy review\n"
             "/backtest all [DAYS] — Full portfolio backtest\n"
             "/backtest SYMBOL [DAYS] — Single symbol backtest\n"
             "/menu — Show buttons\n"
@@ -330,9 +335,10 @@ class TelegramCommander:
                 {"text": "🖥️ Dashboard", "callback_data": "dashboard"},
             ],
             [
-                {"text": "📦 Full Portfolio Backtest", "callback_data": "backtest:ALL:365"},
+                {"text": "🔬 Analyse Performance", "callback_data": "analyse"},
             ],
             [
+                {"text": "📦 Full Portfolio Backtest", "callback_data": "backtest:ALL:365"},
                 {"text": "🧪 Backtest AAPL", "callback_data": "backtest:AAPL:365"},
             ],
         ]
@@ -355,16 +361,17 @@ class TelegramCommander:
                 {"text": "🖥️ Dashboard", "callback_data": "dashboard"},
             ],
             [
-                {"text": "📦 Full Portfolio Backtest", "callback_data": "backtest:ALL:365"},
+                {"text": "🔬 Analyse Performance", "callback_data": "analyse"},
             ],
             [
+                {"text": "📦 Full Portfolio Backtest", "callback_data": "backtest:ALL:365"},
                 {"text": "🧪 Backtest AAPL", "callback_data": "backtest:AAPL:365"},
             ],
         ]
         self._send_message(msg, buttons)
 
     def _send_status(self):
-        """Send full portfolio overview."""
+        """Send full portfolio overview including both open and realized P&L."""
         account = self.api.get_account()
         positions = self.api.get_all_positions()
 
@@ -372,32 +379,38 @@ class TelegramCommander:
             self._send_message("<b>Error:</b> Could not reach Alpaca API")
             return
 
-        portfolio = account["portfolio_value"]
-        cash = account["cash"]
-        equity = account["equity"]
+        portfolio = float(account["portfolio_value"])
+        cash = float(account["cash"])
 
-        total_pl = sum(float(p.get("unrealized_pl", 0)) for p in positions)
+        unrealized_pl = sum(float(p.get("unrealized_pl", 0)) for p in positions)
         total_invested = sum(float(p.get("market_value", 0)) for p in positions)
         num_positions = len(positions)
 
-        # Determine overall trend
-        if total_pl > 0:
-            trend = "🟢"
-        elif total_pl < 0:
-            trend = "🔴"
-        else:
-            trend = "⚪"
+        # Realized P&L from closed trades (from state file)
+        r = self._load_realized_stats()
+        realized_pl = r["total_pnl"] if r else None
+        closed_count = r["trade_count"] if r else 0
+
+        total_pl = unrealized_pl + (realized_pl or 0.0)
+        trend = "🟢" if total_pl > 0 else "🔴" if total_pl < 0 else "⚪"
 
         msg = (
             f"<b>{trend} Portfolio Overview</b>\n"
             f"━━━━━━━━━━━━━━━━━━━━━\n\n"
             f"<b>Portfolio Value:</b> ${portfolio:,.2f}\n"
-            f"<b>Cash Available:</b> ${cash:,.2f}\n"
-            f"<b>Invested:</b> ${total_invested:,.2f}\n"
-            f"<b>Open Positions:</b> {num_positions}\n"
-            f"<b>Unrealized P&L:</b> ${total_pl:+,.2f}\n"
-            f"\n<code>{_now().strftime('%Y-%m-%d %H:%M %Z')}</code>"
+            f"<b>Cash:</b>           ${cash:,.2f}\n"
+            f"<b>Invested:</b>       ${total_invested:,.2f} ({num_positions} positions)\n\n"
         )
+
+        # P&L breakdown
+        msg += f"<b>Unrealized P&L:</b>  ${unrealized_pl:+,.2f}  <i>(open positions)</i>\n"
+        if realized_pl is not None:
+            msg += f"<b>Realized P&L:</b>    ${realized_pl:+,.2f}  <i>({closed_count} closed trades)</i>\n"
+            msg += f"<b>Total P&L:</b>       ${total_pl:+,.2f}\n"
+        else:
+            msg += "<i>Realized P&L: no closed trades yet</i>\n"
+
+        msg += f"\n<code>{_now().strftime('%Y-%m-%d %H:%M %Z')}</code>"
 
         buttons = [
             [
@@ -405,7 +418,7 @@ class TelegramCommander:
                 {"text": "💰 Profit", "callback_data": "profit"},
             ],
             [
-                {"text": "🏦 Balance", "callback_data": "balance"},
+                {"text": "🔬 Analyse", "callback_data": "analyse"},
                 {"text": "🔄 Refresh", "callback_data": "status"},
             ],
         ]
@@ -461,7 +474,7 @@ class TelegramCommander:
         self._send_message(msg, buttons)
 
     def _send_profit(self):
-        """Send profit and loss summary."""
+        """Send full P&L report: open positions + all realized closed trades."""
         account = self.api.get_account()
         positions = self.api.get_all_positions()
 
@@ -469,50 +482,56 @@ class TelegramCommander:
             self._send_message("<b>Error:</b> Could not reach Alpaca API")
             return
 
-        portfolio = account["portfolio_value"]
-        cash = account["cash"]
-
-        # Calculate totals
+        # ---- Open positions (unrealized) ----
         total_unrealized = sum(float(p.get("unrealized_pl", 0)) for p in positions)
         total_invested = sum(float(p.get("market_value", 0)) for p in positions)
         total_cost = sum(
             float(p.get("avg_entry_price", 0)) * float(p.get("qty", 0))
             for p in positions
         )
+        open_winners = [p for p in positions if float(p.get("unrealized_pl", 0)) > 0]
+        open_losers  = [p for p in positions if float(p.get("unrealized_pl", 0)) < 0]
+        open_flat    = [p for p in positions if float(p.get("unrealized_pl", 0)) == 0]
 
-        # Winners vs losers
-        winners = [p for p in positions if float(p.get("unrealized_pl", 0)) > 0]
-        losers = [p for p in positions if float(p.get("unrealized_pl", 0)) < 0]
-        flat = [p for p in positions if float(p.get("unrealized_pl", 0)) == 0]
-
-        total_wins = sum(float(p["unrealized_pl"]) for p in winners)
-        total_losses = sum(float(p["unrealized_pl"]) for p in losers)
-
-        # Best and worst
-        best = max(positions, key=lambda p: float(p.get("unrealized_pl", 0))) if positions else None
+        best  = max(positions, key=lambda p: float(p.get("unrealized_pl", 0))) if positions else None
         worst = min(positions, key=lambda p: float(p.get("unrealized_pl", 0))) if positions else None
 
         icon = "🟢" if total_unrealized >= 0 else "🔴"
 
         msg = (
-            f"<b>{icon} Profit & Loss Report</b>\n"
+            f"<b>{icon} Profit &amp; Loss Report</b>\n"
             f"━━━━━━━━━━━━━━━━━━━━━\n\n"
-            f"<b>Unrealized P&L:</b> ${total_unrealized:+,.2f}\n"
-            f"<b>Total Invested:</b> ${total_invested:,.2f}\n"
-            f"<b>Total Cost Basis:</b> ${total_cost:,.2f}\n\n"
-            f"<b>Winners:</b> {len(winners)} (+${total_wins:,.2f})\n"
-            f"<b>Losers:</b> {len(losers)} (${total_losses:,.2f})\n"
-            f"<b>Flat:</b> {len(flat)}\n"
+            f"<b>OPEN POSITIONS ({len(positions)})</b>\n"
+            f"Unrealized P&amp;L: ${total_unrealized:+,.2f}\n"
+            f"Invested: ${total_invested:,.2f}  |  Cost basis: ${total_cost:,.2f}\n"
+            f"Winners: {len(open_winners)}  |  Losers: {len(open_losers)}  |  Flat: {len(open_flat)}\n"
         )
-
-        if best:
+        if best and len(positions) > 1:
             bp = float(best.get("unrealized_plpc", 0)) * 100
-            msg += f"\n<b>Best:</b> {best['symbol']} ({bp:+.1f}%)"
-        if worst:
             wp = float(worst.get("unrealized_plpc", 0)) * 100
-            msg += f"\n<b>Worst:</b> {worst['symbol']} ({wp:+.1f}%)"
+            msg += f"Best: {best['symbol']} ({bp:+.1f}%)  |  Worst: {worst['symbol']} ({wp:+.1f}%)\n"
 
-        msg += f"\n\n<code>{_now().strftime('%Y-%m-%d %H:%M %Z')}</code>"
+        # ---- Closed trades (realized) from state file ----
+        r = self._load_realized_stats()
+        if r:
+            pf_str = f"{r['profit_factor']:.2f}x" if r["profit_factor"] != float("inf") else "∞"
+            msg += (
+                f"\n<b>CLOSED TRADES ({r['trade_count']})</b>\n"
+                f"Realized P&amp;L: ${r['total_pnl']:+,.2f}\n"
+                f"Win rate: {r['win_rate']:.1f}%  |  Profit factor: {pf_str}\n"
+                f"Gross wins: ${r['gross_win']:+,.2f}  |  Gross losses: ${-r['gross_loss']:,.2f}\n"
+                f"Avg/trade: {r['avg_pct_return']:+.2f}%\n"
+            )
+            total_combined = total_unrealized + r["total_pnl"]
+            combined_icon = "🟢" if total_combined >= 0 else "🔴"
+            msg += (
+                f"\n<b>COMBINED ({combined_icon})</b>\n"
+                f"Total P&amp;L: ${total_combined:+,.2f}\n"
+            )
+        else:
+            msg += "\n<i>No closed trades recorded yet.</i>\n"
+
+        msg += f"\n<code>{_now().strftime('%Y-%m-%d %H:%M %Z')}</code>"
 
         buttons = [
             [
@@ -520,7 +539,285 @@ class TelegramCommander:
                 {"text": "📈 Positions", "callback_data": "positions"},
             ],
             [
+                {"text": "🔬 Analyse", "callback_data": "analyse"},
                 {"text": "🔄 Refresh", "callback_data": "profit"},
+            ],
+        ]
+        self._send_message(msg, buttons)
+
+    # ------------------------------------------------------------------
+    # REALIZED STATS HELPER
+    # ------------------------------------------------------------------
+
+    def _load_realized_stats(self):
+        """
+        Compute realized P&L stats from the bot_state.json trade log.
+        Returns a dict with trade metrics, or None if no data is available
+        (e.g. no state file, or no closed trades yet).
+        """
+        import os
+        import json as _json
+
+        try:
+            if not os.path.exists("bot_state.json"):
+                return None
+            with open("bot_state.json") as f:
+                state_data = _json.load(f)
+        except Exception as e:
+            logger.debug(f"Could not read bot_state.json for stats: {e}")
+            return None
+
+        sells = [
+            t for t in state_data.get("trade_log", [])
+            if t.get("action") == "SELL" and "pnl" in t
+        ]
+        if not sells:
+            return None
+
+        total_pnl  = sum(t["pnl"] for t in sells)
+        wins       = [t for t in sells if t["pnl"] > 0]
+        losses     = [t for t in sells if t["pnl"] <= 0]
+        win_rate   = len(wins) / len(sells) * 100
+        gross_win  = sum(t["pnl"] for t in wins)
+        gross_loss = abs(sum(t["pnl"] for t in losses))
+        pf = gross_win / gross_loss if gross_loss > 0 else float("inf")
+
+        # Approximate % return per trade: pnl / entry_value
+        pct_returns = []
+        for t in sells:
+            entry_val = t.get("amount", 0) - t["pnl"]
+            if entry_val > 1:
+                pct_returns.append(t["pnl"] / entry_val * 100)
+
+        avg_pct = sum(pct_returns) / len(pct_returns) if pct_returns else 0.0
+
+        # Simplified annualised Sharpe (assumes avg 5-day hold)
+        sharpe = 0.0
+        if len(pct_returns) >= 2:
+            mean_r = avg_pct
+            var_r  = sum((r - mean_r) ** 2 for r in pct_returns) / len(pct_returns)
+            std_r  = var_r ** 0.5
+            if std_r > 0:
+                sharpe = (mean_r / std_r) * (252 / 5) ** 0.5
+
+        # Exit-reason categories
+        reasons = {}
+        for t in sells:
+            r = t.get("reason", "").lower()
+            if "hard_stop" in r or ("stop" in r and "trail" not in r):
+                cat = "hard_stop"
+            elif "take_profit" in r or "take profit" in r:
+                cat = "take_profit"
+            elif "trail" in r:
+                cat = "trailing_stop"
+            else:
+                cat = "strategy"
+            reasons[cat] = reasons.get(cat, 0) + 1
+
+        # Per-symbol stats
+        by_symbol = {}
+        for t in sells:
+            sym = t["symbol"]
+            s = by_symbol.setdefault(sym, {"pnl": 0.0, "trades": 0, "wins": 0})
+            s["pnl"]    += t["pnl"]
+            s["trades"] += 1
+            if t["pnl"] > 0:
+                s["wins"] += 1
+
+        # Recent 10 trades vs all-time
+        recent = sells[-10:]
+        recent_wins    = sum(1 for t in recent if t["pnl"] > 0)
+        recent_wr      = recent_wins / len(recent) * 100 if recent else 0.0
+        recent_pcts    = []
+        for t in recent:
+            ev = t.get("amount", 0) - t["pnl"]
+            if ev > 1:
+                recent_pcts.append(t["pnl"] / ev * 100)
+        recent_avg_pct = sum(recent_pcts) / len(recent_pcts) if recent_pcts else 0.0
+
+        return {
+            "total_pnl":      total_pnl,
+            "trade_count":    len(sells),
+            "win_rate":       win_rate,
+            "profit_factor":  pf,
+            "gross_win":      gross_win,
+            "gross_loss":     gross_loss,
+            "avg_pct_return": avg_pct,
+            "sharpe":         sharpe,
+            "reasons":        reasons,
+            "by_symbol":      by_symbol,
+            "recent_win_rate":  recent_wr,
+            "recent_avg_pct":   recent_avg_pct,
+            "recent_count":     len(recent),
+        }
+
+    # ------------------------------------------------------------------
+    # PERFORMANCE ANALYSIS
+    # ------------------------------------------------------------------
+
+    def _send_analyse(self):
+        """
+        Send a comprehensive performance analysis designed for strategy review.
+        Covers metrics, trends, exit quality, per-symbol P&L, and
+        auto-generated analyst flags with specific config change suggestions.
+        """
+        import os
+        import json as _json
+
+        stats   = self._load_realized_stats()
+        account = self.api.get_account()
+        positions = self.api.get_all_positions() or []
+
+        portfolio_val = float(account.get("portfolio_value", 0)) if account else 0.0
+        cash_val      = float(account.get("cash", 0)) if account else 0.0
+        invested_val  = sum(float(p.get("market_value", 0)) for p in positions)
+        unrealized_pl = sum(float(p.get("unrealized_pl", 0)) for p in positions)
+
+        # Peak value for drawdown
+        peak_val = portfolio_val
+        try:
+            if os.path.exists("bot_state.json"):
+                with open("bot_state.json") as f:
+                    sd = _json.load(f)
+                peak_val = sd.get("peak_portfolio_value") or portfolio_val
+        except Exception:
+            pass
+        drawdown_pct = (peak_val - portfolio_val) / peak_val * 100 if peak_val > 0 else 0.0
+
+        # ---- No trade history yet ----
+        if not stats:
+            msg = (
+                "<b>📊 Bot Performance Analysis</b>\n"
+                "━━━━━━━━━━━━━━━━━━━━━\n\n"
+                "<i>No closed trades yet — run the bot for a while, then check back.</i>\n\n"
+            )
+            if account:
+                cash_pct = cash_val / portfolio_val * 100 if portfolio_val > 0 else 0
+                inv_pct  = invested_val / portfolio_val * 100 if portfolio_val > 0 else 0
+                msg += (
+                    f"<b>Current Exposure</b>\n"
+                    f"Portfolio: ${portfolio_val:,.0f} | Drawdown: {drawdown_pct:.1f}%\n"
+                    f"Positions: {len(positions)}\n"
+                    f"Invested: {inv_pct:.0f}%  |  Cash: {cash_pct:.0f}%\n"
+                    f"Unrealized P&amp;L: ${unrealized_pl:+,.2f}"
+                )
+            self._send_message(msg)
+            return
+
+        # ---- Core metrics ----
+        n        = stats["trade_count"]
+        wr       = stats["win_rate"]
+        pf       = stats["profit_factor"]
+        sharpe   = stats["sharpe"]
+        avg_pct  = stats["avg_pct_return"]
+        total_pl = stats["total_pnl"]
+
+        def _grade(val, ok, good, label_low="low", label_ok="ok", label_good="good"):
+            return label_good if val >= good else label_ok if val >= ok else label_low
+
+        wr_grade     = _grade(wr, 50, 60, "⚠️ low", "ok", "✅ good")
+        pf_grade     = _grade(pf if pf != float("inf") else 99, 1.2, 1.5, "⚠️ low", "ok", "✅ good")
+        sharpe_grade = _grade(sharpe, 0.5, 1.0, "⚠️ low", "ok", "✅ good")
+
+        pf_str = f"{pf:.2f}x" if pf != float("inf") else "∞"
+
+        # ---- Trend: last N vs all-time ----
+        nc       = stats["recent_count"]
+        t_wr     = stats["recent_win_rate"]
+        t_avg    = stats["recent_avg_pct"]
+        wr_arr   = "▲" if t_wr  > wr + 2     else "▼" if t_wr  < wr - 2     else "→"
+        avg_arr  = "▲" if t_avg > avg_pct + 0.2 else "▼" if t_avg < avg_pct - 0.2 else "→"
+
+        # ---- Exit reason breakdown ----
+        reasons   = stats["reasons"]
+        total_ex  = sum(reasons.values())
+        strat_pct = reasons.get("strategy", 0) / total_ex * 100 if total_ex else 0
+        stop_pct  = reasons.get("hard_stop", 0) / total_ex * 100 if total_ex else 0
+        tp_pct    = reasons.get("take_profit", 0) / total_ex * 100 if total_ex else 0
+        trail_pct = reasons.get("trailing_stop", 0) / total_ex * 100 if total_ex else 0
+
+        # ---- Per-symbol P&L ----
+        ranked = sorted(stats["by_symbol"].items(), key=lambda x: x[1]["pnl"], reverse=True)
+        top3 = ranked[:3]
+        bot3 = ranked[-3:]
+
+        def _sym_line(sym, s):
+            wr_s = s["wins"] / s["trades"] * 100 if s["trades"] else 0
+            pnl_s = f"${s['pnl']:+,.0f}"
+            return f"  {sym:<7} {pnl_s:<10} {s['trades']} trades  {wr_s:.0f}% win\n"
+
+        top_lines = "".join(_sym_line(s, d) for s, d in top3)
+        bot_lines = "".join(_sym_line(s, d) for s, d in reversed(bot3))
+
+        # ---- Analyst flags (actionable) ----
+        cfg  = _config
+        stop_thresh  = getattr(cfg, "HARD_STOP_LOSS_PERCENT", 8)
+        tp_thresh    = getattr(cfg, "HARD_TAKE_PROFIT_PERCENT", 15)
+        rsi_oversold = getattr(cfg, "RSI_OVERSOLD", 30)
+
+        flags = []
+        if wr < 45:
+            flags.append(f"Win rate {wr:.0f}% is critical — raise entry score threshold above 0.35 or tighten RSI_OVERSOLD from {rsi_oversold} → {rsi_oversold + 5}")
+        elif wr < 50:
+            flags.append(f"Win rate {wr:.0f}% is below breakeven — monitor; consider raising RSI_OVERSOLD")
+        if pf < 1.2 and pf != float("inf"):
+            flags.append(f"Profit factor {pf:.2f}x — losers eat gains; reduce HARD_STOP_LOSS_PERCENT from {stop_thresh}% → {max(4, stop_thresh - 2)}%")
+        if sharpe < 0.5:
+            flags.append(f"Sharpe {sharpe:.2f} is very low — returns too choppy; lower MAX_POSITION_WEIGHT or reduce RISK_PER_TRADE")
+        if stop_pct > 40:
+            flags.append(f"Hard stops at {stop_pct:.0f}% of exits — strategy enters too early; raise BUY score threshold or lower ATR stop multiplier")
+        if tp_pct < 5 and n >= 15:
+            flags.append(f"Only {tp_pct:.0f}% of exits hit take-profit — targets too wide; consider lowering HARD_TAKE_PROFIT_PERCENT from {tp_thresh}% → {max(8, tp_thresh - 3)}%")
+        if wr_arr == "▼" and avg_arr == "▼":
+            flags.append("Recent win rate AND avg return both declining — possible regime shift; check STRATEGY_WEIGHTS (increase mean_reversion weight?)")
+        if not flags:
+            flags.append("No critical issues detected — strategy operating within healthy parameters")
+
+        flags_str = "\n".join(f"• {f}" for f in flags)
+
+        # ---- Current exposure ----
+        cash_pct = cash_val / portfolio_val * 100 if portfolio_val > 0 else 0
+        inv_pct  = invested_val / portfolio_val * 100 if portfolio_val > 0 else 0
+
+        msg = (
+            f"<b>📊 Bot Performance Analysis</b>\n"
+            f"━━━━━━━━━━━━━━━━━━━━━\n"
+            f"Based on {n} closed trades  |  {_now().strftime('%d %b %H:%M %Z')}\n\n"
+
+            f"<b>📈 Performance</b>\n"
+            f"Win rate:        {wr:.1f}%  ({wr_grade})\n"
+            f"Profit factor:   {pf_str}  ({pf_grade})\n"
+            f"Realized P&amp;L:    ${total_pl:+,.2f}\n"
+            f"Avg return/trade: {avg_pct:+.2f}%\n"
+            f"Sharpe (est.):   {sharpe:.2f}  ({sharpe_grade})\n\n"
+
+            f"<b>📅 Trend  (last {nc} vs all-time)</b>\n"
+            f"Win rate:   {t_wr:.0f}% vs {wr:.0f}%  {wr_arr}\n"
+            f"Avg/trade:  {t_avg:+.1f}% vs {avg_pct:+.1f}%  {avg_arr}\n\n"
+
+            f"<b>🚪 Exit Breakdown</b>\n"
+            f"Strategy: {strat_pct:.0f}%  |  Hard stop: {stop_pct:.0f}%"
+            + (f"  |  Trail: {trail_pct:.0f}%" if trail_pct > 0 else "")
+            + f"  |  Take-profit: {tp_pct:.0f}%\n\n"
+
+            f"<b>🏆 Best Symbols</b>\n<code>{top_lines}</code>"
+            f"<b>💔 Weakest Symbols</b>\n<code>{bot_lines}</code>\n"
+
+            f"<b>⚠️ Analyst Flags</b>\n{flags_str}\n\n"
+
+            f"<b>📊 Current Exposure</b>\n"
+            f"Portfolio: ${portfolio_val:,.0f}  |  Drawdown: {drawdown_pct:.1f}%\n"
+            f"Invested: {inv_pct:.0f}%  |  Cash: {cash_pct:.0f}%  |  Positions: {len(positions)}\n"
+            f"Unrealized: ${unrealized_pl:+,.2f}  |  Total P&amp;L: ${total_pl + unrealized_pl:+,.2f}"
+        )
+
+        buttons = [
+            [
+                {"text": "🔄 Refresh", "callback_data": "analyse"},
+                {"text": "📊 Status", "callback_data": "status"},
+            ],
+            [
+                {"text": "📦 Full Backtest", "callback_data": "backtest:ALL:365"},
             ],
         ]
         self._send_message(msg, buttons)
@@ -816,7 +1113,8 @@ def send_startup_menu(bot_token, chat_id):
         {"command": "trades", "description": "Recent buy/sell history"},
         {"command": "balance", "description": "Account balance details"},
         {"command": "dashboard", "description": "Open web dashboard"},
-        {"command": "backtest", "description": "Walk-forward backtest: /backtest AAPL 365"},
+        {"command": "analyse", "description": "Performance analysis for strategy review"},
+        {"command": "backtest", "description": "Backtest: /backtest all 365 or /backtest AAPL 252"},
         {"command": "menu", "description": "Show button menu"},
         {"command": "help", "description": "List all commands"},
     ]

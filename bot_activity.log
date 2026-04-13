@@ -6227,3 +6227,53 @@
 2026-04-13 12:11:52 | INFO     | Crypto cycle complete. Positions: 1, Invested: $19,676.92
 2026-04-13 12:11:52 | INFO     | State saved (run #218)
 2026-04-13 12:11:52 | INFO     | Cycle complete.
+2026-04-13 14:09:02 | INFO     | =======================================================
+2026-04-13 14:09:02 | INFO     |   TRADING BOT — Single Cycle
+2026-04-13 14:09:02 | INFO     |   2026-04-13 14:09:02 UTC
+2026-04-13 14:09:02 | INFO     |   Mode: PAPER
+2026-04-13 14:09:02 | INFO     | =======================================================
+2026-04-13 14:09:02 | INFO     | State loaded: peak=$101,029.84, run #218, trades=17
+2026-04-13 14:09:02 | INFO     | Connected to Alpaca (PAPER trading)
+2026-04-13 14:09:02 | INFO     | Account mode verified: PAPER | Equity: $99,520.52
+2026-04-13 14:09:02 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-04-13 14:09:07 | INFO     | Processed Telegram commands
+2026-04-13 14:09:07 | INFO     | Portfolio: $99,524.54 | Cash: $34,717.78
+2026-04-13 14:09:08 | INFO     | Dynamic universe: 32/32 symbols selected (cutoff $2.3M daily dollar vol)
+2026-04-13 14:09:08 | INFO     | Pre-fetching bars for 32 symbols...
+2026-04-13 14:09:18 | INFO     | --- Phase 1: Checking exits ---
+2026-04-13 14:09:18 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-04-13 14:09:19 | INFO     | News scan: 60 articles, 5 stocks with sentiment
+2026-04-13 14:09:19 | INFO     | Buy candidates: CRM (0.292), AMD (0.184)
+2026-04-13 14:09:19 | INFO     | --- Phase 3: Executing trades ---
+2026-04-13 14:09:19 | INFO     | BLOCKED: CRM — Max positions reached (10)
+2026-04-13 14:09:19 | INFO     | BLOCKED: AMD — Max positions reached (10)
+2026-04-13 14:09:19 | INFO     | 
+=======================================================
+2026-04-13 14:09:19 | INFO     |   CRYPTO TRADING CYCLE
+2026-04-13 14:09:19 | INFO     | =======================================================
+2026-04-13 14:09:19 | INFO     | Crypto: 1 positions | $19,676.92 invested (19.8% of portfolio)
+2026-04-13 14:09:19 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-04-13 14:09:19 | ERROR    | Non-retryable error: {"message":"invalid symbol: BCHUSD does not match ^[A-Z]+/[A-Z]+$"}
+
+2026-04-13 14:09:19 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-04-13 14:09:20 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-04-13 14:09:20 | INFO     | No crypto buy signals this cycle
+2026-04-13 14:09:20 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-04-13 14:09:20 | INFO     | Crypto cycle complete. Positions: 1, Invested: $19,676.92
+2026-04-13 14:09:20 | INFO     | 
+=======================================================
+2026-04-13 14:09:20 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-04-13 14:09:20 | INFO     | =======================================================
+2026-04-13 14:09:20 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-04-13 14:09:20 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-04-13 14:09:21 | INFO     | PAIR KO/PEP: signal=EXIT Z=-0.36
+2026-04-13 14:09:23 | INFO     | PAIR JPM/BAC: signal=EXIT Z=0.28
+2026-04-13 14:09:24 | INFO     | PAIR META/GOOGL: Z=1.02 — Kalman Z=1.02 — neutral band
+2026-04-13 14:09:25 | INFO     | PAIR AMD/INTC: Z=-0.80 — Kalman Z=-0.80 — neutral band
+2026-04-13 14:09:26 | INFO     | PAIR V/MA: signal=EXIT Z=0.19
+2026-04-13 14:09:26 | INFO     | PAIR XOM/CVX: signal=EXIT Z=-0.43
+2026-04-13 14:09:27 | INFO     | PAIR AMZN/COST: Z=-1.13 — Kalman Z=-1.13 — neutral band
+2026-04-13 14:09:28 | INFO     | PAIR JNJ/ABBV: Z=0.99 — Kalman Z=0.99 — neutral band
+2026-04-13 14:09:28 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-04-13 14:09:28 | INFO     | State saved (run #219)
+2026-04-13 14:09:28 | INFO     | Cycle complete.

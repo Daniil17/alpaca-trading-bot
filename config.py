@@ -50,7 +50,7 @@ RISK_PER_TRADE = 0.02
 MAX_POSITION_WEIGHT = 0.10  # 10%
 
 # Maximum number of open positions at once
-MAX_OPEN_POSITIONS = 10
+MAX_OPEN_POSITIONS = 15
 
 # Maximum total portfolio allocation (rest stays cash as buffer)
 # 0.80 = invest up to 80%, keep 20% cash reserve
@@ -125,9 +125,11 @@ VPT_LOOKBACK = 20             # Rolling window for VPT slope calculation (tradin
 STOCK_UNIVERSE = [
     "AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "META", "TSLA",
     "JPM", "V", "MA", "UNH", "JNJ", "PG", "HD",
-    "BAC", "XOM", "CVX", "ABBV", "KO", "PEP",
+    "BAC", "ABBV", "KO", "PEP",
     "COST", "MCD", "CRM", "ADBE", "NFLX", "AMD",
-    "INTC", "QCOM", "AVGO", "DIS", "NKE", "WMT",
+    "QCOM", "AVGO", "DIS", "WMT",
+    # Removed: NKE, XOM, CVX, INTC — win rates 12-22% in backtest, consistently underperform.
+    # Re-add after strategy tuning if desired.
 ]
 
 # ============================================================
@@ -153,12 +155,12 @@ SELL_COOLDOWN_HOURS = 24
 # ATR-based (adapts to each stock's volatility)
 # Multiplier * ATR = distance from entry price
 ATR_PERIOD = 14
-STOP_LOSS_ATR_MULTIPLIER = 2.0    # Stop-loss at 2x ATR below entry
+STOP_LOSS_ATR_MULTIPLIER = 1.5    # Stop-loss at 1.5x ATR below entry (was 2.0 — tighter to match smaller hard stop)
 TAKE_PROFIT_ATR_MULTIPLIER = 3.0  # Take-profit at 3x ATR above entry
 
 # Hard limits as safety net (override ATR if exceeded)
-HARD_STOP_LOSS_PERCENT = 8.0      # Never lose more than 8% on a trade
-HARD_TAKE_PROFIT_PERCENT = 15.0   # Always take profit at 15%
+HARD_STOP_LOSS_PERCENT = 5.0      # Never lose more than 5% on a trade (was 8% — losses were 2.3x winners)
+HARD_TAKE_PROFIT_PERCENT = 12.0   # Take profit at 12% (was 15% — capture gains earlier)
 
 # ============================================================
 # TRAILING STOP — STOCKS
@@ -227,7 +229,7 @@ CRYPTO_TRAILING_STOP_ACTIVATION_PCT = 0.08   # Start trailing after +8% gain
 CRYPTO_TRAILING_STOP_PCT = 0.12              # Trail 12% below the high-water mark
 
 # Minimum combined strategy score to trigger a crypto buy
-CRYPTO_BUY_THRESHOLD = 0.15
+CRYPTO_BUY_THRESHOLD = 0.25   # Was 0.15 — too low; bought BCH at 0.202 weak signal
 
 # ============================================================
 # DASHBOARD
@@ -333,16 +335,13 @@ PAIRS_UNIVERSE = [
     ("JPM",  "BAC"),
     # Social media / digital advertising
     ("META", "GOOGL"),
-    # Semiconductors
-    ("AMD",  "INTC"),
     # Credit card networks
     ("V",    "MA"),
-    # Oil majors
-    ("XOM",  "CVX"),
     # E-commerce platforms
     ("AMZN", "COST"),
     # Healthcare pharma
     ("JNJ",  "ABBV"),
+    # Removed: (AMD, INTC) and (XOM, CVX) — both stocks dropped from universe
 ]
 
 # Z-score thresholds

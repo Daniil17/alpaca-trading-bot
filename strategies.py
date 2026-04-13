@@ -830,14 +830,17 @@ class StrategyEngine:
             + weights.get("volume_flow", 0.30) * vf_result["score"]
         )
 
-        # Determine signal with thresholds
-        if combined >= 0.3:
+        # Determine signal with thresholds.
+        # Raised from 0.15/0.30 to 0.22/0.35 to reduce false positives.
+        # Backtest showed 38.6% win rate at 0.15 threshold — too many
+        # low-conviction entries that hit the hard stop.
+        if combined >= 0.35:
             signal = "STRONG_BUY"
-        elif combined >= 0.15:
+        elif combined >= 0.22:
             signal = "BUY"
-        elif combined <= -0.3:
+        elif combined <= -0.35:
             signal = "STRONG_SELL"
-        elif combined <= -0.15:
+        elif combined <= -0.22:
             signal = "SELL"
         else:
             signal = "HOLD"

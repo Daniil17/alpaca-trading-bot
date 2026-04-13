@@ -82,7 +82,17 @@ def setup_logging():
 # MAIN SINGLE-CYCLE RUN
 # ============================================================
 
-def _record_exit_pnl(state, symbol, pct_return, tracker, optimizer):
+def _normalize_crypto_symbol(symbol: str) -> str:
+    """
+    Normalize crypto symbols so 'BCH/USD' and 'BCHUSD' both become 'BCHUSD'.
+    Alpaca returns positions as 'BCHUSD' but CRYPTO_UNIVERSE uses 'BCH/USD'.
+    Without this, the held-check silently fails and the bot keeps re-buying
+    the same crypto every cycle.
+    """
+    return symbol.replace("/", "").upper()
+
+
+def _record_exit_pnl(state, symbol, pct_return, tracker=None, optimizer=None):
     """
     Record a closed position's P&L in the adaptive weight tracker and
     Bayesian trade history. Extracted to avoid the 3-way copy-paste that
@@ -861,7 +871,8 @@ def _run_crypto_cycle(api, risk, news, telegram, state, portfolio_value, logger)
     # ---- Current crypto positions ----
     all_positions = api.get_all_positions()
     crypto_positions = [p for p in all_positions if api.is_crypto(p["symbol"])]
-    held_crypto = {p["symbol"] for p in crypto_positions}
+    # Normalize symbols: Alpaca returns "BCHUSD" but CRYPTO_UNIVERSE uses "BCH/USD"
+    held_crypto = {_normalize_crypto_symbol(p["symbol"]) for p in crypto_positions}
 
     max_crypto_positions = getattr(config, "MAX_CRYPTO_POSITIONS", 5)
     max_crypto_alloc = getattr(config, "MAX_CRYPTO_PORTFOLIO_ALLOCATION", 0.20)
@@ -953,7 +964,8 @@ def _run_crypto_cycle(api, risk, news, telegram, state, portfolio_value, logger)
     # Refresh after any exits
     all_positions = api.get_all_positions()
     crypto_positions = [p for p in all_positions if api.is_crypto(p["symbol"])]
-    held_crypto = {p["symbol"] for p in crypto_positions}
+    # Normalize symbols: Alpaca returns "BCHUSD" but CRYPTO_UNIVERSE uses "BCH/USD"
+    held_crypto = {_normalize_crypto_symbol(p["symbol"]) for p in crypto_positions}
     total_crypto_invested = sum(float(p.get("market_value", 0)) for p in crypto_positions)
 
     # Check allocation limits
@@ -974,17 +986,20 @@ def _run_crypto_cycle(api, risk, news, telegram, state, portfolio_value, logger)
     # --- Sell cooldown: don't re-buy a crypto too soon after selling ---
     cooldown_secs = getattr(config, "SELL_COOLDOWN_HOURS", 24) * 3600
     now_ts = time.time()
+    # Normalize cooldown keys so "BCH/USD" and "BCHUSD" both match
     crypto_cooldowns = {
-        sym: ts for sym, ts in state.get("sell_cooldowns", {}).items()
+        _normalize_crypto_symbol(sym): ts
+        for sym, ts in state.get("sell_cooldowns", {}).items()
         if now_ts - ts < cooldown_secs
     }
 
     candidates = []
     for symbol in config.CRYPTO_UNIVERSE:
-        if symbol in held_crypto:
+        norm_sym = _normalize_crypto_symbol(symbol)
+        if norm_sym in held_crypto:
             continue
-        if symbol in crypto_cooldowns:
-            hrs = (now_ts - crypto_cooldowns[symbol]) / 3600
+        if norm_sym in crypto_cooldowns:
+            hrs = (now_ts - crypto_cooldowns[norm_sym]) / 3600
             logger.debug(f"CRYPTO COOLDOWN: {symbol} sold {hrs:.1f}h ago — skipping")
             continue
 

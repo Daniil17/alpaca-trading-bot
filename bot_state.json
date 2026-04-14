@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 240,
+  "run_count": 241,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -197,12 +197,12 @@
   ],
   "open_pairs": {},
   "trailing_high": {
-    "MSFT": 393.56,
-    "NFLX": 105.595,
+    "MSFT": 394.1799,
+    "NFLX": 106.445,
     "CVX": 192.165,
     "WMT": 128.14,
     "XOM": 154.07,
-    "COST": 972.21,
+    "COST": 972.9699,
     "CRM": 173.36
   },
   "strategy_pnl": {

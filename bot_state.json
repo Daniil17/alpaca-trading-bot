@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 260,
+  "run_count": 261,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -193,17 +193,26 @@
       "price": 178.64,
       "is_crypto": false,
       "score": 0.292
+    },
+    {
+      "time": "2026-04-15 19:15 BST",
+      "action": "SELL",
+      "symbol": "MSFT",
+      "amount": 1839.73,
+      "price": 411.73,
+      "is_crypto": false,
+      "pnl": 201.23,
+      "reason": "TAKE-PROFIT: +12.3%"
     }
   ],
   "open_pairs": {},
   "trailing_high": {
-    "MSFT": 408.785,
-    "NFLX": 106.7301,
+    "NFLX": 106.74,
     "CVX": 192.165,
     "WMT": 128.14,
     "XOM": 154.07,
     "COST": 982.51,
-    "CRM": 177.14
+    "CRM": 178.255
   },
   "strategy_pnl": {
     "mean_reversion": [],
@@ -211,7 +220,9 @@
     "news_sentiment": [],
     "volume_flow": []
   },
-  "sell_cooldowns": {},
+  "sell_cooldowns": {
+    "MSFT": 1776276940.8500717
+  },
   "last_full_scan_date": "2026-04-15",
   "position_strategies": {
     "COST": {

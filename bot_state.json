@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 257,
+  "run_count": 258,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -197,13 +197,13 @@
   ],
   "open_pairs": {},
   "trailing_high": {
-    "MSFT": 394.1799,
+    "MSFT": 405.82,
     "NFLX": 106.445,
     "CVX": 192.165,
     "WMT": 128.14,
     "XOM": 154.07,
     "COST": 975.01,
-    "CRM": 173.36
+    "CRM": 175.77
   },
   "strategy_pnl": {
     "mean_reversion": [],
@@ -212,7 +212,7 @@
     "volume_flow": []
   },
   "sell_cooldowns": {},
-  "last_full_scan_date": "2026-04-14",
+  "last_full_scan_date": "2026-04-15",
   "position_strategies": {
     "COST": {
       "mean_reversion": {

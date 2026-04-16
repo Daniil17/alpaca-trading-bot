@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 276,
+  "run_count": 277,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -203,16 +203,24 @@
       "is_crypto": false,
       "pnl": 201.23,
       "reason": "TAKE-PROFIT: +12.3%"
+    },
+    {
+      "time": "2026-04-16 15:58 BST",
+      "action": "BUY",
+      "symbol": "NFLX",
+      "amount": 315.33,
+      "price": 107.81,
+      "is_crypto": false,
+      "score": 0.306
     }
   ],
   "open_pairs": {},
   "trailing_high": {
-    "NFLX": 107.305,
     "CVX": 192.165,
     "WMT": 128.14,
     "XOM": 154.07,
-    "COST": 983.51,
-    "CRM": 178.255
+    "COST": 988.76,
+    "CRM": 180.06
   },
   "strategy_pnl": {
     "mean_reversion": [],
@@ -223,7 +231,7 @@
   "sell_cooldowns": {
     "MSFT": 1776276940.8500717
   },
-  "last_full_scan_date": "2026-04-15",
+  "last_full_scan_date": "2026-04-16",
   "position_strategies": {
     "COST": {
       "mean_reversion": {
@@ -275,6 +283,32 @@
         "vpt_slope": 0.5114,
         "vol_ratio": 1.36,
         "reason": "VPT rising (accumulation, slope 0.511)"
+      }
+    },
+    "NFLX": {
+      "mean_reversion": {
+        "score": 0.0,
+        "rsi": 45.0,
+        "bb_position": 0.305,
+        "reason": "Neutral"
+      },
+      "momentum": {
+        "score": 0.021,
+        "adx": 24.0,
+        "ema_fast": 93.11,
+        "ema_slow": 92.73,
+        "reason": "Uptrend (EMA spread 0.4%) | Weak trend (ADX 24)"
+      },
+      "news_sentiment": {
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": 0.0
+      },
+      "volume_flow": {
+        "score": 1.0,
+        "vpt_slope": 0.6491,
+        "vol_ratio": 0.53,
+        "reason": "VPT rising (accumulation, slope 0.649)"
       }
     }
   }

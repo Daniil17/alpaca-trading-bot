@@ -7952,3 +7952,28 @@
 2026-04-16 07:10:17 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-04-16 07:10:17 | INFO     | State saved (run #272)
 2026-04-16 07:10:17 | INFO     | Cycle complete.
+2026-04-16 08:57:11 | INFO     | =======================================================
+2026-04-16 08:57:11 | INFO     |   TRADING BOT — Single Cycle
+2026-04-16 08:57:11 | INFO     |   2026-04-16 08:57:11 UTC
+2026-04-16 08:57:11 | INFO     |   Mode: PAPER
+2026-04-16 08:57:11 | INFO     | =======================================================
+2026-04-16 08:57:11 | INFO     | State loaded: peak=$101,029.84, run #272, trades=20
+2026-04-16 08:57:11 | INFO     | Connected to Alpaca (PAPER trading)
+2026-04-16 08:57:12 | INFO     | Account mode verified: PAPER | Equity: $99,157.86
+2026-04-16 08:57:12 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-04-16 08:57:17 | INFO     | Processed Telegram commands
+2026-04-16 08:57:17 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-04-16 08:57:17 | INFO     | Portfolio: $99,157.86 | Cash: $61,281.65
+2026-04-16 08:57:17 | INFO     | 
+=======================================================
+2026-04-16 08:57:17 | INFO     |   CRYPTO TRADING CYCLE
+2026-04-16 08:57:17 | INFO     | =======================================================
+2026-04-16 08:57:17 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-04-16 08:57:17 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-04-16 08:57:17 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-04-16 08:57:19 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-04-16 08:57:20 | INFO     | No crypto buy signals this cycle
+2026-04-16 08:57:20 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-04-16 08:57:20 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-04-16 08:57:20 | INFO     | State saved (run #273)
+2026-04-16 08:57:20 | INFO     | Cycle complete.

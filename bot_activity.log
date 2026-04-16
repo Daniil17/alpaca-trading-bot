@@ -8234,3 +8234,28 @@
 2026-04-16 19:05:46 | INFO     | Pairs cycle complete. Open pairs: 0
 2026-04-16 19:05:46 | INFO     | State saved (run #280)
 2026-04-16 19:05:46 | INFO     | Cycle complete.
+2026-04-16 20:06:08 | INFO     | =======================================================
+2026-04-16 20:06:08 | INFO     |   TRADING BOT — Single Cycle
+2026-04-16 20:06:08 | INFO     |   2026-04-16 20:06:08 UTC
+2026-04-16 20:06:08 | INFO     |   Mode: PAPER
+2026-04-16 20:06:08 | INFO     | =======================================================
+2026-04-16 20:06:08 | INFO     | State loaded: peak=$101,029.84, run #280, trades=21
+2026-04-16 20:06:08 | INFO     | Connected to Alpaca (PAPER trading)
+2026-04-16 20:06:08 | INFO     | Account mode verified: PAPER | Equity: $99,529.11
+2026-04-16 20:06:09 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-04-16 20:06:13 | INFO     | Processed Telegram commands
+2026-04-16 20:06:13 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-04-16 20:06:14 | INFO     | Portfolio: $99,528.94 | Cash: $62,418.52
+2026-04-16 20:06:14 | INFO     | 
+=======================================================
+2026-04-16 20:06:14 | INFO     |   CRYPTO TRADING CYCLE
+2026-04-16 20:06:14 | INFO     | =======================================================
+2026-04-16 20:06:14 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-04-16 20:06:14 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-04-16 20:06:14 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-04-16 20:06:16 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-04-16 20:06:18 | INFO     | No crypto buy signals this cycle
+2026-04-16 20:06:18 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-04-16 20:06:18 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-04-16 20:06:19 | INFO     | State saved (run #281)
+2026-04-16 20:06:19 | INFO     | Cycle complete.

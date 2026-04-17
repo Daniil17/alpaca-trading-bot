@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 298,
+  "run_count": 299,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -226,7 +226,7 @@
   "open_pairs": {},
   "trailing_high": {
     "WMT": 128.14,
-    "COST": 990.19,
+    "COST": 991.745,
     "CRM": 186.55,
     "AMZN": 254.345,
     "NFLX": 97.925

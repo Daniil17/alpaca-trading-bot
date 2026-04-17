@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 295,
+  "run_count": 296,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -228,7 +228,8 @@
     "WMT": 128.14,
     "COST": 989.49,
     "CRM": 186.55,
-    "AMZN": 254.338
+    "AMZN": 254.345,
+    "NFLX": 97.6399
   },
   "strategy_pnl": {
     "mean_reversion": [],

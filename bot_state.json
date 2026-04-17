@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 294,
+  "run_count": 295,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -212,16 +212,23 @@
       "price": 107.81,
       "is_crypto": false,
       "score": 0.306
+    },
+    {
+      "time": "2026-04-17 15:00 BST",
+      "action": "BUY",
+      "symbol": "NFLX",
+      "amount": 327.7,
+      "price": 97.6,
+      "is_crypto": false,
+      "score": 0.305
     }
   ],
   "open_pairs": {},
   "trailing_high": {
-    "CVX": 192.165,
     "WMT": 128.14,
-    "XOM": 154.07,
-    "COST": 988.76,
-    "CRM": 180.965,
-    "NFLX": 108.6299
+    "COST": 989.49,
+    "CRM": 186.55,
+    "AMZN": 254.338
   },
   "strategy_pnl": {
     "mean_reversion": [],
@@ -229,10 +236,8 @@
     "news_sentiment": [],
     "volume_flow": []
   },
-  "sell_cooldowns": {
-    "MSFT": 1776276940.8500717
-  },
-  "last_full_scan_date": "2026-04-16",
+  "sell_cooldowns": {},
+  "last_full_scan_date": "2026-04-17",
   "position_strategies": {
     "COST": {
       "mean_reversion": {
@@ -289,16 +294,16 @@
     "NFLX": {
       "mean_reversion": {
         "score": 0.0,
-        "rsi": 45.0,
-        "bb_position": 0.305,
+        "rsi": 48.4,
+        "bb_position": 0.317,
         "reason": "Neutral"
       },
       "momentum": {
-        "score": 0.021,
-        "adx": 24.0,
-        "ema_fast": 93.11,
-        "ema_slow": 92.73,
-        "reason": "Uptrend (EMA spread 0.4%) | Weak trend (ADX 24)"
+        "score": 0.016,
+        "adx": 22.4,
+        "ema_fast": 92.99,
+        "ema_slow": 92.69,
+        "reason": "Uptrend (EMA spread 0.3%) | Weak trend (ADX 22)"
       },
       "news_sentiment": {
         "score": 0,
@@ -307,9 +312,9 @@
       },
       "volume_flow": {
         "score": 1.0,
-        "vpt_slope": 0.6491,
-        "vol_ratio": 0.53,
-        "reason": "VPT rising (accumulation, slope 0.649)"
+        "vpt_slope": 0.6439,
+        "vol_ratio": 0.57,
+        "reason": "VPT rising (accumulation, slope 0.644)"
       }
     }
   }

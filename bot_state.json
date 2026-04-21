@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 383,
+  "run_count": 384,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -227,7 +227,7 @@
   "trailing_high": {
     "WMT": 128.465,
     "COST": 1007.5199,
-    "CRM": 187.05,
+    "CRM": 191.705,
     "AMZN": 254.345,
     "NFLX": 97.925
   },
@@ -238,7 +238,7 @@
     "volume_flow": []
   },
   "sell_cooldowns": {},
-  "last_full_scan_date": "2026-04-20",
+  "last_full_scan_date": "2026-04-21",
   "position_strategies": {
     "COST": {
       "mean_reversion": {

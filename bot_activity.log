@@ -18425,3 +18425,56 @@
 2026-05-05 12:56:53 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-05-05 12:56:53 | INFO     | State saved (run #640)
 2026-05-05 12:56:53 | INFO     | Cycle complete.
+2026-05-05 16:55:35 | INFO     | =======================================================
+2026-05-05 16:55:35 | INFO     |   TRADING BOT — Single Cycle
+2026-05-05 16:55:35 | INFO     |   2026-05-05 16:55:35 UTC
+2026-05-05 16:55:35 | INFO     |   Mode: PAPER
+2026-05-05 16:55:35 | INFO     | =======================================================
+2026-05-05 16:55:35 | INFO     | State loaded: peak=$101,029.84, run #640, trades=22
+2026-05-05 16:55:35 | INFO     | Connected to Alpaca (PAPER trading)
+2026-05-05 16:55:35 | INFO     | Account mode verified: PAPER | Equity: $99,502.40
+2026-05-05 16:55:35 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-05-05 16:55:38 | INFO     | Processed Telegram commands
+2026-05-05 16:55:38 | INFO     | Portfolio: $99,503.77 | Cash: $66,254.49
+2026-05-05 16:55:38 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $12.5M daily dollar vol)
+2026-05-05 16:55:38 | INFO     | Pre-fetching bars for 28 symbols...
+2026-05-05 16:55:39 | INFO     | --- Phase 1: Checking exits ---
+2026-05-05 16:55:39 | WARNING  | HARD STOP-LOSS: NFLX at -6.1%
+2026-05-05 16:55:39 | INFO     | EXIT: NFLX — HARD STOP-LOSS: -6.1%
+2026-05-05 16:55:39 | INFO     | CLOSED POSITION: NFLX
+2026-05-05 16:55:40 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-05-05 16:55:41 | INFO     | News scan: 60 articles, 6 stocks with sentiment
+2026-05-05 16:55:41 | INFO     | No buy signals this cycle
+2026-05-05 16:55:41 | INFO     | --- Phase 3: Executing trades ---
+2026-05-05 16:55:41 | INFO     | 
+=======================================================
+2026-05-05 16:55:41 | INFO     |   CRYPTO TRADING CYCLE
+2026-05-05 16:55:41 | INFO     | =======================================================
+2026-05-05 16:55:41 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-05-05 16:55:41 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-05-05 16:55:41 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-05-05 16:55:42 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-05-05 16:55:43 | INFO     | No crypto buy signals this cycle
+2026-05-05 16:55:43 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-05-05 16:55:43 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-05-05 16:55:43 | INFO     | 
+=======================================================
+2026-05-05 16:55:43 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-05-05 16:55:43 | INFO     | =======================================================
+2026-05-05 16:55:43 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-05-05 16:55:43 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-05-05 16:55:43 | INFO     | PAIR KO/PEP: Z=0.53 — Kalman Z=0.53 — neutral band
+2026-05-05 16:55:43 | INFO     | PAIR JPM/BAC: Z=0.83 — Kalman Z=0.83 — neutral band
+2026-05-05 16:55:43 | INFO     | PAIR META/GOOGL: Z=-0.95 — Kalman Z=-0.95 — neutral band
+2026-05-05 16:55:43 | INFO     | PAIR V/MA: Z=-0.59 — Kalman Z=-0.59 — neutral band
+2026-05-05 16:55:44 | INFO     | PAIR AMZN/COST: signal=LONG_Y_SHORT_X Z=-2.35
+2026-05-05 16:55:44 | INFO     | PAIR JNJ/ABBV: signal=EXIT Z=0.42
+2026-05-05 16:55:44 | INFO     | PAIRS TRADE: long COST ($3980.15) | short AMZN ($3980.15) | Z=-2.35 | hedge_ratio=4.375
+2026-05-05 16:55:44 | INFO     | BUY MARKET: COST | $3980.15
+2026-05-05 16:55:44 | ERROR    | Non-retryable error: {"available":"1.468203728","code":40310000,"existing_qty":"1.468203728","held_for_orders":"0","message":"insufficient qty available for order (requested: 14.54680019, available: 1.468203728)","symbol":"AMZN"}
+2026-05-05 16:55:44 | WARNING  | PAIRS: one leg failed for AMZN_COST — closing both
+2026-05-05 16:55:44 | WARNING  | API call failed (attempt 1/3): {"code":40310000,"existing_order_id":"3541a2ea-1da8-40ed-8586-632cead17561","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"} — retrying in 2.0s
+2026-05-05 16:55:46 | INFO     | CLOSED POSITION: COST
+2026-05-05 16:55:46 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-05-05 16:55:46 | INFO     | State saved (run #641)
+2026-05-05 16:55:46 | INFO     | Cycle complete.

@@ -18526,3 +18526,52 @@
 2026-05-05 18:11:53 | INFO     | Pairs cycle complete. Open pairs: 0
 2026-05-05 18:11:53 | INFO     | State saved (run #642)
 2026-05-05 18:11:53 | INFO     | Cycle complete.
+2026-05-05 19:53:29 | INFO     | =======================================================
+2026-05-05 19:53:29 | INFO     |   TRADING BOT — Single Cycle
+2026-05-05 19:53:29 | INFO     |   2026-05-05 19:53:29 UTC
+2026-05-05 19:53:29 | INFO     |   Mode: PAPER
+2026-05-05 19:53:29 | INFO     | =======================================================
+2026-05-05 19:53:29 | INFO     | State loaded: peak=$101,029.84, run #642, trades=23
+2026-05-05 19:53:29 | INFO     | Connected to Alpaca (PAPER trading)
+2026-05-05 19:53:29 | INFO     | Account mode verified: PAPER | Equity: $99,444.80
+2026-05-05 19:53:29 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-05-05 19:53:32 | INFO     | Processed Telegram commands
+2026-05-05 19:53:32 | INFO     | Portfolio: $99,447.72 | Cash: $72,941.48
+2026-05-05 19:53:32 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $22.9M daily dollar vol)
+2026-05-05 19:53:32 | INFO     | Pre-fetching bars for 28 symbols...
+2026-05-05 19:53:33 | INFO     | --- Phase 1: Checking exits ---
+2026-05-05 19:53:33 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-05-05 19:53:33 | INFO     | Buy scan already ran today — skipping (exits still managed)
+2026-05-05 19:53:33 | INFO     | --- Phase 3: Executing trades ---
+2026-05-05 19:53:33 | INFO     | 
+=======================================================
+2026-05-05 19:53:33 | INFO     |   CRYPTO TRADING CYCLE
+2026-05-05 19:53:33 | INFO     | =======================================================
+2026-05-05 19:53:33 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-05-05 19:53:33 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-05-05 19:53:33 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-05-05 19:53:35 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-05-05 19:53:36 | INFO     | No crypto buy signals this cycle
+2026-05-05 19:53:36 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-05-05 19:53:36 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-05-05 19:53:36 | INFO     | 
+=======================================================
+2026-05-05 19:53:36 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-05-05 19:53:36 | INFO     | =======================================================
+2026-05-05 19:53:36 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-05-05 19:53:36 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-05-05 19:53:36 | INFO     | PAIR KO/PEP: Z=0.53 — Kalman Z=0.53 — neutral band
+2026-05-05 19:53:36 | INFO     | PAIR JPM/BAC: Z=0.83 — Kalman Z=0.83 — neutral band
+2026-05-05 19:53:36 | INFO     | PAIR META/GOOGL: Z=-0.95 — Kalman Z=-0.95 — neutral band
+2026-05-05 19:53:36 | INFO     | PAIR V/MA: Z=-0.59 — Kalman Z=-0.59 — neutral band
+2026-05-05 19:53:36 | INFO     | PAIR AMZN/COST: signal=LONG_Y_SHORT_X Z=-2.35
+2026-05-05 19:53:36 | INFO     | PAIR JNJ/ABBV: signal=EXIT Z=0.42
+2026-05-05 19:53:36 | INFO     | PAIRS TRADE: long COST ($3977.91) | short AMZN ($3977.91) | Z=-2.35 | hedge_ratio=4.375
+2026-05-05 19:53:36 | INFO     | BUY MARKET: COST | $3977.91
+2026-05-05 19:53:36 | ERROR    | Non-retryable error: {"available":"1.468203728","code":40310000,"existing_qty":"1.468203728","held_for_orders":"0","message":"insufficient qty available for order (requested: 14.537550707, available: 1.468203728)","symbol":"AMZN"}
+2026-05-05 19:53:36 | WARNING  | PAIRS: one leg failed for AMZN_COST — closing both
+2026-05-05 19:53:36 | WARNING  | API call failed (attempt 1/3): {"code":40310000,"existing_order_id":"27cd25e3-b144-499b-a853-853c3babb40e","message":"potential wash trade detected. use complex orders","reject_reason":"opposite side market/stop order exists"} — retrying in 2.0s
+2026-05-05 19:53:38 | INFO     | CLOSED POSITION: COST
+2026-05-05 19:53:38 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-05-05 19:53:38 | INFO     | State saved (run #643)
+2026-05-05 19:53:38 | INFO     | Cycle complete.

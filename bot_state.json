@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 652,
+  "run_count": 653,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -237,10 +237,10 @@
   "trailing_high": {
     "WMT": 133.245,
     "AMZN": 274.61,
-    "JPM": 315.19,
+    "JPM": 315.765,
     "UNH": 371.59,
     "AVGO": 432.755,
-    "GOOGL": 387.34
+    "GOOGL": 396.51
   },
   "strategy_pnl": {
     "mean_reversion": [],
@@ -253,7 +253,7 @@
   "sell_cooldowns": {
     "NFLX": 1778000139.8482041
   },
-  "last_full_scan_date": "2026-05-05",
+  "last_full_scan_date": "2026-05-06",
   "position_strategies": {
     "COST": {
       "mean_reversion": {

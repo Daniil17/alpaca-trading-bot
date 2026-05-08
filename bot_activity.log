@@ -19719,3 +19719,60 @@
 2026-05-08 11:54:14 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-05-08 11:54:14 | INFO     | State saved (run #682)
 2026-05-08 11:54:14 | INFO     | Cycle complete.
+2026-05-08 13:50:04 | INFO     | =======================================================
+2026-05-08 13:50:04 | INFO     |   TRADING BOT — Single Cycle
+2026-05-08 13:50:04 | INFO     |   2026-05-08 13:50:04 UTC
+2026-05-08 13:50:04 | INFO     |   Mode: PAPER
+2026-05-08 13:50:04 | INFO     | =======================================================
+2026-05-08 13:50:04 | INFO     | State loaded: peak=$101,029.84, run #682, trades=25
+2026-05-08 13:50:04 | INFO     | Connected to Alpaca (PAPER trading)
+2026-05-08 13:50:04 | INFO     | Account mode verified: PAPER | Equity: $99,397.66
+2026-05-08 13:50:04 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-05-08 13:50:06 | INFO     | Processed Telegram commands
+2026-05-08 13:50:06 | INFO     | Portfolio: $99,390.90 | Cash: $66,781.18
+2026-05-08 13:50:06 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $1.1M daily dollar vol)
+2026-05-08 13:50:06 | INFO     | Pre-fetching bars for 28 symbols...
+2026-05-08 13:50:08 | INFO     | --- Phase 1: Checking exits ---
+2026-05-08 13:50:08 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-05-08 13:50:09 | INFO     | News scan: 60 articles, 7 stocks with sentiment
+2026-05-08 13:50:09 | INFO     | Buy candidates: AMD (0.392), MSFT (0.373), DIS (0.370), AAPL (0.229), TSLA (0.225)
+2026-05-08 13:50:09 | INFO     | --- Phase 3: Executing trades ---
+2026-05-08 13:50:09 | INFO     | BLOCKED: AMD — Max 3 positions in Technology sector
+2026-05-08 13:50:09 | INFO     | BLOCKED: MSFT — Max 3 positions in Technology sector
+2026-05-08 13:50:09 | INFO     | BUY: DIS | $9602.98 @ ~$108.6 | Score: 0.370 | SL=$105.37 TP=$115.05
+2026-05-08 13:50:09 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 2.0s
+2026-05-08 13:50:11 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 4.0s
+2026-05-08 13:50:15 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be simple orders"}
+2026-05-08 13:50:15 | WARNING  | Bracket order failed for DIS — falling back to market + stop
+2026-05-08 13:50:15 | INFO     | BUY MARKET: DIS | $9602.98
+2026-05-08 13:50:15 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be DAY orders"} — retrying in 2.0s
+2026-05-08 13:50:17 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be DAY orders"} — retrying in 4.0s
+2026-05-08 13:50:21 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be DAY orders"}
+2026-05-08 13:50:22 | INFO     | BLOCKED: AAPL — Max 3 positions in Technology sector
+2026-05-08 13:50:22 | INFO     | BLOCKED: TSLA — Max 3 positions in Consumer sector
+2026-05-08 13:50:22 | INFO     | 
+=======================================================
+2026-05-08 13:50:22 | INFO     |   CRYPTO TRADING CYCLE
+2026-05-08 13:50:22 | INFO     | =======================================================
+2026-05-08 13:50:22 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-05-08 13:50:22 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-05-08 13:50:22 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-05-08 13:50:22 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-05-08 13:50:23 | INFO     | No crypto buy signals this cycle
+2026-05-08 13:50:23 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-05-08 13:50:23 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-05-08 13:50:23 | INFO     | 
+=======================================================
+2026-05-08 13:50:23 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-05-08 13:50:23 | INFO     | =======================================================
+2026-05-08 13:50:23 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-05-08 13:50:23 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-05-08 13:50:23 | INFO     | PAIR KO/PEP: Z=0.57 — Kalman Z=0.57 — neutral band
+2026-05-08 13:50:23 | INFO     | PAIR JPM/BAC: signal=EXIT Z=0.38
+2026-05-08 13:50:23 | INFO     | PAIR META/GOOGL: signal=EXIT Z=0.32
+2026-05-08 13:50:23 | INFO     | PAIR V/MA: signal=EXIT Z=0.45
+2026-05-08 13:50:23 | INFO     | PAIR AMZN/COST: Z=-0.94 — Kalman Z=-0.94 — neutral band
+2026-05-08 13:50:23 | INFO     | PAIR JNJ/ABBV: signal=EXIT Z=-0.14
+2026-05-08 13:50:23 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-05-08 13:50:23 | INFO     | State saved (run #683)
+2026-05-08 13:50:23 | INFO     | Cycle complete.

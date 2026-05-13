@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 757,
+  "run_count": 758,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -305,7 +305,9 @@
     "AVGO": 432.755,
     "GOOGL": 400.6,
     "NFLX": 88.6,
-    "DIS": 108.676605
+    "DIS": 108.676605,
+    "BAC": 50.73,
+    "JPM": 301.95
   },
   "strategy_pnl": {
     "mean_reversion": [],

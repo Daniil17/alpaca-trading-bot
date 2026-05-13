@@ -21841,3 +21841,29 @@
 2026-05-13 09:31:54 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-05-13 09:31:54 | INFO     | State saved (run #755)
 2026-05-13 09:31:54 | INFO     | Cycle complete.
+2026-05-13 11:51:23 | INFO     | =======================================================
+2026-05-13 11:51:23 | INFO     |   TRADING BOT — Single Cycle
+2026-05-13 11:51:23 | INFO     |   2026-05-13 11:51:23 UTC
+2026-05-13 11:51:23 | INFO     |   Mode: PAPER
+2026-05-13 11:51:23 | INFO     | =======================================================
+2026-05-13 11:51:23 | INFO     | State loaded: peak=$101,029.84, run #755, trades=28
+2026-05-13 11:51:23 | INFO     | Connected to Alpaca (PAPER trading)
+2026-05-13 11:51:23 | INFO     | Account mode verified: PAPER | Equity: $98,537.51
+2026-05-13 11:51:33 | WARNING  | send_startup_menu error: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot8640977004:AAHYAE5GkSpDNAwSpctwHyM3rqtJcm-WIkU/setMyCommands (Caused by NewConnectionError("HTTPSConnection(host='api.telegram.org', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable"))
+2026-05-13 11:51:44 | WARNING  | Telegram send error: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot8640977004:AAHYAE5GkSpDNAwSpctwHyM3rqtJcm-WIkU/sendMessage (Caused by NewConnectionError("HTTPSConnection(host='api.telegram.org', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable"))
+2026-05-13 11:51:44 | INFO     | Processed Telegram commands
+2026-05-13 11:51:44 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-05-13 11:51:44 | INFO     | Portfolio: $98,537.51 | Cash: $65,514.36
+2026-05-13 11:51:44 | INFO     | 
+=======================================================
+2026-05-13 11:51:44 | INFO     |   CRYPTO TRADING CYCLE
+2026-05-13 11:51:44 | INFO     | =======================================================
+2026-05-13 11:51:44 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-05-13 11:51:44 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-05-13 11:51:44 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-05-13 11:51:45 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-05-13 11:51:45 | INFO     | No crypto buy signals this cycle
+2026-05-13 11:51:45 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-05-13 11:51:45 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-05-13 11:51:45 | INFO     | State saved (run #756)
+2026-05-13 11:51:45 | INFO     | Cycle complete.

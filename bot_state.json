@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 783,
+  "run_count": 784,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -304,6 +304,16 @@
       "price": 176.055,
       "is_crypto": false,
       "score": -2.028
+    },
+    {
+      "time": "2026-05-15 18:02 BST",
+      "action": "SELL",
+      "symbol": "DIS",
+      "amount": 9102.26,
+      "price": 103.01,
+      "is_crypto": false,
+      "pnl": -500.72,
+      "reason": "HARD STOP-LOSS: -5.2%"
     }
   ],
   "open_pairs": {
@@ -325,20 +335,23 @@
     "AVGO": 439.715,
     "GOOGL": 403.2701,
     "NFLX": 88.6,
-    "DIS": 108.676605,
     "BAC": 50.73,
     "JPM": 301.95
   },
   "strategy_pnl": {
     "mean_reversion": [],
-    "momentum": [],
+    "momentum": [
+      -5.2139999999999995
+    ],
     "news_sentiment": [],
     "volume_flow": [
       -6.1129999999999995,
       -5.022
     ]
   },
-  "sell_cooldowns": {},
+  "sell_cooldowns": {
+    "DIS": 1778864578.738003
+  },
   "last_full_scan_date": "2026-05-15",
   "position_strategies": {
     "COST": {
@@ -417,34 +430,6 @@
         "vpt_slope": 0.6232,
         "vol_ratio": 1.03,
         "reason": "VPT rising (accumulation, slope 0.623)"
-      }
-    },
-    "DIS": {
-      "mean_reversion": {
-        "score": -0.5,
-        "rsi": 63.9,
-        "bb_position": 0.979,
-        "reason": "Price at upper Bollinger Band"
-      },
-      "momentum": {
-        "score": 0.711,
-        "adx": 25.5,
-        "ema_fast": 100.2,
-        "ema_slow": 99.88,
-        "reason": "Bullish EMA crossover (fresh) | Strong trend (ADX 26)"
-      },
-      "news_sentiment": {
-        "score": 0.1,
-        "rsi": 63.9,
-        "recent_max_rsi": 63.9,
-        "sentiment": 1.0,
-        "reason": "Positive news but RSI neutral (64) | Sentiment: 1.00"
-      },
-      "volume_flow": {
-        "score": 0.383,
-        "vpt_slope": 0.1915,
-        "vol_ratio": 0.81,
-        "reason": "VPT rising (accumulation, slope 0.192)"
       }
     },
     "BAC": {

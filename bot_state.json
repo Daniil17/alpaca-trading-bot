@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 828,
+  "run_count": 829,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -314,6 +314,35 @@
       "is_crypto": false,
       "pnl": -500.72,
       "reason": "HARD STOP-LOSS: -5.2%"
+    },
+    {
+      "time": "2026-05-18 15:46 BST",
+      "action": "SELL",
+      "symbol": "NFLX",
+      "amount": 1745.58,
+      "price": 89.615,
+      "is_crypto": false,
+      "pnl": 19.77,
+      "reason": "Strategy (-0.232)",
+      "score": -0.232
+    },
+    {
+      "time": "2026-05-18 15:47 BST",
+      "action": "BUY",
+      "symbol": "AMD",
+      "amount": 4971.76,
+      "price": 416.13,
+      "is_crypto": false,
+      "score": 0.518
+    },
+    {
+      "time": "2026-05-18 15:47 BST",
+      "action": "BUY",
+      "symbol": "TSLA",
+      "amount": 248.93,
+      "price": 411.65,
+      "is_crypto": false,
+      "score": 0.339
     }
   ],
   "open_pairs": {
@@ -333,8 +362,8 @@
     "AMZN": 276.465,
     "UNH": 402.065,
     "AVGO": 439.715,
-    "GOOGL": 403.2701,
-    "NFLX": 88.6,
+    "GOOGL": 404.4615,
+    "NFLX": 89.615,
     "BAC": 50.73,
     "JPM": 301.95
   },
@@ -346,13 +375,14 @@
     "news_sentiment": [],
     "volume_flow": [
       -6.1129999999999995,
-      -5.022
+      -5.022,
+      1.146
     ]
   },
   "sell_cooldowns": {
-    "DIS": 1778864578.738003
+    "NFLX": 1779115606.9632437
   },
-  "last_full_scan_date": "2026-05-15",
+  "last_full_scan_date": "2026-05-18",
   "position_strategies": {
     "COST": {
       "mean_reversion": {
@@ -406,32 +436,6 @@
         "reason": "VPT rising (accumulation, slope 0.511)"
       }
     },
-    "NFLX": {
-      "mean_reversion": {
-        "score": -0.651,
-        "rsi": 79.0,
-        "bb_position": 1.015,
-        "reason": "RSI overbought (79) | Price at upper Bollinger Band"
-      },
-      "momentum": {
-        "score": 0.677,
-        "adx": 38.8,
-        "ema_fast": 101.22,
-        "ema_slow": 97.53,
-        "reason": "Uptrend (EMA spread 3.8%) | Strong trend (ADX 39)"
-      },
-      "news_sentiment": {
-        "score": 0,
-        "reason": "No positive news sentiment",
-        "sentiment": 0.0
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 0.6232,
-        "vol_ratio": 1.03,
-        "reason": "VPT rising (accumulation, slope 0.623)"
-      }
-    },
     "BAC": {
       "mean_reversion": {
         "score": -0.2,
@@ -482,6 +486,60 @@
         "vpt_slope": 0.7474,
         "vol_ratio": 0.75,
         "reason": "VPT rising (accumulation, slope 0.747)"
+      }
+    },
+    "AMD": {
+      "mean_reversion": {
+        "score": -0.816,
+        "rsi": 89.0,
+        "bb_position": 1.098,
+        "reason": "RSI overbought (89) | Price at upper Bollinger Band"
+      },
+      "momentum": {
+        "score": 0.756,
+        "adx": 42.8,
+        "ema_fast": 281.92,
+        "ema_slow": 254.28,
+        "reason": "Uptrend (EMA spread 10.9%) | Strong trend (ADX 43)"
+      },
+      "news_sentiment": {
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": 0.0
+      },
+      "volume_flow": {
+        "score": 1.0,
+        "vpt_slope": 9.7976,
+        "vol_ratio": 2.11,
+        "reason": "VPT rising (accumulation, slope 9.798) | High volume (2.1x avg)"
+      }
+    },
+    "TSLA": {
+      "mean_reversion": {
+        "score": 0.0,
+        "rsi": 48.9,
+        "bb_position": 0.598,
+        "reason": "Neutral"
+      },
+      "momentum": {
+        "score": -0.004,
+        "adx": 20.8,
+        "ema_fast": 378.0,
+        "ema_slow": 378.28,
+        "reason": "Downtrend (EMA spread 0.1%) | Weak trend (ADX 21)"
+      },
+      "news_sentiment": {
+        "score": 0.4,
+        "rsi": 48.9,
+        "recent_max_rsi": 60.3,
+        "sentiment": 1.0,
+        "reason": "Positive news + low RSI (49) | Sentiment: 1.00"
+      },
+      "volume_flow": {
+        "score": 1.0,
+        "vpt_slope": 0.8747,
+        "vol_ratio": 0.89,
+        "reason": "VPT rising (accumulation, slope 0.875)"
       }
     }
   }

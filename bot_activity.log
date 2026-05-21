@@ -24938,3 +24938,72 @@
 2026-05-21 11:26:46 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-05-21 11:26:46 | INFO     | State saved (run #861)
 2026-05-21 11:26:46 | INFO     | Cycle complete.
+2026-05-21 14:21:36 | INFO     | =======================================================
+2026-05-21 14:21:36 | INFO     |   TRADING BOT — Single Cycle
+2026-05-21 14:21:36 | INFO     |   2026-05-21 14:21:36 UTC
+2026-05-21 14:21:36 | INFO     |   Mode: PAPER
+2026-05-21 14:21:36 | INFO     | =======================================================
+2026-05-21 14:21:36 | INFO     | State loaded: peak=$101,029.84, run #861, trades=38
+2026-05-21 14:21:36 | INFO     | Connected to Alpaca (PAPER trading)
+2026-05-21 14:21:36 | INFO     | Account mode verified: PAPER | Equity: $98,053.36
+2026-05-21 14:21:36 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-05-21 14:21:38 | INFO     | Processed Telegram commands
+2026-05-21 14:21:38 | INFO     | Portfolio: $98,048.76 | Cash: $63,653.69
+2026-05-21 14:21:39 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $2.8M daily dollar vol)
+2026-05-21 14:21:39 | INFO     | Pre-fetching bars for 28 symbols...
+2026-05-21 14:21:39 | INFO     | --- Phase 1: Checking exits ---
+2026-05-21 14:21:39 | INFO     | TRAILING STOP: WMT — current $122.28 ≤ stop $125.60 (peak $135.05)
+2026-05-21 14:21:39 | INFO     | CLOSED POSITION: WMT
+2026-05-21 14:21:40 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-05-21 14:21:42 | INFO     | News scan: 60 articles, 6 stocks with sentiment
+2026-05-21 14:21:42 | INFO     | Buy candidates: NVDA (0.464), META (0.390), QCOM (0.388), MSFT (0.362), JPM (0.350)
+2026-05-21 14:21:42 | INFO     | --- Phase 3: Executing trades ---
+2026-05-21 14:21:42 | INFO     | BLOCKED: NVDA — Max 3 positions in Technology sector
+2026-05-21 14:21:42 | INFO     | BLOCKED: META — Max 3 positions in Technology sector
+2026-05-21 14:21:42 | INFO     | BLOCKED: QCOM — Max 3 positions in Technology sector
+2026-05-21 14:21:42 | INFO     | BLOCKED: MSFT — Max 3 positions in Technology sector
+2026-05-21 14:21:42 | INFO     | BUY: JPM | $9804.88 @ ~$294.26 | Score: 0.350 | SL=$284.96 TP=$312.85
+2026-05-21 14:21:42 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 2.0s
+2026-05-21 14:21:44 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 4.0s
+2026-05-21 14:21:48 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be simple orders"}
+2026-05-21 14:21:48 | WARNING  | Bracket order failed for JPM — falling back to market + stop
+2026-05-21 14:21:48 | INFO     | BUY MARKET: JPM | $9804.88
+2026-05-21 14:21:48 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be DAY orders"} — retrying in 2.0s
+2026-05-21 14:21:50 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be DAY orders"} — retrying in 4.0s
+2026-05-21 14:21:54 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be DAY orders"}
+2026-05-21 14:21:55 | INFO     | BUY: BAC | $454.15 @ ~$51.16 | Score: 0.348 | SL=$49.45 TP=$54.57
+2026-05-21 14:21:55 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 2.0s
+2026-05-21 14:21:57 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 4.0s
+2026-05-21 14:22:01 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be simple orders"}
+2026-05-21 14:22:01 | WARNING  | Bracket order failed for BAC — falling back to market + stop
+2026-05-21 14:22:01 | INFO     | BUY MARKET: BAC | $454.15
+2026-05-21 14:22:01 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be DAY orders"} — retrying in 2.0s
+2026-05-21 14:22:03 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be DAY orders"} — retrying in 4.0s
+2026-05-21 14:22:07 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be DAY orders"}
+2026-05-21 14:22:07 | INFO     | BLOCKED: AAPL — Max 3 positions in Technology sector
+2026-05-21 14:22:07 | INFO     | 
+=======================================================
+2026-05-21 14:22:07 | INFO     |   CRYPTO TRADING CYCLE
+2026-05-21 14:22:07 | INFO     | =======================================================
+2026-05-21 14:22:07 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-05-21 14:22:07 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-05-21 14:22:07 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-05-21 14:22:07 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-05-21 14:22:08 | INFO     | No crypto buy signals this cycle
+2026-05-21 14:22:08 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-05-21 14:22:08 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-05-21 14:22:08 | INFO     | 
+=======================================================
+2026-05-21 14:22:08 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-05-21 14:22:08 | INFO     | =======================================================
+2026-05-21 14:22:08 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-05-21 14:22:08 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-05-21 14:22:08 | INFO     | PAIR KO/PEP: Z=0.61 — Kalman Z=0.61 — neutral band
+2026-05-21 14:22:08 | INFO     | PAIR JPM/BAC: signal=EXIT Z=0.07
+2026-05-21 14:22:08 | INFO     | PAIR META/GOOGL: Z=0.67 — Kalman Z=0.67 — neutral band
+2026-05-21 14:22:08 | INFO     | PAIR V/MA: Z=0.58 — Kalman Z=0.58 — neutral band
+2026-05-21 14:22:08 | INFO     | PAIR AMZN/COST: signal=EXIT Z=-0.05
+2026-05-21 14:22:09 | INFO     | PAIR JNJ/ABBV: signal=EXIT Z=0.28
+2026-05-21 14:22:09 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-05-21 14:22:09 | INFO     | State saved (run #862)
+2026-05-21 14:22:09 | INFO     | Cycle complete.

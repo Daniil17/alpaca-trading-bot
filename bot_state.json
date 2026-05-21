@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 863,
+  "run_count": 864,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -407,10 +407,10 @@
     "AVGO": 439.715,
     "GOOGL": 404.4615,
     "AMD": 445.155,
-    "TSLA": 417.3301,
-    "AMZN": 265.28,
-    "BAC": 51.183238,
-    "JPM": 302.71
+    "TSLA": 421.08,
+    "AMZN": 268.665,
+    "BAC": 51.335,
+    "JPM": 303.245
   },
   "strategy_pnl": {
     "mean_reversion": [],

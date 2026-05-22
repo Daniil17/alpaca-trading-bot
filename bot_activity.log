@@ -25318,3 +25318,65 @@
 2026-05-22 12:40:27 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-05-22 12:40:27 | INFO     | State saved (run #873)
 2026-05-22 12:40:27 | INFO     | Cycle complete.
+2026-05-22 15:41:16 | INFO     | =======================================================
+2026-05-22 15:41:16 | INFO     |   TRADING BOT — Single Cycle
+2026-05-22 15:41:16 | INFO     |   2026-05-22 15:41:16 UTC
+2026-05-22 15:41:16 | INFO     |   Mode: PAPER
+2026-05-22 15:41:16 | INFO     | =======================================================
+2026-05-22 15:41:16 | INFO     | State loaded: peak=$101,029.84, run #873, trades=41
+2026-05-22 15:41:16 | INFO     | Connected to Alpaca (PAPER trading)
+2026-05-22 15:41:16 | INFO     | Account mode verified: PAPER | Equity: $98,835.08
+2026-05-22 15:41:16 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-05-22 15:41:19 | INFO     | Processed Telegram commands
+2026-05-22 15:41:19 | INFO     | Portfolio: $98,837.16 | Cash: $61,348.57
+2026-05-22 15:41:19 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $9.1M daily dollar vol)
+2026-05-22 15:41:19 | INFO     | Pre-fetching bars for 28 symbols...
+2026-05-22 15:41:19 | INFO     | --- Phase 1: Checking exits ---
+2026-05-22 15:41:19 | INFO     | TAKE-PROFIT: AMD at +13.0%
+2026-05-22 15:41:19 | INFO     | EXIT: AMD — TAKE-PROFIT: +13.0%
+2026-05-22 15:41:19 | INFO     | CLOSED POSITION: AMD
+2026-05-22 15:41:20 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-05-22 15:41:21 | INFO     | News scan: 60 articles, 8 stocks with sentiment
+2026-05-22 15:41:21 | INFO     | Buy candidates: NVDA (0.477), QCOM (0.412), META (0.368), MSFT (0.346), PG (0.298)
+2026-05-22 15:41:21 | INFO     | --- Phase 3: Executing trades ---
+2026-05-22 15:41:21 | INFO     | BLOCKED: NVDA — Max 3 positions in Technology sector
+2026-05-22 15:41:21 | INFO     | BLOCKED: QCOM — Max 3 positions in Technology sector
+2026-05-22 15:41:21 | INFO     | BLOCKED: META — Max 3 positions in Technology sector
+2026-05-22 15:41:21 | INFO     | BLOCKED: MSFT — Max 3 positions in Technology sector
+2026-05-22 15:41:22 | INFO     | BUY: PG | $9883.72 @ ~$144.13 | Score: 0.298 | SL=$139.78 TP=$152.83
+2026-05-22 15:41:22 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 2.0s
+2026-05-22 15:41:24 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 4.0s
+2026-05-22 15:41:28 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be simple orders"}
+2026-05-22 15:41:28 | WARNING  | Bracket order failed for PG — falling back to market + stop
+2026-05-22 15:41:28 | INFO     | BUY MARKET: PG | $9883.72
+2026-05-22 15:41:28 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be DAY orders"} — retrying in 2.0s
+2026-05-22 15:41:30 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be DAY orders"} — retrying in 4.0s
+2026-05-22 15:41:34 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be DAY orders"}
+2026-05-22 15:41:34 | INFO     | BLOCKED: AAPL — Max 3 positions in Technology sector
+2026-05-22 15:41:34 | INFO     | BLOCKED: WMT — Max 3 positions in Consumer sector
+2026-05-22 15:41:34 | INFO     | 
+=======================================================
+2026-05-22 15:41:34 | INFO     |   CRYPTO TRADING CYCLE
+2026-05-22 15:41:34 | INFO     | =======================================================
+2026-05-22 15:41:34 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-05-22 15:41:34 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-05-22 15:41:34 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-05-22 15:41:34 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-05-22 15:41:35 | INFO     | No crypto buy signals this cycle
+2026-05-22 15:41:35 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-05-22 15:41:35 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-05-22 15:41:35 | INFO     | 
+=======================================================
+2026-05-22 15:41:35 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-05-22 15:41:35 | INFO     | =======================================================
+2026-05-22 15:41:35 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-05-22 15:41:35 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-05-22 15:41:35 | INFO     | PAIR KO/PEP: Z=0.61 — Kalman Z=0.61 — neutral band
+2026-05-22 15:41:35 | INFO     | PAIR JPM/BAC: signal=EXIT Z=0.07
+2026-05-22 15:41:35 | INFO     | PAIR META/GOOGL: Z=0.67 — Kalman Z=0.67 — neutral band
+2026-05-22 15:41:35 | INFO     | PAIR V/MA: Z=0.58 — Kalman Z=0.58 — neutral band
+2026-05-22 15:41:35 | INFO     | PAIR AMZN/COST: signal=EXIT Z=-0.05
+2026-05-22 15:41:35 | INFO     | PAIR JNJ/ABBV: signal=EXIT Z=0.28
+2026-05-22 15:41:35 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-05-22 15:41:35 | INFO     | State saved (run #874)
+2026-05-22 15:41:35 | INFO     | Cycle complete.

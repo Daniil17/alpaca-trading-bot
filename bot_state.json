@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 873,
+  "run_count": 874,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -399,6 +399,25 @@
       "price": 51.16,
       "is_crypto": false,
       "score": 0.348
+    },
+    {
+      "time": "2026-05-22 16:41 BST",
+      "action": "SELL",
+      "symbol": "AMD",
+      "amount": 5618.49,
+      "price": 470.17,
+      "is_crypto": false,
+      "pnl": 646.73,
+      "reason": "TAKE-PROFIT: +13.0%"
+    },
+    {
+      "time": "2026-05-22 16:41 BST",
+      "action": "BUY",
+      "symbol": "PG",
+      "amount": 9883.72,
+      "price": 144.13,
+      "is_crypto": false,
+      "score": 0.298
     }
   ],
   "open_pairs": {},
@@ -406,11 +425,10 @@
     "UNH": 402.065,
     "AVGO": 439.715,
     "GOOGL": 404.4615,
-    "AMD": 445.155,
-    "TSLA": 421.08,
-    "AMZN": 268.665,
-    "BAC": 51.335,
-    "JPM": 303.245
+    "TSLA": 426.77,
+    "AMZN": 268.96,
+    "BAC": 51.905,
+    "JPM": 305.8099
   },
   "strategy_pnl": {
     "mean_reversion": [],
@@ -421,13 +439,14 @@
     "volume_flow": [
       -6.1129999999999995,
       -5.022,
-      1.146
+      1.146,
+      13.008000000000001
     ]
   },
   "sell_cooldowns": {
-    "WMT": 1779373299.7092834
+    "AMD": 1779464479.9864051
   },
-  "last_full_scan_date": "2026-05-21",
+  "last_full_scan_date": "2026-05-22",
   "position_strategies": {
     "COST": {
       "mean_reversion": {
@@ -533,32 +552,6 @@
         "reason": "VPT rising (accumulation, slope 0.563)"
       }
     },
-    "AMD": {
-      "mean_reversion": {
-        "score": -0.816,
-        "rsi": 89.0,
-        "bb_position": 1.098,
-        "reason": "RSI overbought (89) | Price at upper Bollinger Band"
-      },
-      "momentum": {
-        "score": 0.756,
-        "adx": 42.8,
-        "ema_fast": 281.92,
-        "ema_slow": 254.28,
-        "reason": "Uptrend (EMA spread 10.9%) | Strong trend (ADX 43)"
-      },
-      "news_sentiment": {
-        "score": 0,
-        "reason": "No positive news sentiment",
-        "sentiment": 0.0
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 9.7976,
-        "vol_ratio": 2.11,
-        "reason": "VPT rising (accumulation, slope 9.798) | High volume (2.1x avg)"
-      }
-    },
     "TSLA": {
       "mean_reversion": {
         "score": 0.0,
@@ -611,6 +604,32 @@
         "vpt_slope": 0.8338,
         "vol_ratio": 0.98,
         "reason": "VPT rising (accumulation, slope 0.834)"
+      }
+    },
+    "PG": {
+      "mean_reversion": {
+        "score": 0.0,
+        "rsi": 50.3,
+        "bb_position": 0.684,
+        "reason": "Neutral"
+      },
+      "momentum": {
+        "score": -0.007,
+        "adx": 23.3,
+        "ema_fast": 146.08,
+        "ema_slow": 146.27,
+        "reason": "Downtrend (EMA spread 0.1%) | Weak trend (ADX 23)"
+      },
+      "news_sentiment": {
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": 0.0
+      },
+      "volume_flow": {
+        "score": 1.0,
+        "vpt_slope": 2.6281,
+        "vol_ratio": 1.04,
+        "reason": "VPT rising (accumulation, slope 2.628)"
       }
     }
   }

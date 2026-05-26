@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 928,
+  "run_count": 929,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -418,17 +418,55 @@
       "price": 144.13,
       "is_crypto": false,
       "score": 0.298
+    },
+    {
+      "time": "2026-05-26 14:55 BST",
+      "action": "BUY",
+      "symbol": "AMD",
+      "amount": 4516.83,
+      "price": 476.35,
+      "is_crypto": false,
+      "score": 0.56
+    },
+    {
+      "time": "2026-05-26 14:55 BST",
+      "action": "BUY",
+      "symbol": "ABBV",
+      "amount": 337.59,
+      "price": 208.57,
+      "is_crypto": false,
+      "score": 0.267
+    },
+    {
+      "time": "2026-05-26 14:56 BST",
+      "action": "BUY",
+      "symbol": "META\u2194GOOGL",
+      "amount": 7916.88,
+      "price": 495.47,
+      "is_crypto": false,
+      "score": 6.577
     }
   ],
-  "open_pairs": {},
+  "open_pairs": {
+    "META_GOOGL": {
+      "symbol_x": "META",
+      "symbol_y": "GOOGL",
+      "long_sym": "META",
+      "short_sym": "GOOGL",
+      "signal": "LONG_X_SHORT_Y",
+      "hedge_ratio": 0.6282,
+      "entry_zscore": 6.577,
+      "entry_date": "2026-05-26"
+    }
+  },
   "trailing_high": {
     "UNH": 402.065,
     "AVGO": 439.715,
     "GOOGL": 404.4615,
-    "TSLA": 429.56,
+    "TSLA": 431.83,
     "AMZN": 269.335,
-    "BAC": 52.045,
-    "JPM": 307.13,
+    "BAC": 52.06,
+    "JPM": 308.17,
     "PG": 144.495
   },
   "strategy_pnl": {
@@ -444,10 +482,8 @@
       13.008000000000001
     ]
   },
-  "sell_cooldowns": {
-    "AMD": 1779464479.9864051
-  },
-  "last_full_scan_date": "2026-05-22",
+  "sell_cooldowns": {},
+  "last_full_scan_date": "2026-05-26",
   "position_strategies": {
     "COST": {
       "mean_reversion": {
@@ -631,6 +667,58 @@
         "vpt_slope": 2.6281,
         "vol_ratio": 1.04,
         "reason": "VPT rising (accumulation, slope 2.628)"
+      }
+    },
+    "AMD": {
+      "mean_reversion": {
+        "score": -0.664,
+        "rsi": 79.9,
+        "bb_position": 0.911,
+        "reason": "RSI overbought (80) | Price at upper Bollinger Band"
+      },
+      "momentum": {
+        "score": 0.8,
+        "adx": 48.2,
+        "ema_fast": 317.55,
+        "ema_slow": 282.72,
+        "reason": "Uptrend (EMA spread 12.3%) | Strong trend (ADX 48)"
+      },
+      "news_sentiment": {
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": 0.0
+      },
+      "volume_flow": {
+        "score": 1.0,
+        "vpt_slope": 61.2312,
+        "vol_ratio": 0.86,
+        "reason": "VPT rising (accumulation, slope 61.231)"
+      }
+    },
+    "ABBV": {
+      "mean_reversion": {
+        "score": 0.0,
+        "rsi": 48.9,
+        "bb_position": 0.55,
+        "reason": "Neutral"
+      },
+      "momentum": {
+        "score": -0.064,
+        "adx": 18.9,
+        "ema_fast": 204.61,
+        "ema_slow": 207.29,
+        "reason": "Downtrend (EMA spread 1.3%) | Weak trend (ADX 19)"
+      },
+      "news_sentiment": {
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": 0.0
+      },
+      "volume_flow": {
+        "score": 0.923,
+        "vpt_slope": 0.4615,
+        "vol_ratio": 0.91,
+        "reason": "VPT rising (accumulation, slope 0.462)"
       }
     }
   }

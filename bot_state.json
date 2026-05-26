@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 929,
+  "run_count": 930,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -445,6 +445,17 @@
       "price": 495.47,
       "is_crypto": false,
       "score": 6.577
+    },
+    {
+      "time": "2026-05-26 17:44 BST",
+      "action": "SELL",
+      "symbol": "META",
+      "amount": 3972.44,
+      "price": 610.06,
+      "is_crypto": false,
+      "pnl": 14.0,
+      "reason": "Strategy (-0.224)",
+      "score": -0.224
     }
   ],
   "open_pairs": {
@@ -463,11 +474,14 @@
     "UNH": 402.065,
     "AVGO": 439.715,
     "GOOGL": 404.4615,
-    "TSLA": 431.83,
+    "TSLA": 432.0593,
     "AMZN": 269.335,
-    "BAC": 52.06,
+    "BAC": 52.135,
     "JPM": 308.17,
-    "PG": 144.495
+    "PG": 144.495,
+    "ABBV": 213.68,
+    "AMD": 493.65,
+    "META": 610.06
   },
   "strategy_pnl": {
     "mean_reversion": [],
@@ -482,7 +496,9 @@
       13.008000000000001
     ]
   },
-  "sell_cooldowns": {},
+  "sell_cooldowns": {
+    "META": 1779813848.2972965
+  },
   "last_full_scan_date": "2026-05-26",
   "position_strategies": {
     "COST": {

@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 938,
+  "run_count": 939,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -456,30 +456,37 @@
       "pnl": 14.0,
       "reason": "Strategy (-0.224)",
       "score": -0.224
+    },
+    {
+      "time": "2026-05-27 16:43 BST",
+      "action": "BUY",
+      "symbol": "V",
+      "amount": 8649.59,
+      "price": 330.5,
+      "is_crypto": false,
+      "score": 0.292
+    },
+    {
+      "time": "2026-05-27 16:43 BST",
+      "action": "SELL",
+      "symbol": "META\u2194GOOGL",
+      "amount": 0.0,
+      "price": 0.0,
+      "is_crypto": false,
+      "reason": "Pair exit: Kalman Z=0.16 within exit band: spread reverted"
     }
   ],
-  "open_pairs": {
-    "META_GOOGL": {
-      "symbol_x": "META",
-      "symbol_y": "GOOGL",
-      "long_sym": "META",
-      "short_sym": "GOOGL",
-      "signal": "LONG_X_SHORT_Y",
-      "hedge_ratio": 0.6282,
-      "entry_zscore": 6.577,
-      "entry_date": "2026-05-26"
-    }
-  },
+  "open_pairs": {},
   "trailing_high": {
     "UNH": 402.065,
     "AVGO": 439.715,
     "GOOGL": 404.4615,
-    "TSLA": 432.0593,
-    "AMZN": 269.335,
+    "TSLA": 439.26,
+    "AMZN": 270.57,
     "BAC": 52.135,
     "JPM": 308.17,
-    "PG": 144.495,
-    "ABBV": 213.68,
+    "PG": 147.775,
+    "ABBV": 215.41,
     "AMD": 505.77
   },
   "strategy_pnl": {
@@ -498,7 +505,7 @@
   "sell_cooldowns": {
     "META": 1779813848.2972965
   },
-  "last_full_scan_date": "2026-05-26",
+  "last_full_scan_date": "2026-05-27",
   "position_strategies": {
     "COST": {
       "mean_reversion": {
@@ -734,6 +741,32 @@
         "vpt_slope": 0.4615,
         "vol_ratio": 0.91,
         "reason": "VPT rising (accumulation, slope 0.462)"
+      }
+    },
+    "V": {
+      "mean_reversion": {
+        "score": -0.2,
+        "rsi": 62.4,
+        "bb_position": 0.857,
+        "reason": "Price near upper band"
+      },
+      "momentum": {
+        "score": 0.172,
+        "adx": 21.3,
+        "ema_fast": 319.44,
+        "ema_slow": 314.89,
+        "reason": "Uptrend (EMA spread 1.4%) | Weak trend (ADX 21)"
+      },
+      "news_sentiment": {
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": 0.0
+      },
+      "volume_flow": {
+        "score": 1.0,
+        "vpt_slope": 1.2014,
+        "vol_ratio": 0.96,
+        "reason": "VPT rising (accumulation, slope 1.201)"
       }
     }
   }

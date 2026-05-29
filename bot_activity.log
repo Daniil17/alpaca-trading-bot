@@ -27818,3 +27818,65 @@
 2026-05-29 10:59:47 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-05-29 10:59:47 | INFO     | State saved (run #958)
 2026-05-29 10:59:47 | INFO     | Cycle complete.
+2026-05-29 14:14:40 | INFO     | =======================================================
+2026-05-29 14:14:40 | INFO     |   TRADING BOT — Single Cycle
+2026-05-29 14:14:40 | INFO     |   2026-05-29 14:14:40 UTC
+2026-05-29 14:14:40 | INFO     |   Mode: PAPER
+2026-05-29 14:14:40 | INFO     | =======================================================
+2026-05-29 14:14:40 | INFO     | State loaded: peak=$101,029.84, run #958, trades=50
+2026-05-29 14:14:40 | INFO     | Connected to Alpaca (PAPER trading)
+2026-05-29 14:14:40 | INFO     | Account mode verified: PAPER | Equity: $98,932.27
+2026-05-29 14:14:41 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-05-29 14:14:43 | INFO     | Processed Telegram commands
+2026-05-29 14:14:43 | INFO     | Portfolio: $98,935.14 | Cash: $51,523.04
+2026-05-29 14:14:43 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $2.1M daily dollar vol)
+2026-05-29 14:14:43 | INFO     | Pre-fetching bars for 28 symbols...
+2026-05-29 14:14:44 | INFO     | --- Phase 1: Checking exits ---
+2026-05-29 14:14:44 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-05-29 14:14:45 | INFO     | News scan: 60 articles, 4 stocks with sentiment
+2026-05-29 14:14:46 | INFO     | Buy candidates: QCOM (0.516), V (0.349), NVDA (0.321)
+2026-05-29 14:14:46 | INFO     | --- Phase 3: Executing trades ---
+2026-05-29 14:14:46 | INFO     | BLOCKED: QCOM — Max 3 positions in Technology sector
+2026-05-29 14:14:46 | INFO     | BUY: V | $426.74 @ ~$329.43 | Score: 0.349 | SL=$318.34 TP=$351.60
+2026-05-29 14:14:46 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 2.0s
+2026-05-29 14:14:48 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 4.0s
+2026-05-29 14:14:52 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be simple orders"}
+2026-05-29 14:14:52 | WARNING  | Bracket order failed for V — falling back to market + stop
+2026-05-29 14:14:52 | INFO     | BUY MARKET: V | $426.74
+2026-05-29 14:14:52 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be DAY orders"} — retrying in 2.0s
+2026-05-29 14:14:54 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be DAY orders"} — retrying in 4.0s
+2026-05-29 14:14:58 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be DAY orders"}
+2026-05-29 14:14:58 | INFO     | BLOCKED: NVDA — Max 3 positions in Technology sector
+2026-05-29 14:14:58 | INFO     | 
+=======================================================
+2026-05-29 14:14:58 | INFO     |   CRYPTO TRADING CYCLE
+2026-05-29 14:14:58 | INFO     | =======================================================
+2026-05-29 14:14:58 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-05-29 14:14:58 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-05-29 14:14:58 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-05-29 14:14:59 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-05-29 14:14:59 | INFO     | No crypto buy signals this cycle
+2026-05-29 14:14:59 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-05-29 14:14:59 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-05-29 14:14:59 | INFO     | 
+=======================================================
+2026-05-29 14:14:59 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-05-29 14:14:59 | INFO     | =======================================================
+2026-05-29 14:14:59 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-05-29 14:14:59 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-05-29 14:14:59 | INFO     | PAIR KO/PEP: Z=-1.08 — Kalman Z=-1.08 — neutral band
+2026-05-29 14:15:00 | INFO     | PAIR JPM/BAC: signal=EXIT Z=-0.36
+2026-05-29 14:15:00 | INFO     | PAIR META/GOOGL: signal=EXIT Z=-0.50
+2026-05-29 14:15:00 | INFO     | PAIR V/MA: signal=LONG_X_SHORT_Y Z=2.44
+2026-05-29 14:15:00 | INFO     | PAIR AMZN/COST: signal=EXIT Z=-0.41
+2026-05-29 14:15:00 | INFO     | PAIR JNJ/ABBV: Z=1.29 — Kalman Z=1.29 — neutral band
+2026-05-29 14:15:00 | INFO     | PAIRS TRADE: long V ($3957.41) | short MA ($3957.41) | Z=2.44 | hedge_ratio=1.544
+2026-05-29 14:15:00 | INFO     | BUY MARKET: V | $3957.41
+2026-05-29 14:15:00 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders cannot be sold short"} — retrying in 2.0s
+2026-05-29 14:15:02 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders cannot be sold short"} — retrying in 4.0s
+2026-05-29 14:15:06 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders cannot be sold short"}
+2026-05-29 14:15:06 | WARNING  | PAIRS: one leg failed for V_MA — closing both
+2026-05-29 14:15:06 | INFO     | CLOSED POSITION: V
+2026-05-29 14:15:06 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-05-29 14:15:06 | INFO     | State saved (run #959)
+2026-05-29 14:15:06 | INFO     | Cycle complete.

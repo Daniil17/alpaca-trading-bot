@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1005,
+  "run_count": 1006,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -501,20 +501,38 @@
       "price": 320.48,
       "is_crypto": false,
       "score": 0.323
+    },
+    {
+      "time": "2026-06-02 18:09 BST",
+      "action": "SELL",
+      "symbol": "AVGO",
+      "amount": 6273.59,
+      "price": 479.085,
+      "is_crypto": false,
+      "pnl": 752.63,
+      "reason": "TAKE-PROFIT: +13.6%"
+    },
+    {
+      "time": "2026-06-02 18:09 BST",
+      "action": "SELL",
+      "symbol": "GOOGL",
+      "amount": 7393.12,
+      "price": 367.84,
+      "is_crypto": false,
+      "pnl": -424.79,
+      "reason": "HARD STOP-LOSS: -5.4%"
     }
   ],
   "open_pairs": {},
   "trailing_high": {
     "UNH": 402.065,
-    "AVGO": 461.02,
     "TSLA": 443.51,
     "AMZN": 274.0809,
-    "BAC": 52.135,
+    "BAC": 52.405,
     "JPM": 308.17,
     "PG": 147.775,
     "ABBV": 218.78,
     "AMD": 521.18,
-    "GOOGL": 391.36,
     "V": 321.32
   },
   "strategy_pnl": {
@@ -527,11 +545,15 @@
       -6.1129999999999995,
       -5.022,
       1.146,
-      13.008000000000001
+      13.008000000000001,
+      -5.434
     ]
   },
-  "sell_cooldowns": {},
-  "last_full_scan_date": "2026-06-01",
+  "sell_cooldowns": {
+    "AVGO": 1780420175.5119371,
+    "GOOGL": 1780420176.1026435
+  },
+  "last_full_scan_date": "2026-06-02",
   "position_strategies": {
     "COST": {
       "mean_reversion": {
@@ -793,34 +815,6 @@
         "vpt_slope": 0.5657,
         "vol_ratio": 0.82,
         "reason": "VPT rising (accumulation, slope 0.566)"
-      }
-    },
-    "GOOGL": {
-      "mean_reversion": {
-        "score": -0.689,
-        "rsi": 81.3,
-        "bb_position": 0.968,
-        "reason": "RSI overbought (81) | Price at upper Bollinger Band"
-      },
-      "momentum": {
-        "score": 0.742,
-        "adx": 42.1,
-        "ema_fast": 361.7,
-        "ema_slow": 342.65,
-        "reason": "Uptrend (EMA spread 5.6%) | Strong trend (ADX 42)"
-      },
-      "news_sentiment": {
-        "score": 0.0,
-        "rsi": 81.3,
-        "recent_max_rsi": 82.5,
-        "sentiment": 0.119,
-        "reason": "News spike active (RSI 81) \u2014 waiting for pullback | Sentiment: 0.12"
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 4.685,
-        "vol_ratio": 0.88,
-        "reason": "VPT rising (accumulation, slope 4.685)"
       }
     }
   }

@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1014,
+  "run_count": 1015,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -521,6 +521,15 @@
       "is_crypto": false,
       "pnl": -424.79,
       "reason": "HARD STOP-LOSS: -5.4%"
+    },
+    {
+      "time": "2026-06-03 15:06 BST",
+      "action": "BUY",
+      "symbol": "QCOM",
+      "amount": 3561.13,
+      "price": 241.84,
+      "is_crypto": false,
+      "score": 0.335
     }
   ],
   "open_pairs": {},
@@ -532,7 +541,7 @@
     "JPM": 308.17,
     "PG": 147.775,
     "ABBV": 218.78,
-    "AMD": 521.18,
+    "AMD": 533.755,
     "V": 321.32
   },
   "strategy_pnl": {
@@ -553,7 +562,7 @@
     "AVGO": 1780420175.5119371,
     "GOOGL": 1780420176.1026435
   },
-  "last_full_scan_date": "2026-06-02",
+  "last_full_scan_date": "2026-06-03",
   "position_strategies": {
     "COST": {
       "mean_reversion": {
@@ -815,6 +824,32 @@
         "vpt_slope": 0.5657,
         "vol_ratio": 0.82,
         "reason": "VPT rising (accumulation, slope 0.566)"
+      }
+    },
+    "QCOM": {
+      "mean_reversion": {
+        "score": -0.807,
+        "rsi": 88.4,
+        "bb_position": 1.093,
+        "reason": "RSI overbought (88) | Price at upper Bollinger Band"
+      },
+      "momentum": {
+        "score": 0.8,
+        "adx": 48.1,
+        "ema_fast": 187.25,
+        "ema_slow": 165.92,
+        "reason": "Uptrend (EMA spread 12.9%) | Strong trend (ADX 48)"
+      },
+      "news_sentiment": {
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": 0.0
+      },
+      "volume_flow": {
+        "score": 1.0,
+        "vpt_slope": 5.6095,
+        "vol_ratio": 1.78,
+        "reason": "VPT rising (accumulation, slope 5.610) | High volume (1.8x avg)"
       }
     }
   }

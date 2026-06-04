@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1024,
+  "run_count": 1025,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -555,13 +555,14 @@
   "trailing_high": {
     "UNH": 402.065,
     "TSLA": 443.51,
-    "BAC": 53.36,
-    "JPM": 308.17,
+    "BAC": 54.08,
+    "JPM": 311.21,
     "PG": 147.775,
-    "ABBV": 221.873,
+    "ABBV": 222.235,
     "AMD": 540.495,
     "V": 323.44,
-    "QCOM": 250.385
+    "QCOM": 250.385,
+    "GOOGL": 370.95
   },
   "strategy_pnl": {
     "mean_reversion": [],

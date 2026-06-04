@@ -29735,3 +29735,53 @@
 2026-06-04 14:18:45 | INFO     | Pairs cycle complete. Open pairs: 0
 2026-06-04 14:18:45 | INFO     | State saved (run #1024)
 2026-06-04 14:18:45 | INFO     | Cycle complete.
+2026-06-04 16:20:26 | INFO     | =======================================================
+2026-06-04 16:20:26 | INFO     |   TRADING BOT — Single Cycle
+2026-06-04 16:20:26 | INFO     |   2026-06-04 16:20:26 UTC
+2026-06-04 16:20:26 | INFO     |   Mode: PAPER
+2026-06-04 16:20:26 | INFO     | =======================================================
+2026-06-04 16:20:26 | INFO     | State loaded: peak=$101,029.84, run #1024, trades=57
+2026-06-04 16:20:26 | INFO     | Connected to Alpaca (PAPER trading)
+2026-06-04 16:20:26 | INFO     | Account mode verified: PAPER | Equity: $98,699.40
+2026-06-04 16:20:27 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-06-04 16:20:29 | INFO     | Processed Telegram commands
+2026-06-04 16:20:29 | INFO     | Portfolio: $98,703.96 | Cash: $60,654.54
+2026-06-04 16:20:29 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $12.5M daily dollar vol)
+2026-06-04 16:20:29 | INFO     | Pre-fetching bars for 28 symbols...
+2026-06-04 16:20:30 | INFO     | --- Phase 1: Checking exits ---
+2026-06-04 16:20:30 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-06-04 16:20:30 | INFO     | Buy scan already ran today — skipping (exits still managed)
+2026-06-04 16:20:30 | INFO     | --- Phase 3: Executing trades ---
+2026-06-04 16:20:30 | INFO     | 
+=======================================================
+2026-06-04 16:20:30 | INFO     |   CRYPTO TRADING CYCLE
+2026-06-04 16:20:30 | INFO     | =======================================================
+2026-06-04 16:20:31 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-06-04 16:20:31 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-06-04 16:20:31 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-06-04 16:20:32 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-06-04 16:20:33 | INFO     | No crypto buy signals this cycle
+2026-06-04 16:20:33 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-06-04 16:20:33 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-06-04 16:20:33 | INFO     | 
+=======================================================
+2026-06-04 16:20:33 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-06-04 16:20:33 | INFO     | =======================================================
+2026-06-04 16:20:33 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-06-04 16:20:33 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-06-04 16:20:33 | INFO     | PAIR KO/PEP: signal=LONG_Y_SHORT_X Z=-3.07
+2026-06-04 16:20:33 | INFO     | PAIR JPM/BAC: Z=-0.70 — Kalman Z=-0.70 — neutral band
+2026-06-04 16:20:33 | INFO     | PAIR META/GOOGL: Z=-0.71 — Kalman Z=-0.71 — neutral band
+2026-06-04 16:20:34 | INFO     | PAIR V/MA: Z=-1.05 — Kalman Z=-1.05 — neutral band
+2026-06-04 16:20:34 | INFO     | PAIR AMZN/COST: signal=EXIT Z=0.43
+2026-06-04 16:20:34 | INFO     | PAIR JNJ/ABBV: signal=EXIT Z=0.37
+2026-06-04 16:20:34 | INFO     | PAIRS TRADE: long PEP ($3948.16) | short KO ($3948.16) | Z=-3.07 | hedge_ratio=1.885
+2026-06-04 16:20:34 | INFO     | BUY MARKET: PEP | $3948.16
+2026-06-04 16:20:34 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders cannot be sold short"} — retrying in 2.0s
+2026-06-04 16:20:36 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders cannot be sold short"} — retrying in 4.0s
+2026-06-04 16:20:40 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders cannot be sold short"}
+2026-06-04 16:20:40 | WARNING  | PAIRS: one leg failed for KO_PEP — closing both
+2026-06-04 16:20:40 | INFO     | CLOSED POSITION: PEP
+2026-06-04 16:20:40 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-06-04 16:20:40 | INFO     | State saved (run #1025)
+2026-06-04 16:20:40 | INFO     | Cycle complete.

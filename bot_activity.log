@@ -31707,3 +31707,69 @@
 2026-06-10 11:47:58 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-06-10 11:47:58 | INFO     | State saved (run #1091)
 2026-06-10 11:47:58 | INFO     | Cycle complete.
+2026-06-10 15:36:29 | INFO     | =======================================================
+2026-06-10 15:36:29 | INFO     |   TRADING BOT — Single Cycle
+2026-06-10 15:36:29 | INFO     |   2026-06-10 15:36:29 UTC
+2026-06-10 15:36:29 | INFO     |   Mode: PAPER
+2026-06-10 15:36:29 | INFO     | =======================================================
+2026-06-10 15:36:29 | INFO     | State loaded: peak=$101,029.84, run #1091, trades=66
+2026-06-10 15:36:29 | INFO     | Connected to Alpaca (PAPER trading)
+2026-06-10 15:36:29 | INFO     | Account mode verified: PAPER | Equity: $97,910.27
+2026-06-10 15:36:30 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-06-10 15:36:32 | INFO     | Processed Telegram commands
+2026-06-10 15:36:32 | INFO     | Portfolio: $97,913.32 | Cash: $56,886.50
+2026-06-10 15:36:32 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $10.2M daily dollar vol)
+2026-06-10 15:36:32 | INFO     | Pre-fetching bars for 28 symbols...
+2026-06-10 15:36:34 | INFO     | --- Phase 1: Checking exits ---
+2026-06-10 15:36:34 | WARNING  | HARD STOP-LOSS: AMZN at -5.4%
+2026-06-10 15:36:34 | INFO     | EXIT: AMZN — HARD STOP-LOSS: -5.4%
+2026-06-10 15:36:34 | INFO     | CLOSED POSITION: AMZN
+2026-06-10 15:36:34 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-06-10 15:36:35 | INFO     | News scan: 60 articles, 6 stocks with sentiment
+2026-06-10 15:36:35 | INFO     | Buy candidates: NVDA (0.297), AAPL (0.294), AVGO (0.228)
+2026-06-10 15:36:35 | INFO     | --- Phase 3: Executing trades ---
+2026-06-10 15:36:36 | INFO     | BUY: NVDA | $5586.60 @ ~$202.62 | Score: 0.297 | SL=$192.49 TP=$226.00
+2026-06-10 15:36:36 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 2.0s
+2026-06-10 15:36:38 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 4.0s
+2026-06-10 15:36:42 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be simple orders"}
+2026-06-10 15:36:42 | WARNING  | Bracket order failed for NVDA — falling back to market + stop
+2026-06-10 15:36:42 | INFO     | BUY MARKET: NVDA | $5586.6
+2026-06-10 15:36:42 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be DAY orders"} — retrying in 2.0s
+2026-06-10 15:36:44 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be DAY orders"} — retrying in 4.0s
+2026-06-10 15:36:48 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be DAY orders"}
+2026-06-10 15:36:49 | INFO     | BUY: AAPL | $9394.44 @ ~$290.47 | Score: 0.294 | SL=$281.16 TP=$309.10
+2026-06-10 15:36:49 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 2.0s
+2026-06-10 15:36:51 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 4.0s
+2026-06-10 15:36:55 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be simple orders"}
+2026-06-10 15:36:55 | WARNING  | Bracket order failed for AAPL — falling back to market + stop
+2026-06-10 15:36:55 | INFO     | BUY MARKET: AAPL | $9394.44
+2026-06-10 15:36:55 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be DAY orders"} — retrying in 2.0s
+2026-06-10 15:36:57 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be DAY orders"} — retrying in 4.0s
+2026-06-10 15:37:01 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be DAY orders"}
+2026-06-10 15:37:02 | INFO     | BLOCKED: AVGO — Max 3 positions in Technology sector
+2026-06-10 15:37:02 | INFO     | 
+=======================================================
+2026-06-10 15:37:02 | INFO     |   CRYPTO TRADING CYCLE
+2026-06-10 15:37:02 | INFO     | =======================================================
+2026-06-10 15:37:02 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-06-10 15:37:02 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-06-10 15:37:02 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-06-10 15:37:02 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-06-10 15:37:04 | INFO     | No crypto buy signals this cycle
+2026-06-10 15:37:04 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-06-10 15:37:04 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-06-10 15:37:04 | INFO     | 
+=======================================================
+2026-06-10 15:37:04 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-06-10 15:37:04 | INFO     | =======================================================
+2026-06-10 15:37:04 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-06-10 15:37:04 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-06-10 15:37:04 | INFO     | PAIR KO/PEP: signal=EXIT Z=0.05
+2026-06-10 15:37:04 | INFO     | PAIR JPM/BAC: Z=0.54 — Kalman Z=0.54 — neutral band
+2026-06-10 15:37:04 | INFO     | PAIR META/GOOGL: signal=EXIT Z=-0.35
+2026-06-10 15:37:04 | INFO     | PAIR V/MA: signal=EXIT Z=-0.00
+2026-06-10 15:37:04 | INFO     | PAIR AMZN/COST: Z=1.04 — Kalman Z=1.04 — neutral band
+2026-06-10 15:37:04 | INFO     | PAIR JNJ/ABBV: Z=1.05 — Kalman Z=1.05 — neutral band
+2026-06-10 15:37:04 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-06-10 15:37:04 | INFO     | State saved (run #1092)
+2026-06-10 15:37:04 | INFO     | Cycle complete.

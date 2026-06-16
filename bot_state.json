@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1153,
+  "run_count": 1154,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -705,13 +705,13 @@
   ],
   "open_pairs": {},
   "trailing_high": {
-    "BAC": 56.655,
-    "JPM": 327.84,
+    "BAC": 56.825,
+    "JPM": 329.765,
     "PG": 152.69,
     "ABBV": 229.33,
-    "V": 327.69,
+    "V": 331.82,
     "PEP": 147.33,
-    "AAPL": 297.34,
+    "AAPL": 299.65,
     "NVDA": 212.5,
     "AMZN": 246.61,
     "UNH": 412.295,

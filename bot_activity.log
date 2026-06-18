@@ -34005,3 +34005,49 @@
 2026-06-18 12:28:55 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-06-18 12:28:55 | INFO     | State saved (run #1170)
 2026-06-18 12:28:55 | INFO     | Cycle complete.
+2026-06-18 16:01:08 | INFO     | =======================================================
+2026-06-18 16:01:08 | INFO     |   TRADING BOT — Single Cycle
+2026-06-18 16:01:08 | INFO     |   2026-06-18 16:01:08 UTC
+2026-06-18 16:01:08 | INFO     |   Mode: PAPER
+2026-06-18 16:01:08 | INFO     | =======================================================
+2026-06-18 16:01:08 | INFO     | State loaded: peak=$101,029.84, run #1170, trades=73
+2026-06-18 16:01:08 | INFO     | Connected to Alpaca (PAPER trading)
+2026-06-18 16:01:08 | INFO     | Account mode verified: PAPER | Equity: $98,863.07
+2026-06-18 16:01:08 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-06-18 16:01:11 | INFO     | Processed Telegram commands
+2026-06-18 16:01:11 | INFO     | Portfolio: $98,859.72 | Cash: $37,839.66
+2026-06-18 16:01:11 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $14.0M daily dollar vol)
+2026-06-18 16:01:11 | INFO     | Pre-fetching bars for 28 symbols...
+2026-06-18 16:01:12 | INFO     | --- Phase 1: Checking exits ---
+2026-06-18 16:01:12 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-06-18 16:01:14 | INFO     | News scan: 60 articles, 3 stocks with sentiment
+2026-06-18 16:01:14 | INFO     | Buy candidates: GOOGL (0.454), QCOM (0.334)
+2026-06-18 16:01:14 | INFO     | --- Phase 3: Executing trades ---
+2026-06-18 16:01:14 | INFO     | BLOCKED: GOOGL — Max 3 positions in Technology sector
+2026-06-18 16:01:14 | INFO     | BLOCKED: QCOM — Max 3 positions in Technology sector
+2026-06-18 16:01:14 | INFO     | 
+=======================================================
+2026-06-18 16:01:14 | INFO     |   CRYPTO TRADING CYCLE
+2026-06-18 16:01:14 | INFO     | =======================================================
+2026-06-18 16:01:14 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-06-18 16:01:14 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-06-18 16:01:14 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-06-18 16:01:15 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-06-18 16:01:16 | INFO     | No crypto buy signals this cycle
+2026-06-18 16:01:16 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-06-18 16:01:16 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-06-18 16:01:16 | INFO     | 
+=======================================================
+2026-06-18 16:01:16 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-06-18 16:01:16 | INFO     | =======================================================
+2026-06-18 16:01:16 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-06-18 16:01:16 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-06-18 16:01:16 | INFO     | PAIR KO/PEP: Z=0.95 — Kalman Z=0.95 — neutral band
+2026-06-18 16:01:16 | INFO     | PAIR JPM/BAC: signal=EXIT Z=-0.46
+2026-06-18 16:01:16 | INFO     | PAIR META/GOOGL: Z=-0.85 — Kalman Z=-0.85 — neutral band
+2026-06-18 16:01:16 | INFO     | PAIR V/MA: Z=0.64 — Kalman Z=0.64 — neutral band
+2026-06-18 16:01:16 | INFO     | PAIR AMZN/COST: signal=EXIT Z=-0.43
+2026-06-18 16:01:16 | INFO     | PAIR JNJ/ABBV: signal=EXIT Z=-0.38
+2026-06-18 16:01:16 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-06-18 16:01:16 | INFO     | State saved (run #1171)
+2026-06-18 16:01:16 | INFO     | Cycle complete.

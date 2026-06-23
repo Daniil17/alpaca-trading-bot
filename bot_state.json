@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1222,
+  "run_count": 1223,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -717,7 +717,7 @@
   "trailing_high": {
     "JPM": 335.88,
     "PG": 152.69,
-    "ABBV": 231.27,
+    "ABBV": 234.3,
     "V": 332.985,
     "PEP": 147.33,
     "AAPL": 300.2499,
@@ -752,7 +752,7 @@
   "sell_cooldowns": {
     "BAC": 1782142572.4390752
   },
-  "last_full_scan_date": "2026-06-22",
+  "last_full_scan_date": "2026-06-23",
   "position_strategies": {
     "COST": {
       "mean_reversion": {

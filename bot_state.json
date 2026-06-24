@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1236,
+  "run_count": 1237,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -711,6 +711,16 @@
       "is_crypto": false,
       "pnl": 57.38,
       "reason": "TAKE-PROFIT: +12.6%"
+    },
+    {
+      "time": "2026-06-24 18:30 BST",
+      "action": "SELL",
+      "symbol": "AMD",
+      "amount": 3447.1,
+      "price": 508.82,
+      "is_crypto": false,
+      "pnl": -41.8,
+      "reason": "TRAILING STOP: price fell 7% from peak $549.08 (peak gain was +6.6%)"
     }
   ],
   "open_pairs": {},
@@ -723,8 +733,7 @@
     "AAPL": 300.2499,
     "NVDA": 212.5,
     "AMZN": 246.61,
-    "UNH": 412.295,
-    "AMD": 549.0801
+    "UNH": 412.295
   },
   "strategy_pnl": {
     "mean_reversion": [],
@@ -746,10 +755,13 @@
       -9.288,
       -5.389,
       -5.461,
-      12.635
+      12.635,
+      -1.1980815161459477
     ]
   },
-  "sell_cooldowns": {},
+  "sell_cooldowns": {
+    "AMD": 1782322209.5242903
+  },
   "last_full_scan_date": "2026-06-24",
   "position_strategies": {
     "COST": {
@@ -1010,32 +1022,6 @@
         "vpt_slope": 0.1096,
         "vol_ratio": 0.67,
         "reason": "VPT rising (accumulation, slope 0.110)"
-      }
-    },
-    "AMD": {
-      "mean_reversion": {
-        "score": -0.2,
-        "rsi": 69.6,
-        "bb_position": 0.764,
-        "reason": "Price near upper band"
-      },
-      "momentum": {
-        "score": 0.8,
-        "adx": 48.5,
-        "ema_fast": 417.63,
-        "ema_slow": 374.02,
-        "reason": "Uptrend (EMA spread 11.7%) | Strong trend (ADX 48)"
-      },
-      "news_sentiment": {
-        "score": 0,
-        "reason": "No positive news sentiment",
-        "sentiment": 0.0
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 2.3973,
-        "vol_ratio": 0.79,
-        "reason": "VPT rising (accumulation, slope 2.397)"
       }
     }
   }

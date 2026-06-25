@@ -36156,3 +36156,63 @@
 2026-06-25 12:37:53 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-06-25 12:37:53 | INFO     | State saved (run #1246)
 2026-06-25 12:37:53 | INFO     | Cycle complete.
+2026-06-25 15:34:03 | INFO     | =======================================================
+2026-06-25 15:34:03 | INFO     |   TRADING BOT — Single Cycle
+2026-06-25 15:34:03 | INFO     |   2026-06-25 15:34:03 UTC
+2026-06-25 15:34:03 | INFO     |   Mode: PAPER
+2026-06-25 15:34:03 | INFO     | =======================================================
+2026-06-25 15:34:03 | INFO     | State loaded: peak=$101,029.84, run #1246, trades=75
+2026-06-25 15:34:03 | INFO     | Connected to Alpaca (PAPER trading)
+2026-06-25 15:34:03 | INFO     | Account mode verified: PAPER | Equity: $97,825.82
+2026-06-25 15:34:04 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-06-25 15:34:06 | INFO     | Processed Telegram commands
+2026-06-25 15:34:06 | INFO     | Portfolio: $97,826.51 | Cash: $41,800.30
+2026-06-25 15:34:06 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $16.4M daily dollar vol)
+2026-06-25 15:34:06 | INFO     | Pre-fetching bars for 28 symbols...
+2026-06-25 15:34:07 | INFO     | --- Phase 1: Checking exits ---
+2026-06-25 15:34:07 | INFO     | TAKE-PROFIT: ABBV at +13.7%
+2026-06-25 15:34:07 | INFO     | TAKE-PROFIT: JPM at +12.6%
+2026-06-25 15:34:07 | INFO     | EXIT: ABBV — TAKE-PROFIT: +13.7%
+2026-06-25 15:34:07 | INFO     | CLOSED POSITION: ABBV
+2026-06-25 15:34:08 | INFO     | EXIT: JPM — TAKE-PROFIT: +12.6%
+2026-06-25 15:34:08 | INFO     | CLOSED POSITION: JPM
+2026-06-25 15:34:08 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-06-25 15:34:10 | INFO     | News scan: 60 articles, 5 stocks with sentiment
+2026-06-25 15:34:10 | INFO     | Buy candidates: QCOM (0.475), GOOGL (0.382)
+2026-06-25 15:34:10 | INFO     | --- Phase 3: Executing trades ---
+2026-06-25 15:34:10 | INFO     | BUY: QCOM | $2934.80 @ ~$203.3 | Score: 0.475 | SL=$193.13 TP=$227.70
+2026-06-25 15:34:10 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 2.0s
+2026-06-25 15:34:12 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 4.0s
+2026-06-25 15:34:16 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be simple orders"}
+2026-06-25 15:34:16 | WARNING  | Bracket order failed for QCOM — falling back to market + stop
+2026-06-25 15:34:16 | INFO     | BUY MARKET: QCOM | $2934.8
+2026-06-25 15:34:16 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be DAY orders"} — retrying in 2.0s
+2026-06-25 15:34:18 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be DAY orders"} — retrying in 4.0s
+2026-06-25 15:34:22 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be DAY orders"}
+2026-06-25 15:34:23 | INFO     | BLOCKED: GOOGL — Max 3 positions in Technology sector
+2026-06-25 15:34:23 | INFO     | 
+=======================================================
+2026-06-25 15:34:23 | INFO     |   CRYPTO TRADING CYCLE
+2026-06-25 15:34:23 | INFO     | =======================================================
+2026-06-25 15:34:23 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-06-25 15:34:23 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-06-25 15:34:23 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-06-25 15:34:23 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-06-25 15:34:24 | INFO     | No crypto buy signals this cycle
+2026-06-25 15:34:24 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-06-25 15:34:24 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-06-25 15:34:24 | INFO     | 
+=======================================================
+2026-06-25 15:34:24 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-06-25 15:34:24 | INFO     | =======================================================
+2026-06-25 15:34:24 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-06-25 15:34:24 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-06-25 15:34:24 | INFO     | PAIR KO/PEP: Z=-1.02 — Kalman Z=-1.02 — neutral band
+2026-06-25 15:34:24 | INFO     | PAIR JPM/BAC: Z=0.70 — Kalman Z=0.70 — neutral band
+2026-06-25 15:34:24 | INFO     | PAIR META/GOOGL: Z=1.37 — Kalman Z=1.37 — neutral band
+2026-06-25 15:34:25 | INFO     | PAIR V/MA: Z=1.59 — Kalman Z=1.60 — neutral band
+2026-06-25 15:34:25 | INFO     | PAIR AMZN/COST: Z=1.12 — Kalman Z=1.13 — neutral band
+2026-06-25 15:34:25 | INFO     | PAIR JNJ/ABBV: Z=-0.94 — Kalman Z=-0.94 — neutral band
+2026-06-25 15:34:25 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-06-25 15:34:25 | INFO     | State saved (run #1247)
+2026-06-25 15:34:25 | INFO     | Cycle complete.

@@ -36545,3 +36545,48 @@
 2026-06-26 12:34:20 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-06-26 12:34:20 | INFO     | State saved (run #1258)
 2026-06-26 12:34:20 | INFO     | Cycle complete.
+2026-06-26 15:16:48 | INFO     | =======================================================
+2026-06-26 15:16:48 | INFO     |   TRADING BOT — Single Cycle
+2026-06-26 15:16:48 | INFO     |   2026-06-26 15:16:48 UTC
+2026-06-26 15:16:48 | INFO     |   Mode: PAPER
+2026-06-26 15:16:48 | INFO     | =======================================================
+2026-06-26 15:16:48 | INFO     | State loaded: peak=$101,029.84, run #1258, trades=78
+2026-06-26 15:16:48 | INFO     | Connected to Alpaca (PAPER trading)
+2026-06-26 15:16:49 | INFO     | Account mode verified: PAPER | Equity: $98,013.28
+2026-06-26 15:16:49 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-06-26 15:16:52 | INFO     | Processed Telegram commands
+2026-06-26 15:16:52 | INFO     | Portfolio: $98,012.32 | Cash: $50,281.79
+2026-06-26 15:16:52 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $7.3M daily dollar vol)
+2026-06-26 15:16:52 | INFO     | Pre-fetching bars for 28 symbols...
+2026-06-26 15:16:55 | INFO     | --- Phase 1: Checking exits ---
+2026-06-26 15:16:55 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-06-26 15:16:56 | INFO     | News scan: 60 articles, 4 stocks with sentiment
+2026-06-26 15:16:56 | INFO     | Buy candidates: AMD (0.416)
+2026-06-26 15:16:56 | INFO     | --- Phase 3: Executing trades ---
+2026-06-26 15:16:56 | INFO     | BLOCKED: AMD — Max 3 positions in Technology sector
+2026-06-26 15:16:56 | INFO     | 
+=======================================================
+2026-06-26 15:16:56 | INFO     |   CRYPTO TRADING CYCLE
+2026-06-26 15:16:56 | INFO     | =======================================================
+2026-06-26 15:16:56 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-06-26 15:16:56 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-06-26 15:16:56 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-06-26 15:16:57 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-06-26 15:16:59 | INFO     | No crypto buy signals this cycle
+2026-06-26 15:16:59 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-06-26 15:16:59 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-06-26 15:16:59 | INFO     | 
+=======================================================
+2026-06-26 15:16:59 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-06-26 15:16:59 | INFO     | =======================================================
+2026-06-26 15:16:59 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-06-26 15:16:59 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-06-26 15:16:59 | INFO     | PAIR KO/PEP: Z=-1.02 — Kalman Z=-1.02 — neutral band
+2026-06-26 15:16:59 | INFO     | PAIR JPM/BAC: Z=0.70 — Kalman Z=0.70 — neutral band
+2026-06-26 15:17:00 | INFO     | PAIR META/GOOGL: Z=1.37 — Kalman Z=1.37 — neutral band
+2026-06-26 15:17:00 | INFO     | PAIR V/MA: Z=1.59 — Kalman Z=1.60 — neutral band
+2026-06-26 15:17:00 | INFO     | PAIR AMZN/COST: Z=1.12 — Kalman Z=1.13 — neutral band
+2026-06-26 15:17:00 | INFO     | PAIR JNJ/ABBV: Z=-0.94 — Kalman Z=-0.94 — neutral band
+2026-06-26 15:17:00 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-06-26 15:17:00 | INFO     | State saved (run #1259)
+2026-06-26 15:17:00 | INFO     | Cycle complete.

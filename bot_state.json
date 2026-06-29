@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1296,
+  "run_count": 1297,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -760,12 +760,21 @@
       "is_crypto": false,
       "pnl": -149.86,
       "reason": "HARD STOP-LOSS: -5.1%"
+    },
+    {
+      "time": "2026-06-29 17:39 BST",
+      "action": "BUY",
+      "symbol": "AMD",
+      "amount": 3773.81,
+      "price": 530.03,
+      "is_crypto": false,
+      "score": 0.384
     }
   ],
   "open_pairs": {},
   "trailing_high": {
     "PG": 152.85,
-    "V": 337.935,
+    "V": 341.12,
     "PEP": 147.33,
     "AAPL": 300.2499,
     "NVDA": 212.5,
@@ -799,12 +808,8 @@
       -5.106
     ]
   },
-  "sell_cooldowns": {
-    "ABBV": 1782401647.834202,
-    "JPM": 1782401648.294866,
-    "QCOM": 1782501021.349427
-  },
-  "last_full_scan_date": "2026-06-26",
+  "sell_cooldowns": {},
+  "last_full_scan_date": "2026-06-29",
   "position_strategies": {
     "COST": {
       "mean_reversion": {
@@ -1012,6 +1017,32 @@
         "vpt_slope": 0.1096,
         "vol_ratio": 0.67,
         "reason": "VPT rising (accumulation, slope 0.110)"
+      }
+    },
+    "AMD": {
+      "mean_reversion": {
+        "score": -0.21,
+        "rsi": 70.6,
+        "bb_position": 0.814,
+        "reason": "RSI overbought (71) | Price near upper band"
+      },
+      "momentum": {
+        "score": 0.8,
+        "adx": 45.9,
+        "ema_fast": 496.3,
+        "ema_slow": 446.82,
+        "reason": "Uptrend (EMA spread 11.1%) | Strong trend (ADX 46)"
+      },
+      "news_sentiment": {
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": 0.0
+      },
+      "volume_flow": {
+        "score": 0.567,
+        "vpt_slope": 0.2833,
+        "vol_ratio": 0.85,
+        "reason": "VPT rising (accumulation, slope 0.283)"
       }
     }
   }

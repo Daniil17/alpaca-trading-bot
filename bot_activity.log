@@ -37894,3 +37894,53 @@
 2026-06-30 12:32:35 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-06-30 12:32:35 | INFO     | State saved (run #1307)
 2026-06-30 12:32:35 | INFO     | Cycle complete.
+2026-06-30 15:19:14 | INFO     | =======================================================
+2026-06-30 15:19:14 | INFO     |   TRADING BOT — Single Cycle
+2026-06-30 15:19:14 | INFO     |   2026-06-30 15:19:14 UTC
+2026-06-30 15:19:14 | INFO     |   Mode: PAPER
+2026-06-30 15:19:14 | INFO     | =======================================================
+2026-06-30 15:19:14 | INFO     | State loaded: peak=$101,029.84, run #1307, trades=80
+2026-06-30 15:19:14 | INFO     | Connected to Alpaca (PAPER trading)
+2026-06-30 15:19:14 | INFO     | Account mode verified: PAPER | Equity: $98,122.49
+2026-06-30 15:19:15 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-06-30 15:19:17 | INFO     | Processed Telegram commands
+2026-06-30 15:19:17 | INFO     | Portfolio: $98,123.76 | Cash: $49,292.37
+2026-06-30 15:19:18 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $9.1M daily dollar vol)
+2026-06-30 15:19:18 | INFO     | Pre-fetching bars for 28 symbols...
+2026-06-30 15:19:20 | INFO     | --- Phase 1: Checking exits ---
+2026-06-30 15:19:20 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-06-30 15:19:22 | INFO     | News scan: 60 articles, 4 stocks with sentiment
+2026-06-30 15:19:22 | INFO     | Buy candidates: QCOM (0.424)
+2026-06-30 15:19:22 | INFO     | --- Phase 3: Executing trades ---
+2026-06-30 15:19:22 | INFO     | BLOCKED: QCOM — Max 3 positions in Technology sector
+2026-06-30 15:19:22 | INFO     | 
+=======================================================
+2026-06-30 15:19:22 | INFO     |   CRYPTO TRADING CYCLE
+2026-06-30 15:19:22 | INFO     | =======================================================
+2026-06-30 15:19:22 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-06-30 15:19:22 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-06-30 15:19:22 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-06-30 15:19:22 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-06-30 15:19:24 | INFO     | No crypto buy signals this cycle
+2026-06-30 15:19:24 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-06-30 15:19:24 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-06-30 15:19:24 | INFO     | 
+=======================================================
+2026-06-30 15:19:24 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-06-30 15:19:24 | INFO     | =======================================================
+2026-06-30 15:19:24 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-06-30 15:19:24 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-06-30 15:19:24 | INFO     | PAIR KO/PEP: signal=LONG_X_SHORT_Y Z=2.06
+2026-06-30 15:19:25 | INFO     | PAIR JPM/BAC: signal=EXIT Z=-0.01
+2026-06-30 15:19:25 | INFO     | PAIR META/GOOGL: Z=0.90 — Kalman Z=0.90 — neutral band
+2026-06-30 15:19:25 | INFO     | PAIR V/MA: signal=EXIT Z=-0.17
+2026-06-30 15:19:25 | INFO     | PAIR AMZN/COST: signal=EXIT Z=-0.01
+2026-06-30 15:19:25 | INFO     | PAIR JNJ/ABBV: Z=0.91 — Kalman Z=0.91 — neutral band
+2026-06-30 15:19:25 | INFO     | PAIRS TRADE: long KO ($3924.95) | short PEP ($3924.95) | Z=2.06 | hedge_ratio=1.839
+2026-06-30 15:19:25 | INFO     | BUY MARKET: KO | $3924.95
+2026-06-30 15:19:25 | ERROR    | Non-retryable error: {"available":"27.747780752","code":40310000,"existing_qty":"27.747780752","held_for_orders":"0","message":"insufficient qty available for order (requested: 28.870540639, available: 27.747780752)","symbol":"PEP"}
+2026-06-30 15:19:25 | WARNING  | PAIRS: one leg failed for KO_PEP — closing both
+2026-06-30 15:19:26 | ERROR    | Non-retryable error: {"code":40410000,"message":"position not found: KO"}
+2026-06-30 15:19:26 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-06-30 15:19:26 | INFO     | State saved (run #1308)
+2026-06-30 15:19:26 | INFO     | Cycle complete.

@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1318,
+  "run_count": 1319,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -769,6 +769,28 @@
       "price": 530.03,
       "is_crypto": false,
       "score": 0.384
+    },
+    {
+      "time": "2026-07-01 14:55 BST",
+      "action": "SELL",
+      "symbol": "AMZN",
+      "amount": 7431.14,
+      "price": 238.04,
+      "is_crypto": false,
+      "pnl": 52.06,
+      "reason": "Strategy (-0.340)",
+      "score": -0.34
+    },
+    {
+      "time": "2026-07-01 14:55 BST",
+      "action": "SELL",
+      "symbol": "PEP",
+      "amount": 3871.23,
+      "price": 139.515,
+      "is_crypto": false,
+      "pnl": -95.92,
+      "reason": "Strategy (-0.229)",
+      "score": -0.229
     }
   ],
   "open_pairs": {},
@@ -806,11 +828,15 @@
       -1.1980815161459477,
       13.716999999999999,
       12.562999999999999,
-      -5.106
+      -5.106,
+      0.7060000000000001
     ]
   },
-  "sell_cooldowns": {},
-  "last_full_scan_date": "2026-06-30",
+  "sell_cooldowns": {
+    "AMZN": 1782914110.6736448,
+    "PEP": 1782914111.2839878
+  },
+  "last_full_scan_date": "2026-07-01",
   "position_strategies": {
     "COST": {
       "mean_reversion": {
@@ -966,32 +992,6 @@
         "vpt_slope": 4.1255,
         "vol_ratio": 0.72,
         "reason": "VPT rising (accumulation, slope 4.125)"
-      }
-    },
-    "AMZN": {
-      "mean_reversion": {
-        "score": 0.2,
-        "rsi": 51.9,
-        "bb_position": 0.22,
-        "reason": "Price near lower band"
-      },
-      "momentum": {
-        "score": 0.566,
-        "adx": 35.0,
-        "ema_fast": 265.16,
-        "ema_slow": 258.31,
-        "reason": "Uptrend (EMA spread 2.6%) | Strong trend (ADX 35)"
-      },
-      "news_sentiment": {
-        "score": 0,
-        "reason": "No positive news sentiment",
-        "sentiment": 0.0
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 0.5915,
-        "vol_ratio": 0.89,
-        "reason": "VPT rising (accumulation, slope 0.591)"
       }
     },
     "UNH": {

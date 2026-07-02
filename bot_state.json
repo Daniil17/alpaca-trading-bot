@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1330,
+  "run_count": 1331,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -791,21 +791,40 @@
       "pnl": -95.92,
       "reason": "Strategy (-0.229)",
       "score": -0.229
+    },
+    {
+      "time": "2026-07-02 15:39 BST",
+      "action": "SELL",
+      "symbol": "AMD",
+      "amount": 3737.85,
+      "price": 525.0,
+      "is_crypto": false,
+      "pnl": -35.95,
+      "reason": "TRAILING STOP: price fell 7% from peak $583.23 (peak gain was +10.0%)"
+    },
+    {
+      "time": "2026-07-02 15:39 BST",
+      "action": "BUY",
+      "symbol": "DIS",
+      "amount": 451.3,
+      "price": 96.7,
+      "is_crypto": false,
+      "score": 0.273
     }
   ],
   "open_pairs": {},
   "trailing_high": {
     "PG": 152.85,
-    "V": 352.02,
-    "AAPL": 300.2499,
+    "V": 356.145,
+    "AAPL": 305.51,
     "NVDA": 212.5,
-    "UNH": 427.41,
-    "AMD": 583.225
+    "UNH": 427.715
   },
   "strategy_pnl": {
     "mean_reversion": [],
     "momentum": [
-      -5.2139999999999995
+      -5.2139999999999995,
+      -0.9527403075181502
     ],
     "news_sentiment": [],
     "volume_flow": [
@@ -831,10 +850,9 @@
     ]
   },
   "sell_cooldowns": {
-    "AMZN": 1782914110.6736448,
-    "PEP": 1782914111.2839878
+    "AMD": 1783003181.510732
   },
-  "last_full_scan_date": "2026-07-01",
+  "last_full_scan_date": "2026-07-02",
   "position_strategies": {
     "COST": {
       "mean_reversion": {
@@ -1018,30 +1036,32 @@
         "reason": "VPT rising (accumulation, slope 0.110)"
       }
     },
-    "AMD": {
+    "DIS": {
       "mean_reversion": {
-        "score": -0.21,
-        "rsi": 70.6,
-        "bb_position": 0.814,
-        "reason": "RSI overbought (71) | Price near upper band"
+        "score": 0.5,
+        "rsi": 38.8,
+        "bb_position": 0.038,
+        "reason": "Price at lower Bollinger Band"
       },
       "momentum": {
-        "score": 0.8,
-        "adx": 45.9,
-        "ema_fast": 496.3,
-        "ema_slow": 446.82,
-        "reason": "Uptrend (EMA spread 11.1%) | Strong trend (ADX 46)"
+        "score": -0.147,
+        "adx": 14.1,
+        "ema_fast": 101.25,
+        "ema_slow": 102.2,
+        "reason": "Downtrend (EMA spread 0.9%) | Weak trend (ADX 14)"
       },
       "news_sentiment": {
-        "score": 0,
-        "reason": "No positive news sentiment",
-        "sentiment": 0.0
+        "score": 0.4,
+        "rsi": 38.8,
+        "recent_max_rsi": 52.0,
+        "sentiment": 1.0,
+        "reason": "Positive news + low RSI (39) | Sentiment: 1.00"
       },
       "volume_flow": {
-        "score": 0.567,
-        "vpt_slope": 0.2833,
-        "vol_ratio": 0.85,
-        "reason": "VPT rising (accumulation, slope 0.283)"
+        "score": -0.545,
+        "vpt_slope": -0.2725,
+        "vol_ratio": 0.92,
+        "reason": "VPT falling (distribution, slope -0.273)"
       }
     }
   }

@@ -41425,3 +41425,55 @@
 2026-07-09 13:38:22 | INFO     | Pairs cycle complete. Open pairs: 0
 2026-07-09 13:38:22 | INFO     | State saved (run #1423)
 2026-07-09 13:38:22 | INFO     | Cycle complete.
+2026-07-09 15:56:30 | INFO     | =======================================================
+2026-07-09 15:56:30 | INFO     |   TRADING BOT — Single Cycle
+2026-07-09 15:56:30 | INFO     |   2026-07-09 15:56:30 UTC
+2026-07-09 15:56:30 | INFO     |   Mode: PAPER
+2026-07-09 15:56:30 | INFO     | =======================================================
+2026-07-09 15:56:30 | INFO     | State loaded: peak=$101,029.84, run #1423, trades=98
+2026-07-09 15:56:30 | INFO     | Connected to Alpaca (PAPER trading)
+2026-07-09 15:56:30 | INFO     | Account mode verified: PAPER | Equity: $98,593.43
+2026-07-09 15:56:31 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-07-09 15:56:33 | INFO     | Processed Telegram commands
+2026-07-09 15:56:33 | INFO     | Portfolio: $98,587.58 | Cash: $36,776.89
+2026-07-09 15:56:34 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $10.2M daily dollar vol)
+2026-07-09 15:56:34 | INFO     | Pre-fetching bars for 28 symbols...
+2026-07-09 15:56:37 | INFO     | --- Phase 1: Checking exits ---
+2026-07-09 15:56:37 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-07-09 15:56:37 | INFO     | Buy scan already ran today — skipping (exits still managed)
+2026-07-09 15:56:37 | INFO     | --- Phase 3: Executing trades ---
+2026-07-09 15:56:37 | INFO     | 
+=======================================================
+2026-07-09 15:56:37 | INFO     |   CRYPTO TRADING CYCLE
+2026-07-09 15:56:37 | INFO     | =======================================================
+2026-07-09 15:56:37 | INFO     | Crypto: 1 positions | $1,413.93 invested (1.4% of portfolio)
+2026-07-09 15:56:37 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-07-09 15:56:37 | ERROR    | Non-retryable error: {"message":"invalid symbol: SHIBUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-07-09 15:56:37 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-07-09 15:56:38 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-07-09 15:56:40 | INFO     | No crypto buy signals this cycle
+2026-07-09 15:56:40 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-07-09 15:56:40 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,413.93
+2026-07-09 15:56:40 | INFO     | 
+=======================================================
+2026-07-09 15:56:40 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-07-09 15:56:40 | INFO     | =======================================================
+2026-07-09 15:56:40 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-07-09 15:56:40 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-07-09 15:56:40 | INFO     | PAIR KO/PEP: signal=LONG_X_SHORT_Y Z=2.81
+2026-07-09 15:56:40 | INFO     | PAIR JPM/BAC: signal=EXIT Z=0.05
+2026-07-09 15:56:40 | INFO     | PAIR META/GOOGL: Z=-0.79 — Kalman Z=-0.79 — neutral band
+2026-07-09 15:56:41 | INFO     | PAIR V/MA: signal=EXIT Z=-0.18
+2026-07-09 15:56:41 | INFO     | PAIR AMZN/COST: Z=-1.25 — Kalman Z=-1.25 — neutral band
+2026-07-09 15:56:41 | INFO     | PAIR JNJ/ABBV: Z=-0.54 — Kalman Z=-0.54 — neutral band
+2026-07-09 15:56:41 | INFO     | PAIRS TRADE: long KO ($3943.50) | short PEP ($3943.50) | Z=2.81 | hedge_ratio=1.789
+2026-07-09 15:56:41 | INFO     | BUY MARKET: KO | $3943.5
+2026-07-09 15:56:41 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders cannot be sold short"} — retrying in 2.0s
+2026-07-09 15:56:43 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders cannot be sold short"} — retrying in 4.0s
+2026-07-09 15:56:48 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders cannot be sold short"}
+2026-07-09 15:56:48 | WARNING  | PAIRS: one leg failed for KO_PEP — closing both
+2026-07-09 15:56:48 | INFO     | CLOSED POSITION: KO
+2026-07-09 15:56:48 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-07-09 15:56:48 | INFO     | State saved (run #1424)
+2026-07-09 15:56:48 | INFO     | Cycle complete.

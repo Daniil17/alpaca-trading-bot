@@ -41242,3 +41242,30 @@
 2026-07-08 22:57:09 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-07-08 22:57:09 | INFO     | State saved (run #1418)
 2026-07-08 22:57:09 | INFO     | Cycle complete.
+2026-07-09 00:06:06 | INFO     | =======================================================
+2026-07-09 00:06:06 | INFO     |   TRADING BOT — Single Cycle
+2026-07-09 00:06:06 | INFO     |   2026-07-09 00:06:06 UTC
+2026-07-09 00:06:06 | INFO     |   Mode: PAPER
+2026-07-09 00:06:06 | INFO     | =======================================================
+2026-07-09 00:06:06 | INFO     | State loaded: peak=$101,029.84, run #1418, trades=94
+2026-07-09 00:06:06 | INFO     | Connected to Alpaca (PAPER trading)
+2026-07-09 00:06:07 | INFO     | Account mode verified: PAPER | Equity: $98,576.48
+2026-07-09 00:06:07 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-07-09 00:06:10 | INFO     | Processed Telegram commands
+2026-07-09 00:06:10 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-07-09 00:06:10 | INFO     | Portfolio: $98,576.48 | Cash: $40,938.93
+2026-07-09 00:06:10 | INFO     | 
+=======================================================
+2026-07-09 00:06:10 | INFO     |   CRYPTO TRADING CYCLE
+2026-07-09 00:06:10 | INFO     | =======================================================
+2026-07-09 00:06:10 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-07-09 00:06:10 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-07-09 00:06:10 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-07-09 00:06:11 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-07-09 00:06:12 | INFO     | Crypto buy candidates: SHIB/USD (0.295)
+2026-07-09 00:06:12 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-07-09 00:06:12 | INFO     | CRYPTO BUY: SHIB/USD | $1478.65 @ ~$4e-06 | Score: 0.295 | Regime: sideways
+2026-07-09 00:06:12 | INFO     | BUY CRYPTO: SHIB/USD | $1478.65
+2026-07-09 00:06:13 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,478.65
+2026-07-09 00:06:13 | INFO     | State saved (run #1419)
+2026-07-09 00:06:13 | INFO     | Cycle complete.

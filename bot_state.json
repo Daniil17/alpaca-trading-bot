@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1419,
+  "run_count": 1420,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -927,7 +927,8 @@
     "MCD": 282.82,
     "MSFT": 392.865,
     "PG": 152.195,
-    "UNH": 427.95
+    "UNH": 427.95,
+    "SHIBUSD": 4.29e-06
   },
   "strategy_pnl": {
     "mean_reversion": [],

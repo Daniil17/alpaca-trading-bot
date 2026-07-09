@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1422,
+  "run_count": 1423,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -914,6 +914,35 @@
       "price": 4e-06,
       "is_crypto": true,
       "score": 0.295
+    },
+    {
+      "time": "2026-07-09 14:37 BST",
+      "action": "SELL",
+      "symbol": "AAPL",
+      "amount": 10084.4,
+      "price": 311.85,
+      "is_crypto": false,
+      "pnl": 689.97,
+      "reason": "Strategy (-0.261)",
+      "score": -0.261
+    },
+    {
+      "time": "2026-07-09 14:37 BST",
+      "action": "BUY",
+      "symbol": "JNJ",
+      "amount": 9839.9,
+      "price": 261.09,
+      "is_crypto": false,
+      "score": 0.54
+    },
+    {
+      "time": "2026-07-09 14:38 BST",
+      "action": "BUY",
+      "symbol": "QCOM",
+      "amount": 2951.97,
+      "price": 186.33,
+      "is_crypto": false,
+      "score": 0.334
     }
   ],
   "open_pairs": {},
@@ -938,7 +967,6 @@
     ],
     "news_sentiment": [],
     "volume_flow": [
-      1.146,
       13.008000000000001,
       -5.434,
       -5.373,
@@ -957,11 +985,14 @@
       0.7060000000000001,
       12.206,
       -4.623,
-      0.972
+      0.972,
+      7.344
     ]
   },
-  "sell_cooldowns": {},
-  "last_full_scan_date": "2026-07-08",
+  "sell_cooldowns": {
+    "AAPL": 1783604261.678139
+  },
+  "last_full_scan_date": "2026-07-09",
   "position_strategies": {
     "COST": {
       "mean_reversion": {
@@ -1039,32 +1070,6 @@
         "vpt_slope": 2.6281,
         "vol_ratio": 1.04,
         "reason": "VPT rising (accumulation, slope 2.628)"
-      }
-    },
-    "AAPL": {
-      "mean_reversion": {
-        "score": -0.223,
-        "rsi": 71.4,
-        "bb_position": 0.814,
-        "reason": "RSI overbought (71) | Price near upper band"
-      },
-      "momentum": {
-        "score": 0.52,
-        "adx": 31.0,
-        "ema_fast": 291.07,
-        "ema_slow": 281.68,
-        "reason": "Uptrend (EMA spread 3.3%) | Strong trend (ADX 31)"
-      },
-      "news_sentiment": {
-        "score": 0,
-        "reason": "No positive news sentiment",
-        "sentiment": 0.0
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 4.1255,
-        "vol_ratio": 0.72,
-        "reason": "VPT rising (accumulation, slope 4.125)"
       }
     },
     "UNH": {
@@ -1247,6 +1252,60 @@
         "vpt_slope": 0.1224,
         "vol_ratio": 1.26,
         "reason": "VPT rising (accumulation, slope 0.122)"
+      }
+    },
+    "JNJ": {
+      "mean_reversion": {
+        "score": -0.5,
+        "rsi": 66.1,
+        "bb_position": 0.987,
+        "reason": "Price at upper Bollinger Band"
+      },
+      "momentum": {
+        "score": 0.146,
+        "adx": 18.5,
+        "ema_fast": 233.61,
+        "ema_slow": 231.49,
+        "reason": "Uptrend (EMA spread 0.9%) | Weak trend (ADX 19)"
+      },
+      "news_sentiment": {
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": 0.0
+      },
+      "volume_flow": {
+        "score": 1.0,
+        "vpt_slope": 0.9574,
+        "vol_ratio": 0.82,
+        "reason": "VPT rising (accumulation, slope 0.957)"
+      }
+    },
+    "QCOM": {
+      "mean_reversion": {
+        "score": 0.0,
+        "rsi": 50.6,
+        "bb_position": 0.373,
+        "reason": "Neutral"
+      },
+      "momentum": {
+        "score": 0.406,
+        "adx": 27.2,
+        "ema_fast": 216.3,
+        "ema_slow": 210.76,
+        "reason": "Uptrend (EMA spread 2.6%) | Strong trend (ADX 27)"
+      },
+      "news_sentiment": {
+        "score": 0.7,
+        "rsi": 50.6,
+        "recent_max_rsi": 65.0,
+        "sentiment": 1.0,
+        "reason": "Pullback entry! RSI 65->51 | Sentiment: 1.00"
+      },
+      "volume_flow": {
+        "score": 0.272,
+        "vpt_slope": 0.1358,
+        "vol_ratio": 0.63,
+        "reason": "VPT rising (accumulation, slope 0.136)"
       }
     }
   }

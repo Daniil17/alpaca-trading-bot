@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1434,
+  "run_count": 1435,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -956,7 +956,7 @@
     "MSFT": 392.865,
     "PG": 152.195,
     "UNH": 430.755,
-    "SHIBUSD": 4.29e-06,
+    "SHIBUSD": 4.35e-06,
     "JNJ": 263.15,
     "QCOM": 194.72
   },
@@ -990,10 +990,8 @@
       7.344
     ]
   },
-  "sell_cooldowns": {
-    "AAPL": 1783604261.678139
-  },
-  "last_full_scan_date": "2026-07-09",
+  "sell_cooldowns": {},
+  "last_full_scan_date": "2026-07-10",
   "position_strategies": {
     "COST": {
       "mean_reversion": {

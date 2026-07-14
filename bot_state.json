@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1499,
+  "run_count": 1500,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -943,6 +943,16 @@
       "price": 186.33,
       "is_crypto": false,
       "score": 0.334
+    },
+    {
+      "time": "2026-07-14 17:09 BST",
+      "action": "SELL",
+      "symbol": "QCOM",
+      "amount": 2784.17,
+      "price": 179.49,
+      "is_crypto": false,
+      "pnl": -167.79,
+      "reason": "HARD STOP-LOSS: -5.7%"
     }
   ],
   "open_pairs": {},
@@ -957,8 +967,7 @@
     "PG": 152.195,
     "UNH": 430.755,
     "SHIBUSD": 4.44e-06,
-    "JNJ": 263.15,
-    "QCOM": 194.72
+    "JNJ": 263.15
   },
   "strategy_pnl": {
     "mean_reversion": [],
@@ -966,7 +975,9 @@
       -5.2139999999999995,
       -0.9527403075181502
     ],
-    "news_sentiment": [],
+    "news_sentiment": [
+      -5.684
+    ],
     "volume_flow": [
       13.008000000000001,
       -5.434,
@@ -990,7 +1001,9 @@
       7.344
     ]
   },
-  "sell_cooldowns": {},
+  "sell_cooldowns": {
+    "QCOM": 1784045360.185398
+  },
   "last_full_scan_date": "2026-07-14",
   "position_strategies": {
     "COST": {
@@ -1277,34 +1290,6 @@
         "vpt_slope": 0.9574,
         "vol_ratio": 0.82,
         "reason": "VPT rising (accumulation, slope 0.957)"
-      }
-    },
-    "QCOM": {
-      "mean_reversion": {
-        "score": 0.0,
-        "rsi": 50.6,
-        "bb_position": 0.373,
-        "reason": "Neutral"
-      },
-      "momentum": {
-        "score": 0.406,
-        "adx": 27.2,
-        "ema_fast": 216.3,
-        "ema_slow": 210.76,
-        "reason": "Uptrend (EMA spread 2.6%) | Strong trend (ADX 27)"
-      },
-      "news_sentiment": {
-        "score": 0.7,
-        "rsi": 50.6,
-        "recent_max_rsi": 65.0,
-        "sentiment": 1.0,
-        "reason": "Pullback entry! RSI 65->51 | Sentiment: 1.00"
-      },
-      "volume_flow": {
-        "score": 0.272,
-        "vpt_slope": 0.1358,
-        "vol_ratio": 0.63,
-        "reason": "VPT rising (accumulation, slope 0.136)"
       }
     }
   }

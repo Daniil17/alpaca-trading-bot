@@ -44755,3 +44755,52 @@
 2026-07-16 13:06:42 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,371.12
 2026-07-16 13:06:42 | INFO     | State saved (run #1529)
 2026-07-16 13:06:42 | INFO     | Cycle complete.
+2026-07-16 15:02:52 | INFO     | =======================================================
+2026-07-16 15:02:52 | INFO     |   TRADING BOT — Single Cycle
+2026-07-16 15:02:52 | INFO     |   2026-07-16 15:02:52 UTC
+2026-07-16 15:02:52 | INFO     |   Mode: PAPER
+2026-07-16 15:02:52 | INFO     | =======================================================
+2026-07-16 15:02:52 | INFO     | State loaded: peak=$101,029.84, run #1529, trades=103
+2026-07-16 15:02:52 | INFO     | Connected to Alpaca (PAPER trading)
+2026-07-16 15:02:52 | INFO     | Account mode verified: PAPER | Equity: $99,106.64
+2026-07-16 15:02:52 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-07-16 15:02:55 | INFO     | Processed Telegram commands
+2026-07-16 15:02:55 | INFO     | Portfolio: $99,106.76 | Cash: $45,836.37
+2026-07-16 15:02:55 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $6.9M daily dollar vol)
+2026-07-16 15:02:55 | INFO     | Pre-fetching bars for 28 symbols...
+2026-07-16 15:02:58 | INFO     | --- Phase 1: Checking exits ---
+2026-07-16 15:02:58 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-07-16 15:02:59 | INFO     | News scan: 60 articles, 6 stocks with sentiment
+2026-07-16 15:02:59 | INFO     | No buy signals this cycle
+2026-07-16 15:02:59 | INFO     | --- Phase 3: Executing trades ---
+2026-07-16 15:02:59 | INFO     | 
+=======================================================
+2026-07-16 15:02:59 | INFO     |   CRYPTO TRADING CYCLE
+2026-07-16 15:02:59 | INFO     | =======================================================
+2026-07-16 15:03:00 | INFO     | Crypto: 1 positions | $1,405.84 invested (1.4% of portfolio)
+2026-07-16 15:03:00 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-07-16 15:03:00 | ERROR    | Non-retryable error: {"message":"invalid symbol: SHIBUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-07-16 15:03:00 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-07-16 15:03:00 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-07-16 15:03:02 | INFO     | No crypto buy signals this cycle
+2026-07-16 15:03:02 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-07-16 15:03:02 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,405.84
+2026-07-16 15:03:02 | INFO     | 
+=======================================================
+2026-07-16 15:03:02 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-07-16 15:03:02 | INFO     | =======================================================
+2026-07-16 15:03:02 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-07-16 15:03:02 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-07-16 15:03:02 | INFO     | PAIR KO/PEP: Z=-0.63 — Kalman Z=-0.63 — neutral band
+2026-07-16 15:03:03 | INFO     | PAIR JPM/BAC: signal=EXIT Z=0.10
+2026-07-16 15:03:04 | INFO     | PAIR META/GOOGL: Z=-1.05 — Kalman Z=-1.05 — neutral band
+2026-07-16 15:03:04 | INFO     | PAIR V/MA: Z=-0.81 — Kalman Z=-0.81 — neutral band
+2026-07-16 15:03:04 | INFO     | PAIR AMZN/COST: Z=1.87 — Kalman Z=1.87 — neutral band
+2026-07-16 15:03:04 | INFO     | PAIR JNJ/ABBV: signal=LONG_X_SHORT_Y Z=3.39
+2026-07-16 15:03:04 | INFO     | PAIRS TRADE: long JNJ ($3964.27) | short ABBV ($3964.27) | Z=3.39 | hedge_ratio=0.994
+2026-07-16 15:03:04 | INFO     | BUY MARKET: JNJ | $3964.27
+2026-07-16 15:03:04 | INFO     | SHORT SELL: ABBV | $3964.27
+2026-07-16 15:03:05 | INFO     | Pairs cycle complete. Open pairs: 1
+2026-07-16 15:03:05 | INFO     | State saved (run #1530)
+2026-07-16 15:03:05 | INFO     | Cycle complete.

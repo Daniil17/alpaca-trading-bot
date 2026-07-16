@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1530,
+  "run_count": 1531,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1002,6 +1002,27 @@
       "price": 251.55,
       "is_crypto": false,
       "score": 3.392
+    },
+    {
+      "time": "2026-07-16 17:37 BST",
+      "action": "SELL",
+      "symbol": "AMD",
+      "amount": 3024.69,
+      "price": 501.555,
+      "is_crypto": false,
+      "pnl": -191.8,
+      "reason": "HARD STOP-LOSS: -6.0%"
+    },
+    {
+      "time": "2026-07-16 17:37 BST",
+      "action": "SELL",
+      "symbol": "JNJ",
+      "amount": 3939.32,
+      "price": 249.58,
+      "is_crypto": false,
+      "pnl": -24.94,
+      "reason": "Strategy (-0.276)",
+      "score": -0.276
     }
   ],
   "open_pairs": {
@@ -1022,18 +1043,19 @@
     "CRM": 172.49,
     "HD": 349.31,
     "JPM": 349.055,
-    "MSFT": 398.82,
+    "MSFT": 401.405,
     "PG": 152.195,
     "UNH": 438.7,
     "SHIBUSD": 4.44e-06,
-    "AMD": 533.36,
-    "DIS": 98.26
+    "DIS": 98.955,
+    "JNJ": 251.16
   },
   "strategy_pnl": {
     "mean_reversion": [],
     "momentum": [
       -5.2139999999999995,
-      -0.9527403075181502
+      -0.9527403075181502,
+      -5.963
     ],
     "news_sentiment": [
       -5.684
@@ -1061,7 +1083,10 @@
       -2.098
     ]
   },
-  "sell_cooldowns": {},
+  "sell_cooldowns": {
+    "AMD": 1784219875.707493,
+    "JNJ": 1784219876.1996486
+  },
   "last_full_scan_date": "2026-07-16",
   "position_strategies": {
     "COST": {
@@ -1322,34 +1347,6 @@
         "vpt_slope": 0.2625,
         "vol_ratio": 2.45,
         "reason": "VPT rising (accumulation, slope 0.262) | High volume (2.4x avg)"
-      }
-    },
-    "AMD": {
-      "mean_reversion": {
-        "score": -0.2,
-        "rsi": 61.2,
-        "bb_position": 0.813,
-        "reason": "Price near upper band"
-      },
-      "momentum": {
-        "score": 0.468,
-        "adx": 28.4,
-        "ema_fast": 506.63,
-        "ema_slow": 477.38,
-        "reason": "Uptrend (EMA spread 6.1%) | Strong trend (ADX 28)"
-      },
-      "news_sentiment": {
-        "score": 0.2,
-        "rsi": 61.2,
-        "recent_max_rsi": 65.2,
-        "sentiment": 1.0,
-        "reason": "Cooling (RSI 61) \u2014 waiting for deeper dip | Sentiment: 1.00"
-      },
-      "volume_flow": {
-        "score": 0.303,
-        "vpt_slope": 0.1517,
-        "vol_ratio": 1.37,
-        "reason": "VPT rising (accumulation, slope 0.152)"
       }
     }
   }

@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1546,
+  "run_count": 1547,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1038,8 +1038,8 @@
     }
   },
   "trailing_high": {
-    "ABBV": 257.72,
-    "BAC": 61.85,
+    "ABBV": 257.79,
+    "BAC": 61.8751,
     "CRM": 173.035,
     "HD": 349.31,
     "JPM": 349.055,

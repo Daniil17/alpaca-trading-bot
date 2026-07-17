@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1545,
+  "run_count": 1546,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1038,13 +1038,13 @@
     }
   },
   "trailing_high": {
-    "ABBV": 255.34,
+    "ABBV": 257.72,
     "BAC": 61.85,
     "CRM": 173.035,
     "HD": 349.31,
     "JPM": 349.055,
     "MSFT": 404.71,
-    "PG": 152.195,
+    "PG": 152.52,
     "UNH": 438.7,
     "SHIBUSD": 4.44e-06,
     "DIS": 99.61
@@ -1086,7 +1086,7 @@
     "AMD": 1784219875.707493,
     "JNJ": 1784219876.1996486
   },
-  "last_full_scan_date": "2026-07-16",
+  "last_full_scan_date": "2026-07-17",
   "position_strategies": {
     "COST": {
       "mean_reversion": {

@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1597,
+  "run_count": 1598,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1082,11 +1082,8 @@
       -2.098
     ]
   },
-  "sell_cooldowns": {
-    "AMD": 1784219875.707493,
-    "JNJ": 1784219876.1996486
-  },
-  "last_full_scan_date": "2026-07-17",
+  "sell_cooldowns": {},
+  "last_full_scan_date": "2026-07-20",
   "position_strategies": {
     "COST": {
       "mean_reversion": {

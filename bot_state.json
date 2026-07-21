@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1611,
+  "run_count": 1612,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1023,6 +1023,16 @@
       "pnl": -24.94,
       "reason": "Strategy (-0.276)",
       "score": -0.276
+    },
+    {
+      "time": "2026-07-21 15:24 BST",
+      "action": "SELL",
+      "symbol": "HD",
+      "amount": 377.14,
+      "price": 329.4014,
+      "is_crypto": false,
+      "pnl": -22.79,
+      "reason": "HARD STOP-LOSS: -5.7%"
     }
   ],
   "open_pairs": {
@@ -1041,7 +1051,6 @@
     "ABBV": 258.1472,
     "BAC": 61.8751,
     "CRM": 173.57,
-    "HD": 349.31,
     "JPM": 349.055,
     "MSFT": 404.71,
     "PG": 152.52,
@@ -1060,7 +1069,6 @@
       -5.684
     ],
     "volume_flow": [
-      -5.373,
       -6.672000000000001,
       -0.10398414448093884,
       -0.3228588643453358,
@@ -1079,11 +1087,14 @@
       0.972,
       7.344,
       -4.034,
-      -2.098
+      -2.098,
+      -5.699
     ]
   },
-  "sell_cooldowns": {},
-  "last_full_scan_date": "2026-07-20",
+  "sell_cooldowns": {
+    "HD": 1784643849.4467154
+  },
+  "last_full_scan_date": "2026-07-21",
   "position_strategies": {
     "COST": {
       "mean_reversion": {
@@ -1239,32 +1250,6 @@
         "vpt_slope": 0.8472,
         "vol_ratio": 0.8,
         "reason": "VPT rising (accumulation, slope 0.847)"
-      }
-    },
-    "HD": {
-      "mean_reversion": {
-        "score": -0.5,
-        "rsi": 58.4,
-        "bb_position": 0.981,
-        "reason": "Price at upper Bollinger Band"
-      },
-      "momentum": {
-        "score": -0.008,
-        "adx": 23.1,
-        "ema_fast": 316.04,
-        "ema_slow": 316.57,
-        "reason": "Downtrend (EMA spread 0.2%) | Weak trend (ADX 23)"
-      },
-      "news_sentiment": {
-        "score": 0,
-        "reason": "No positive news sentiment",
-        "sentiment": 0.0
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 0.5101,
-        "vol_ratio": 0.87,
-        "reason": "VPT rising (accumulation, slope 0.510)"
       }
     },
     "JPM": {

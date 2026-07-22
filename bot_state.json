@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1626,
+  "run_count": 1627,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1033,6 +1033,17 @@
       "is_crypto": false,
       "pnl": -22.79,
       "reason": "HARD STOP-LOSS: -5.7%"
+    },
+    {
+      "time": "2026-07-22 15:28 BST",
+      "action": "SELL",
+      "symbol": "CRM",
+      "amount": 181.99,
+      "price": 165.13,
+      "is_crypto": false,
+      "pnl": -1.69,
+      "reason": "Strategy (-0.328)",
+      "score": -0.328
     }
   ],
   "open_pairs": {
@@ -1069,7 +1080,6 @@
       -5.684
     ],
     "volume_flow": [
-      -6.672000000000001,
       -0.10398414448093884,
       -0.3228588643453358,
       -6.5809999999999995,
@@ -1088,13 +1098,14 @@
       7.344,
       -4.034,
       -2.098,
-      -5.699
+      -5.699,
+      -0.922
     ]
   },
   "sell_cooldowns": {
-    "HD": 1784643849.4467154
+    "CRM": 1784730510.0164168
   },
-  "last_full_scan_date": "2026-07-21",
+  "last_full_scan_date": "2026-07-22",
   "position_strategies": {
     "COST": {
       "mean_reversion": {
@@ -1120,32 +1131,6 @@
         "vpt_slope": 0.1587,
         "vol_ratio": 1.38,
         "reason": "VPT rising (accumulation, slope 0.159)"
-      }
-    },
-    "CRM": {
-      "mean_reversion": {
-        "score": 0.2,
-        "rsi": 38.9,
-        "bb_position": 0.144,
-        "reason": "Price near lower band"
-      },
-      "momentum": {
-        "score": -0.4,
-        "adx": 13.8,
-        "ema_fast": 180.21,
-        "ema_slow": 181.39,
-        "reason": "Bearish EMA crossover (fresh) | Weak trend (ADX 14)"
-      },
-      "news_sentiment": {
-        "score": 0,
-        "reason": "No positive news sentiment",
-        "sentiment": 0.0
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 0.5752,
-        "vol_ratio": 1.04,
-        "reason": "VPT rising (accumulation, slope 0.575)"
       }
     },
     "PG": {

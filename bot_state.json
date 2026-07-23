@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1642,
+  "run_count": 1643,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1062,18 +1062,27 @@
       "price": 0.0,
       "is_crypto": false,
       "reason": "Pair exit: Kalman Z=0.04 within exit band: spread reverted"
+    },
+    {
+      "time": "2026-07-23 16:09 BST",
+      "action": "SELL",
+      "symbol": "DIS",
+      "amount": 437.59,
+      "price": 92.65,
+      "is_crypto": false,
+      "pnl": -24.09,
+      "reason": "HARD STOP-LOSS: -5.2%"
     }
   ],
   "open_pairs": {},
   "trailing_high": {
-    "ABBV": 258.1472,
     "BAC": 61.8751,
     "JPM": 349.055,
     "MSFT": 404.71,
     "PG": 152.52,
     "UNH": 438.7,
     "SHIBUSD": 4.44e-06,
-    "DIS": 99.61
+    "AMZN": 233.876999
   },
   "strategy_pnl": {
     "mean_reversion": [],
@@ -1086,7 +1095,6 @@
       -5.684
     ],
     "volume_flow": [
-      -0.10398414448093884,
       -0.3228588643453358,
       -6.5809999999999995,
       -9.288,
@@ -1105,10 +1113,13 @@
       -4.034,
       -2.098,
       -5.699,
-      -0.922
+      -0.922,
+      -5.2170000000000005
     ]
   },
-  "sell_cooldowns": {},
+  "sell_cooldowns": {
+    "DIS": 1784819372.3131626
+  },
   "last_full_scan_date": "2026-07-23",
   "position_strategies": {
     "COST": {
@@ -1291,32 +1302,6 @@
         "vpt_slope": 0.1224,
         "vol_ratio": 1.26,
         "reason": "VPT rising (accumulation, slope 0.122)"
-      }
-    },
-    "DIS": {
-      "mean_reversion": {
-        "score": -0.2,
-        "rsi": 57.4,
-        "bb_position": 0.841,
-        "reason": "Price near upper band"
-      },
-      "momentum": {
-        "score": -0.019,
-        "adx": 12.5,
-        "ema_fast": 101.25,
-        "ema_slow": 101.64,
-        "reason": "Downtrend (EMA spread 0.4%) | Weak trend (ADX 13)"
-      },
-      "news_sentiment": {
-        "score": 0,
-        "reason": "No positive news sentiment",
-        "sentiment": 0.0
-      },
-      "volume_flow": {
-        "score": 0.682,
-        "vpt_slope": 0.2625,
-        "vol_ratio": 2.45,
-        "reason": "VPT rising (accumulation, slope 0.262) | High volume (2.4x avg)"
       }
     },
     "AMZN": {

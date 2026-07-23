@@ -48596,3 +48596,32 @@
 2026-07-23 22:49:22 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,395.73
 2026-07-23 22:49:22 | INFO     | State saved (run #1650)
 2026-07-23 22:49:22 | INFO     | Cycle complete.
+2026-07-23 23:54:09 | INFO     | =======================================================
+2026-07-23 23:54:09 | INFO     |   TRADING BOT — Single Cycle
+2026-07-23 23:54:09 | INFO     |   2026-07-23 23:54:09 UTC
+2026-07-23 23:54:09 | INFO     |   Mode: PAPER
+2026-07-23 23:54:09 | INFO     | =======================================================
+2026-07-23 23:54:09 | INFO     | State loaded: peak=$101,029.84, run #1650, trades=111
+2026-07-23 23:54:09 | INFO     | Connected to Alpaca (PAPER trading)
+2026-07-23 23:54:29 | INFO     | Account mode verified: PAPER | Equity: $98,574.57
+2026-07-23 23:54:30 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-07-23 23:54:32 | INFO     | Processed Telegram commands
+2026-07-23 23:54:32 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-07-23 23:55:32 | INFO     | Portfolio: $98,571.39 | Cash: $52,550.50
+2026-07-23 23:55:32 | INFO     | 
+=======================================================
+2026-07-23 23:55:32 | INFO     |   CRYPTO TRADING CYCLE
+2026-07-23 23:55:32 | INFO     | =======================================================
+2026-07-23 23:55:32 | WARNING  | API call failed (attempt 1/3): {"code":50010000,"message":"internal server error occurred"} — retrying in 2.0s
+2026-07-23 23:55:34 | INFO     | Crypto: 1 positions | $1,395.73 invested (1.4% of portfolio)
+2026-07-23 23:55:34 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-07-23 23:55:34 | ERROR    | Non-retryable error: {"message":"invalid symbol: SHIBUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-07-23 23:55:34 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-07-23 23:55:35 | WARNING  | API call failed (attempt 1/3): {"code":50010000,"message":"internal server error occurred"} — retrying in 2.0s
+2026-07-23 23:55:39 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-07-23 23:55:39 | INFO     | No crypto buy signals this cycle
+2026-07-23 23:55:39 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-07-23 23:55:39 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,395.73
+2026-07-23 23:55:39 | INFO     | State saved (run #1651)
+2026-07-23 23:55:39 | INFO     | Cycle complete.

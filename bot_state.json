@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1641,
+  "run_count": 1642,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1044,20 +1044,27 @@
       "pnl": -1.69,
       "reason": "Strategy (-0.328)",
       "score": -0.328
+    },
+    {
+      "time": "2026-07-23 15:35 BST",
+      "action": "BUY",
+      "symbol": "AMZN",
+      "amount": 5503.44,
+      "price": 233.82,
+      "is_crypto": false,
+      "score": 0.261
+    },
+    {
+      "time": "2026-07-23 15:35 BST",
+      "action": "SELL",
+      "symbol": "JNJ\u2194ABBV",
+      "amount": 0.0,
+      "price": 0.0,
+      "is_crypto": false,
+      "reason": "Pair exit: Kalman Z=0.04 within exit band: spread reverted"
     }
   ],
-  "open_pairs": {
-    "JNJ_ABBV": {
-      "symbol_x": "JNJ",
-      "symbol_y": "ABBV",
-      "long_sym": "JNJ",
-      "short_sym": "ABBV",
-      "signal": "LONG_X_SHORT_Y",
-      "hedge_ratio": 0.9937,
-      "entry_zscore": 3.392,
-      "entry_date": "2026-07-16"
-    }
-  },
+  "open_pairs": {},
   "trailing_high": {
     "ABBV": 258.1472,
     "BAC": 61.8751,
@@ -1101,10 +1108,8 @@
       -0.922
     ]
   },
-  "sell_cooldowns": {
-    "CRM": 1784730510.0164168
-  },
-  "last_full_scan_date": "2026-07-22",
+  "sell_cooldowns": {},
+  "last_full_scan_date": "2026-07-23",
   "position_strategies": {
     "COST": {
       "mean_reversion": {
@@ -1312,6 +1317,32 @@
         "vpt_slope": 0.2625,
         "vol_ratio": 2.45,
         "reason": "VPT rising (accumulation, slope 0.262) | High volume (2.4x avg)"
+      }
+    },
+    "AMZN": {
+      "mean_reversion": {
+        "score": 0.0,
+        "rsi": 46.2,
+        "bb_position": 0.432,
+        "reason": "Neutral"
+      },
+      "momentum": {
+        "score": -0.505,
+        "adx": 32.6,
+        "ema_fast": 238.41,
+        "ema_slow": 244.62,
+        "reason": "Downtrend (EMA spread 2.5%) | Strong downtrend (ADX 33)"
+      },
+      "news_sentiment": {
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": -0.5
+      },
+      "volume_flow": {
+        "score": 0.977,
+        "vpt_slope": 0.4884,
+        "vol_ratio": 1.24,
+        "reason": "VPT rising (accumulation, slope 0.488)"
       }
     }
   }

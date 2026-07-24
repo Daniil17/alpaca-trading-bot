@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1656,
+  "run_count": 1657,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1072,12 +1072,30 @@
       "is_crypto": false,
       "pnl": -24.09,
       "reason": "HARD STOP-LOSS: -5.2%"
+    },
+    {
+      "time": "2026-07-24 15:13 BST",
+      "action": "BUY",
+      "symbol": "ABBV",
+      "amount": 7600.12,
+      "price": 251.65,
+      "is_crypto": false,
+      "score": 0.315
+    },
+    {
+      "time": "2026-07-24 15:13 BST",
+      "action": "BUY",
+      "symbol": "KO",
+      "amount": 9858.73,
+      "price": 81.61,
+      "is_crypto": false,
+      "score": 0.282
     }
   ],
   "open_pairs": {},
   "trailing_high": {
     "BAC": 61.8751,
-    "JPM": 349.055,
+    "JPM": 349.98,
     "MSFT": 404.71,
     "PG": 152.52,
     "UNH": 438.7,
@@ -1120,7 +1138,7 @@
   "sell_cooldowns": {
     "DIS": 1784819372.3131626
   },
-  "last_full_scan_date": "2026-07-23",
+  "last_full_scan_date": "2026-07-24",
   "position_strategies": {
     "COST": {
       "mean_reversion": {
@@ -1202,17 +1220,17 @@
     },
     "ABBV": {
       "mean_reversion": {
-        "score": -0.2,
-        "rsi": 62.9,
-        "bb_position": 0.824,
-        "reason": "Price near upper band"
+        "score": -0.552,
+        "rsi": 73.1,
+        "bb_position": 0.956,
+        "reason": "RSI overbought (73) | Price at upper Bollinger Band"
       },
       "momentum": {
-        "score": 0.2,
-        "adx": 20.5,
-        "ema_fast": 221.05,
-        "ema_slow": 216.73,
-        "reason": "Uptrend (EMA spread 2.0%) | Weak trend (ADX 20)"
+        "score": 0.432,
+        "adx": 26.6,
+        "ema_fast": 238.23,
+        "ema_slow": 229.19,
+        "reason": "Uptrend (EMA spread 3.9%) | Strong trend (ADX 27)"
       },
       "news_sentiment": {
         "score": 0,
@@ -1221,9 +1239,9 @@
       },
       "volume_flow": {
         "score": 1.0,
-        "vpt_slope": 4.9013,
-        "vol_ratio": 0.86,
-        "reason": "VPT rising (accumulation, slope 4.901)"
+        "vpt_slope": 22.2603,
+        "vol_ratio": 0.79,
+        "reason": "VPT rising (accumulation, slope 22.260)"
       }
     },
     "BAC": {
@@ -1328,6 +1346,32 @@
         "vpt_slope": 0.4884,
         "vol_ratio": 1.24,
         "reason": "VPT rising (accumulation, slope 0.488)"
+      }
+    },
+    "KO": {
+      "mean_reversion": {
+        "score": 0.0,
+        "rsi": 53.5,
+        "bb_position": 0.606,
+        "reason": "Neutral"
+      },
+      "momentum": {
+        "score": 0.132,
+        "adx": 14.6,
+        "ema_fast": 81.06,
+        "ema_slow": 80.55,
+        "reason": "Uptrend (EMA spread 0.6%) | Weak trend (ADX 15)"
+      },
+      "news_sentiment": {
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": 0.0
+      },
+      "volume_flow": {
+        "score": 1.0,
+        "vpt_slope": 9.6786,
+        "vol_ratio": 0.79,
+        "reason": "VPT rising (accumulation, slope 9.679)"
       }
     }
   }

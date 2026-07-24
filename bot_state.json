@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1660,
+  "run_count": 1661,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1102,7 +1102,7 @@
     "SHIBUSD": 4.44e-06,
     "AMZN": 234.19,
     "ABBV": 259.59,
-    "KO": 82.05
+    "KO": 82.22
   },
   "strategy_pnl": {
     "mean_reversion": [],

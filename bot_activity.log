@@ -50867,3 +50867,30 @@
 2026-07-28 23:53:51 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-07-28 23:53:51 | INFO     | State saved (run #1724)
 2026-07-28 23:53:51 | INFO     | Cycle complete.
+2026-07-29 02:38:45 | INFO     | =======================================================
+2026-07-29 02:38:45 | INFO     |   TRADING BOT — Single Cycle
+2026-07-29 02:38:45 | INFO     |   2026-07-29 02:38:45 UTC
+2026-07-29 02:38:45 | INFO     |   Mode: PAPER
+2026-07-29 02:38:45 | INFO     | =======================================================
+2026-07-29 02:38:45 | INFO     | State loaded: peak=$101,029.84, run #1724, trades=116
+2026-07-29 02:38:45 | INFO     | Connected to Alpaca (PAPER trading)
+2026-07-29 02:38:45 | INFO     | Account mode verified: PAPER | Equity: $100,724.35
+2026-07-29 02:38:45 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-07-29 02:38:48 | INFO     | Processed Telegram commands
+2026-07-29 02:38:48 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-07-29 02:38:48 | INFO     | Portfolio: $100,724.35 | Cash: $31,513.88
+2026-07-29 02:38:48 | INFO     | 
+=======================================================
+2026-07-29 02:38:48 | INFO     |   CRYPTO TRADING CYCLE
+2026-07-29 02:38:48 | INFO     | =======================================================
+2026-07-29 02:38:48 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-07-29 02:38:48 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-07-29 02:38:48 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-07-29 02:38:49 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-07-29 02:38:50 | INFO     | Crypto buy candidates: LINK/USD (0.302)
+2026-07-29 02:38:50 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-07-29 02:38:50 | INFO     | CRYPTO BUY: LINK/USD | $1510.87 @ ~$8.43515 | Score: 0.302 | Regime: bull
+2026-07-29 02:38:50 | INFO     | BUY CRYPTO: LINK/USD | $1510.87
+2026-07-29 02:38:50 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,510.87
+2026-07-29 02:38:50 | INFO     | State saved (run #1725)
+2026-07-29 02:38:50 | INFO     | Cycle complete.

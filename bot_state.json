@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1729,
+  "run_count": 1730,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1127,6 +1127,24 @@
       "price": 8.43515,
       "is_crypto": true,
       "score": 0.302
+    },
+    {
+      "time": "2026-07-29 16:08 BST",
+      "action": "BUY",
+      "symbol": "HD",
+      "amount": 399.81,
+      "price": 341.81,
+      "is_crypto": false,
+      "score": 0.366
+    },
+    {
+      "time": "2026-07-29 16:08 BST",
+      "action": "BUY",
+      "symbol": "V",
+      "amount": 8503.1,
+      "price": 369.93,
+      "is_crypto": false,
+      "score": 0.308
     }
   ],
   "open_pairs": {},
@@ -1137,8 +1155,8 @@
     "PG": 152.52,
     "UNH": 438.7,
     "AMZN": 234.19,
-    "ABBV": 265.66,
-    "AAPL": 339.89,
+    "ABBV": 266.26,
+    "AAPL": 340.25,
     "JNJ": 272.5211,
     "LINKUSD": 8.46397
   },
@@ -1176,7 +1194,7 @@
     ]
   },
   "sell_cooldowns": {},
-  "last_full_scan_date": "2026-07-28",
+  "last_full_scan_date": "2026-07-29",
   "position_strategies": {
     "COST": {
       "mean_reversion": {
@@ -1464,6 +1482,58 @@
         "vpt_slope": 0.6359,
         "vol_ratio": 1.09,
         "reason": "VPT rising (accumulation, slope 0.636)"
+      }
+    },
+    "HD": {
+      "mean_reversion": {
+        "score": -0.2,
+        "rsi": 62.3,
+        "bb_position": 0.774,
+        "reason": "Price near upper band"
+      },
+      "momentum": {
+        "score": 0.378,
+        "adx": 25.2,
+        "ema_fast": 344.28,
+        "ema_slow": 335.09,
+        "reason": "Uptrend (EMA spread 2.7%) | Strong trend (ADX 25)"
+      },
+      "news_sentiment": {
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": 0.0
+      },
+      "volume_flow": {
+        "score": 1.0,
+        "vpt_slope": 0.9644,
+        "vol_ratio": 0.85,
+        "reason": "VPT rising (accumulation, slope 0.964)"
+      }
+    },
+    "V": {
+      "mean_reversion": {
+        "score": -0.51,
+        "rsi": 70.6,
+        "bb_position": 0.996,
+        "reason": "RSI overbought (71) | Price at upper Bollinger Band"
+      },
+      "momentum": {
+        "score": 0.341,
+        "adx": 25.1,
+        "ema_fast": 342.34,
+        "ema_slow": 334.35,
+        "reason": "Uptrend (EMA spread 2.4%) | Strong trend (ADX 25)"
+      },
+      "news_sentiment": {
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": 0.0
+      },
+      "volume_flow": {
+        "score": 1.0,
+        "vpt_slope": 6.3573,
+        "vol_ratio": 1.25,
+        "reason": "VPT rising (accumulation, slope 6.357)"
       }
     }
   }

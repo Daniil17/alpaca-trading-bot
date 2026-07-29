@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1725,
+  "run_count": 1726,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1139,7 +1139,8 @@
     "AMZN": 234.19,
     "ABBV": 265.66,
     "AAPL": 339.89,
-    "JNJ": 272.5211
+    "JNJ": 272.5211,
+    "LINKUSD": 8.44543
   },
   "strategy_pnl": {
     "mean_reversion": [],

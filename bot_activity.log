@@ -51471,3 +51471,53 @@
 2026-07-30 12:12:29 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,479.29
 2026-07-30 12:12:29 | INFO     | State saved (run #1743)
 2026-07-30 12:12:29 | INFO     | Cycle complete.
+2026-07-30 14:33:28 | INFO     | =======================================================
+2026-07-30 14:33:28 | INFO     |   TRADING BOT — Single Cycle
+2026-07-30 14:33:28 | INFO     |   2026-07-30 14:33:28 UTC
+2026-07-30 14:33:28 | INFO     |   Mode: PAPER
+2026-07-30 14:33:28 | INFO     | =======================================================
+2026-07-30 14:33:28 | INFO     | State loaded: peak=$101,029.84, run #1743, trades=119
+2026-07-30 14:33:28 | INFO     | Connected to Alpaca (PAPER trading)
+2026-07-30 14:33:28 | INFO     | Account mode verified: PAPER | Equity: $98,684.77
+2026-07-30 14:33:29 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-07-30 14:33:31 | INFO     | Processed Telegram commands
+2026-07-30 14:33:31 | INFO     | Portfolio: $98,684.06 | Cash: $21,129.58
+2026-07-30 14:33:31 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $6.0M daily dollar vol)
+2026-07-30 14:33:31 | INFO     | Pre-fetching bars for 28 symbols...
+2026-07-30 14:33:33 | INFO     | --- Phase 1: Checking exits ---
+2026-07-30 14:33:33 | INFO     | TAKE-PROFIT: MSFT at +16.3%
+2026-07-30 14:33:33 | INFO     | EXIT: MSFT — TAKE-PROFIT: +16.3%
+2026-07-30 14:33:33 | INFO     | CLOSED POSITION: MSFT
+2026-07-30 14:33:33 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-07-30 14:33:35 | INFO     | News scan: 60 articles, 5 stocks with sentiment
+2026-07-30 14:33:35 | INFO     | Buy candidates: DIS (0.278)
+2026-07-30 14:33:35 | INFO     | --- Phase 3: Executing trades ---
+2026-07-30 14:33:35 | INFO     | BLOCKED: DIS — Max 3 positions in Consumer sector
+2026-07-30 14:33:35 | INFO     | 
+=======================================================
+2026-07-30 14:33:35 | INFO     |   CRYPTO TRADING CYCLE
+2026-07-30 14:33:35 | INFO     | =======================================================
+2026-07-30 14:33:35 | INFO     | Crypto: 1 positions | $1,478.58 invested (1.5% of portfolio)
+2026-07-30 14:33:35 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-07-30 14:33:35 | ERROR    | Non-retryable error: {"message":"invalid symbol: LINKUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-07-30 14:33:35 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-07-30 14:33:36 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-07-30 14:33:37 | INFO     | No crypto buy signals this cycle
+2026-07-30 14:33:37 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-07-30 14:33:37 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,478.58
+2026-07-30 14:33:37 | INFO     | 
+=======================================================
+2026-07-30 14:33:37 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-07-30 14:33:37 | INFO     | =======================================================
+2026-07-30 14:33:37 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-07-30 14:33:37 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-07-30 14:33:38 | INFO     | PAIR KO/PEP: Z=0.68 — Kalman Z=0.68 — neutral band
+2026-07-30 14:33:38 | INFO     | PAIR JPM/BAC: Z=1.02 — Kalman Z=1.02 — neutral band
+2026-07-30 14:33:38 | INFO     | PAIR META/GOOGL: signal=EXIT Z=-0.45
+2026-07-30 14:33:38 | INFO     | PAIR V/MA: signal=EXIT Z=0.38
+2026-07-30 14:33:38 | INFO     | PAIR AMZN/COST: signal=EXIT Z=-0.16
+2026-07-30 14:33:39 | INFO     | PAIR JNJ/ABBV: Z=-1.02 — Kalman Z=-1.02 — neutral band
+2026-07-30 14:33:39 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-07-30 14:33:39 | INFO     | State saved (run #1744)
+2026-07-30 14:33:39 | INFO     | Cycle complete.

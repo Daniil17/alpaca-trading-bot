@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1817,
+  "run_count": 1818,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1279,13 +1279,14 @@
     "JPM": 361.16,
     "UNH": 438.7,
     "LINKUSD": 8.495,
-    "HD": 345.98,
+    "HD": 350.175,
     "V": 373.795,
-    "AVGO": 413.5,
+    "AVGO": 417.7,
     "MSFT": 499.12,
-    "TSLA": 324.18,
-    "AAPL": 307.315,
-    "AMZN": 285.656364
+    "TSLA": 326.11,
+    "AAPL": 310.25,
+    "AMZN": 285.656364,
+    "COST": 943.52
   },
   "strategy_pnl": {
     "mean_reversion": [

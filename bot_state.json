@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1831,
+  "run_count": 1832,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1291,7 +1291,7 @@
   ],
   "open_pairs": {},
   "trailing_high": {
-    "BAC": 63.375,
+    "BAC": 63.445,
     "JPM": 361.16,
     "UNH": 438.7,
     "LINKUSD": 8.495,
@@ -1302,7 +1302,7 @@
     "TSLA": 328.21,
     "AAPL": 310.96,
     "ABBV": 247.4,
-    "JNJ": 257.855
+    "JNJ": 258.205
   },
   "strategy_pnl": {
     "mean_reversion": [

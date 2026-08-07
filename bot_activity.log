@@ -54844,3 +54844,64 @@
 2026-08-07 12:28:16 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,445.52
 2026-08-07 12:28:16 | INFO     | State saved (run #1853)
 2026-08-07 12:28:16 | INFO     | Cycle complete.
+2026-08-07 13:52:04 | INFO     | =======================================================
+2026-08-07 13:52:04 | INFO     |   TRADING BOT — Single Cycle
+2026-08-07 13:52:04 | INFO     |   2026-08-07 13:52:04 UTC
+2026-08-07 13:52:04 | INFO     |   Mode: PAPER
+2026-08-07 13:52:04 | INFO     | =======================================================
+2026-08-07 13:52:04 | INFO     | State loaded: peak=$101,029.84, run #1853, trades=134
+2026-08-07 13:52:04 | INFO     | Connected to Alpaca (PAPER trading)
+2026-08-07 13:52:05 | INFO     | Account mode verified: PAPER | Equity: $99,256.38
+2026-08-07 13:52:05 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-08-07 13:52:08 | INFO     | Processed Telegram commands
+2026-08-07 13:52:08 | INFO     | Portfolio: $99,249.87 | Cash: $27,875.92
+2026-08-07 13:52:08 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $1.7M daily dollar vol)
+2026-08-07 13:52:08 | INFO     | Pre-fetching bars for 28 symbols...
+2026-08-07 13:52:13 | INFO     | --- Phase 1: Checking exits ---
+2026-08-07 13:52:13 | INFO     | TRAILING STOP: UNH — current $405.42 ≤ stop $407.99 (peak $438.70)
+2026-08-07 13:52:13 | INFO     | CLOSED POSITION: UNH
+2026-08-07 13:52:13 | INFO     | STRATEGY SELL: COST (score: -0.228)
+2026-08-07 13:52:14 | INFO     | CLOSED POSITION: COST
+2026-08-07 13:52:14 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-08-07 13:52:15 | INFO     | News scan: 60 articles, 8 stocks with sentiment
+2026-08-07 13:52:15 | INFO     | Buy candidates: KO (0.306), MA (0.290), NVDA (0.222)
+2026-08-07 13:52:15 | INFO     | --- Phase 3: Executing trades ---
+2026-08-07 13:52:17 | INFO     | BUY: KO | $9924.99 @ ~$86.79 | Score: 0.306 | SL=$84.30 TP=$91.77
+2026-08-07 13:52:18 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 2.0s
+2026-08-07 13:52:20 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 4.0s
+2026-08-07 13:52:24 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be simple orders"}
+2026-08-07 13:52:24 | WARNING  | Bracket order failed for KO — falling back to market + stop
+2026-08-07 13:52:24 | INFO     | BUY MARKET: KO | $9924.99
+2026-08-07 13:52:24 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be DAY orders"} — retrying in 2.0s
+2026-08-07 13:52:26 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be DAY orders"} — retrying in 4.0s
+2026-08-07 13:52:30 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be DAY orders"}
+2026-08-07 13:52:31 | INFO     | BLOCKED: MA — Max 3 positions in Finance sector
+2026-08-07 13:52:31 | INFO     | BLOCKED: NVDA — Max 3 positions in Technology sector
+2026-08-07 13:52:31 | INFO     | 
+=======================================================
+2026-08-07 13:52:31 | INFO     |   CRYPTO TRADING CYCLE
+2026-08-07 13:52:31 | INFO     | =======================================================
+2026-08-07 13:52:31 | INFO     | Crypto: 1 positions | $1,451.65 invested (1.5% of portfolio)
+2026-08-07 13:52:31 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-08-07 13:52:31 | ERROR    | Non-retryable error: {"message":"invalid symbol: LINKUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-08-07 13:52:31 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-08-07 13:52:31 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-08-07 13:52:33 | INFO     | No crypto buy signals this cycle
+2026-08-07 13:52:33 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-08-07 13:52:33 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,451.65
+2026-08-07 13:52:33 | INFO     | 
+=======================================================
+2026-08-07 13:52:33 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-08-07 13:52:33 | INFO     | =======================================================
+2026-08-07 13:52:33 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-08-07 13:52:33 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-08-07 13:52:34 | INFO     | PAIR KO/PEP: signal=EXIT Z=0.20
+2026-08-07 13:52:34 | INFO     | PAIR JPM/BAC: signal=EXIT Z=0.36
+2026-08-07 13:52:34 | INFO     | PAIR META/GOOGL: signal=EXIT Z=0.14
+2026-08-07 13:52:35 | INFO     | PAIR V/MA: signal=EXIT Z=-0.31
+2026-08-07 13:52:35 | INFO     | PAIR AMZN/COST: signal=EXIT Z=0.18
+2026-08-07 13:52:35 | INFO     | PAIR JNJ/ABBV: signal=EXIT Z=-0.37
+2026-08-07 13:52:35 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-08-07 13:52:35 | INFO     | State saved (run #1854)
+2026-08-07 13:52:35 | INFO     | Cycle complete.

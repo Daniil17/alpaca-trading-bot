@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1853,
+  "run_count": 1854,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1287,31 +1287,63 @@
       "price": 0.0,
       "is_crypto": false,
       "reason": "Pair exit: Kalman Z=0.46 within exit band: spread reverted"
+    },
+    {
+      "time": "2026-08-07 14:52 BST",
+      "action": "SELL",
+      "symbol": "UNH",
+      "amount": 8184.2,
+      "price": 405.42,
+      "is_crypto": false,
+      "pnl": -15.34,
+      "reason": "TRAILING STOP: price fell 7% from peak $438.70 (peak gain was +8.0%)"
+    },
+    {
+      "time": "2026-08-07 14:52 BST",
+      "action": "SELL",
+      "symbol": "COST",
+      "amount": 3975.66,
+      "price": 943.0,
+      "is_crypto": false,
+      "pnl": -2.19,
+      "reason": "Strategy (-0.228)",
+      "score": -0.228
+    },
+    {
+      "time": "2026-08-07 14:52 BST",
+      "action": "BUY",
+      "symbol": "KO",
+      "amount": 9924.99,
+      "price": 86.79,
+      "is_crypto": false,
+      "score": 0.306
     }
   ],
   "open_pairs": {},
   "trailing_high": {
     "BAC": 63.445,
     "JPM": 361.16,
-    "UNH": 438.7,
     "LINKUSD": 8.495,
-    "HD": 352.345,
+    "HD": 353.79,
     "V": 373.795,
-    "AVGO": 421.435,
-    "MSFT": 499.12,
-    "TSLA": 328.21,
-    "AAPL": 310.96,
+    "AVGO": 426.5,
+    "MSFT": 504.76,
+    "TSLA": 328.2142,
+    "AAPL": 311.27,
     "ABBV": 247.4,
-    "JNJ": 258.205
+    "JNJ": 258.205,
+    "COST": 943.52
   },
   "strategy_pnl": {
     "mean_reversion": [
-      16.339000000000002
+      16.339000000000002,
+      -0.055
     ],
     "momentum": [
       -5.2139999999999995,
       -0.9527403075181502,
-      -5.963
+      -5.963,
+      -0.18710916342508024
     ],
     "news_sentiment": [
       -5.684
@@ -1339,61 +1371,12 @@
       -5.5649999999999995
     ]
   },
-  "sell_cooldowns": {},
-  "last_full_scan_date": "2026-08-05",
+  "sell_cooldowns": {
+    "UNH": 1786110733.3522928,
+    "COST": 1786110734.0211241
+  },
+  "last_full_scan_date": "2026-08-07",
   "position_strategies": {
-    "COST": {
-      "mean_reversion": {
-        "score": 0.5,
-        "rsi": 43.1,
-        "bb_position": -0.001,
-        "reason": "Price at lower Bollinger Band"
-      },
-      "momentum": {
-        "score": 0.005,
-        "adx": 17.2,
-        "ema_fast": 989.78,
-        "ema_slow": 988.74,
-        "reason": "Uptrend (EMA spread 0.1%) | Weak trend (ADX 17)"
-      },
-      "news_sentiment": {
-        "score": 0,
-        "reason": "No positive news sentiment",
-        "sentiment": 0.0
-      },
-      "volume_flow": {
-        "score": 0.317,
-        "vpt_slope": 0.1587,
-        "vol_ratio": 1.38,
-        "reason": "VPT rising (accumulation, slope 0.159)"
-      }
-    },
-    "UNH": {
-      "mean_reversion": {
-        "score": -0.23,
-        "rsi": 71.8,
-        "bb_position": 0.725,
-        "reason": "RSI overbought (72) | Price near upper band"
-      },
-      "momentum": {
-        "score": 0.8,
-        "adx": 53.3,
-        "ema_fast": 383.75,
-        "ema_slow": 363.93,
-        "reason": "Uptrend (EMA spread 5.4%) | Strong trend (ADX 53)"
-      },
-      "news_sentiment": {
-        "score": 0,
-        "reason": "No positive news sentiment",
-        "sentiment": 0.0
-      },
-      "volume_flow": {
-        "score": 0.219,
-        "vpt_slope": 0.1096,
-        "vol_ratio": 0.67,
-        "reason": "VPT rising (accumulation, slope 0.110)"
-      }
-    },
     "BAC": {
       "mean_reversion": {
         "score": -0.5,
@@ -1449,16 +1432,16 @@
     "KO": {
       "mean_reversion": {
         "score": 0.0,
-        "rsi": 53.5,
-        "bb_position": 0.606,
+        "rsi": 55.0,
+        "bb_position": 0.687,
         "reason": "Neutral"
       },
       "momentum": {
-        "score": 0.132,
-        "adx": 14.6,
-        "ema_fast": 81.06,
-        "ema_slow": 80.55,
-        "reason": "Uptrend (EMA spread 0.6%) | Weak trend (ADX 15)"
+        "score": 0.156,
+        "adx": 18.4,
+        "ema_fast": 82.85,
+        "ema_slow": 81.93,
+        "reason": "Uptrend (EMA spread 1.1%) | Weak trend (ADX 18)"
       },
       "news_sentiment": {
         "score": 0,
@@ -1467,9 +1450,9 @@
       },
       "volume_flow": {
         "score": 1.0,
-        "vpt_slope": 9.6786,
-        "vol_ratio": 0.79,
-        "reason": "VPT rising (accumulation, slope 9.679)"
+        "vpt_slope": 1.1685,
+        "vol_ratio": 0.68,
+        "reason": "VPT rising (accumulation, slope 1.169)"
       }
     },
     "HD": {

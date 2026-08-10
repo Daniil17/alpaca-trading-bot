@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1940,
+  "run_count": 1941,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1321,17 +1321,17 @@
   ],
   "open_pairs": {},
   "trailing_high": {
-    "BAC": 63.445,
+    "BAC": 63.61,
     "JPM": 361.16,
     "LINKUSD": 8.495,
     "HD": 356.47,
     "V": 373.795,
     "AVGO": 427.775,
-    "MSFT": 504.76,
+    "MSFT": 505.1928,
     "TSLA": 331.784,
     "AAPL": 313.99,
     "ABBV": 247.4,
-    "JNJ": 258.4675,
+    "JNJ": 260.665,
     "KO": 87.05
   },
   "strategy_pnl": {
@@ -1371,11 +1371,8 @@
       -5.5649999999999995
     ]
   },
-  "sell_cooldowns": {
-    "UNH": 1786110733.3522928,
-    "COST": 1786110734.0211241
-  },
-  "last_full_scan_date": "2026-08-07",
+  "sell_cooldowns": {},
+  "last_full_scan_date": "2026-08-10",
   "position_strategies": {
     "BAC": {
       "mean_reversion": {

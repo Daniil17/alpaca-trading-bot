@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1988,
+  "run_count": 1989,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1361,18 +1361,18 @@
     }
   },
   "trailing_high": {
-    "BAC": 64.255,
+    "BAC": 64.41,
     "JPM": 364.825,
     "LINKUSD": 8.86407,
     "HD": 357.07,
     "V": 373.795,
-    "AVGO": 431.24,
     "MSFT": 510.57,
     "TSLA": 334.7139,
     "AAPL": 313.99,
     "ABBV": 250.265,
     "JNJ": 262.66,
-    "KO": 87.415
+    "KO": 87.415,
+    "META": 586.65076
   },
   "strategy_pnl": {
     "mean_reversion": [

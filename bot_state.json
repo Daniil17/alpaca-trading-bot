@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1987,
+  "run_count": 1988,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1317,12 +1317,52 @@
       "price": 86.79,
       "is_crypto": false,
       "score": 0.306
+    },
+    {
+      "time": "2026-08-12 15:21 BST",
+      "action": "SELL",
+      "symbol": "AVGO",
+      "amount": 4619.9,
+      "price": 422.36,
+      "is_crypto": false,
+      "pnl": 391.68,
+      "reason": "Strategy (-0.227)",
+      "score": -0.227
+    },
+    {
+      "time": "2026-08-12 15:21 BST",
+      "action": "BUY",
+      "symbol": "META",
+      "amount": 4886.34,
+      "price": 586.16,
+      "is_crypto": false,
+      "score": 0.227
+    },
+    {
+      "time": "2026-08-12 15:21 BST",
+      "action": "BUY",
+      "symbol": "JNJ\u2194ABBV",
+      "amount": 7970.34,
+      "price": 250.11,
+      "is_crypto": false,
+      "score": 2.088
     }
   ],
-  "open_pairs": {},
+  "open_pairs": {
+    "JNJ_ABBV": {
+      "symbol_x": "JNJ",
+      "symbol_y": "ABBV",
+      "long_sym": "JNJ",
+      "short_sym": "ABBV",
+      "signal": "LONG_X_SHORT_Y",
+      "hedge_ratio": 1.0168,
+      "entry_zscore": 2.088,
+      "entry_date": "2026-08-12"
+    }
+  },
   "trailing_high": {
-    "BAC": 64.16,
-    "JPM": 362.8,
+    "BAC": 64.255,
+    "JPM": 364.825,
     "LINKUSD": 8.86407,
     "HD": 357.07,
     "V": 373.795,
@@ -1349,7 +1389,6 @@
       -5.684
     ],
     "volume_flow": [
-      12.635,
       -1.1980815161459477,
       13.716999999999999,
       12.562999999999999,
@@ -1368,11 +1407,14 @@
       15.699,
       -0.569,
       -5.224,
-      -5.5649999999999995
+      -5.5649999999999995,
+      9.264
     ]
   },
-  "sell_cooldowns": {},
-  "last_full_scan_date": "2026-08-11",
+  "sell_cooldowns": {
+    "AVGO": 1786544473.51029
+  },
+  "last_full_scan_date": "2026-08-12",
   "position_strategies": {
     "BAC": {
       "mean_reversion": {
@@ -1532,32 +1574,6 @@
         "reason": "VPT rising (accumulation, slope 1.905)"
       }
     },
-    "AVGO": {
-      "mean_reversion": {
-        "score": 0.0,
-        "rsi": 50.2,
-        "bb_position": 0.662,
-        "reason": "Neutral"
-      },
-      "momentum": {
-        "score": -0.219,
-        "adx": 21.3,
-        "ema_fast": 378.58,
-        "ema_slow": 387.77,
-        "reason": "Downtrend (EMA spread 2.4%) | Weak trend (ADX 21)"
-      },
-      "news_sentiment": {
-        "score": 0,
-        "reason": "No positive news sentiment",
-        "sentiment": 0.0
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 8.769,
-        "vol_ratio": 1.02,
-        "reason": "VPT rising (accumulation, slope 8.769)"
-      }
-    },
     "TSLA": {
       "mean_reversion": {
         "score": 0.0,
@@ -1690,6 +1706,32 @@
         "vpt_slope": 67.1292,
         "vol_ratio": 0.61,
         "reason": "VPT rising (accumulation, slope 67.129)"
+      }
+    },
+    "META": {
+      "mean_reversion": {
+        "score": -0.2,
+        "rsi": 56.8,
+        "bb_position": 0.724,
+        "reason": "Price near upper band"
+      },
+      "momentum": {
+        "score": 0.25,
+        "adx": 17.7,
+        "ema_fast": 637.13,
+        "ema_slow": 617.86,
+        "reason": "Uptrend (EMA spread 3.1%) | Weak trend (ADX 18)"
+      },
+      "news_sentiment": {
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": 0.0
+      },
+      "volume_flow": {
+        "score": 1.0,
+        "vpt_slope": 1.2316,
+        "vol_ratio": 1.06,
+        "reason": "VPT rising (accumulation, slope 1.232)"
       }
     }
   }

@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 1991,
+  "run_count": 1992,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1361,8 +1361,8 @@
     }
   },
   "trailing_high": {
-    "BAC": 64.625,
-    "JPM": 365.11,
+    "BAC": 64.73,
+    "JPM": 365.46,
     "LINKUSD": 8.86407,
     "HD": 357.07,
     "V": 373.795,

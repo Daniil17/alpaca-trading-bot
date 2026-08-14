@@ -60370,3 +60370,55 @@
 2026-08-14 12:25:09 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,542.83
 2026-08-14 12:25:09 | INFO     | State saved (run #2031)
 2026-08-14 12:25:09 | INFO     | Cycle complete.
+2026-08-14 13:53:40 | INFO     | =======================================================
+2026-08-14 13:53:40 | INFO     |   TRADING BOT — Single Cycle
+2026-08-14 13:53:40 | INFO     |   2026-08-14 13:53:40 UTC
+2026-08-14 13:53:40 | INFO     |   Mode: PAPER
+2026-08-14 13:53:40 | INFO     | =======================================================
+2026-08-14 13:53:40 | INFO     | State loaded: peak=$101,029.84, run #2031, trades=140
+2026-08-14 13:53:40 | INFO     | Connected to Alpaca (PAPER trading)
+2026-08-14 13:53:41 | INFO     | Account mode verified: PAPER | Equity: $100,125.57
+2026-08-14 13:53:41 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-08-14 13:53:43 | INFO     | Processed Telegram commands
+2026-08-14 13:53:43 | INFO     | Portfolio: $100,118.00 | Cash: $29,828.97
+2026-08-14 13:53:43 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $1.4M daily dollar vol)
+2026-08-14 13:53:43 | INFO     | Pre-fetching bars for 28 symbols...
+2026-08-14 13:53:46 | INFO     | --- Phase 1: Checking exits ---
+2026-08-14 13:53:46 | INFO     | TAKE-PROFIT: TSLA at +13.4%
+2026-08-14 13:53:46 | INFO     | EXIT: TSLA — TAKE-PROFIT: +13.4%
+2026-08-14 13:53:46 | INFO     | CLOSED POSITION: TSLA
+2026-08-14 13:53:47 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-08-14 13:53:48 | INFO     | News scan: 60 articles, 5 stocks with sentiment
+2026-08-14 13:53:49 | INFO     | Buy candidates: MA (0.438), AMZN (0.248), CRM (0.232)
+2026-08-14 13:53:49 | INFO     | --- Phase 3: Executing trades ---
+2026-08-14 13:53:49 | INFO     | BLOCKED: MA — Max 3 positions in Finance sector
+2026-08-14 13:53:49 | INFO     | BLOCKED: AMZN — Max 3 positions in Consumer sector
+2026-08-14 13:53:49 | INFO     | BLOCKED: CRM — Max 3 positions in Technology sector
+2026-08-14 13:53:49 | INFO     | 
+=======================================================
+2026-08-14 13:53:49 | INFO     |   CRYPTO TRADING CYCLE
+2026-08-14 13:53:49 | INFO     | =======================================================
+2026-08-14 13:53:49 | INFO     | Crypto: 1 positions | $1,544.38 invested (1.5% of portfolio)
+2026-08-14 13:53:49 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-08-14 13:53:49 | ERROR    | Non-retryable error: {"message":"invalid symbol: LINKUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-08-14 13:53:49 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-08-14 13:53:49 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-08-14 13:53:50 | INFO     | No crypto buy signals this cycle
+2026-08-14 13:53:50 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-08-14 13:53:50 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,544.38
+2026-08-14 13:53:50 | INFO     | 
+=======================================================
+2026-08-14 13:53:50 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-08-14 13:53:50 | INFO     | =======================================================
+2026-08-14 13:53:50 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-08-14 13:53:51 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-08-14 13:53:51 | INFO     | PAIR KO/PEP: Z=1.75 — Kalman Z=1.75 — neutral band
+2026-08-14 13:53:51 | INFO     | PAIR JPM/BAC: signal=EXIT Z=0.24
+2026-08-14 13:53:51 | INFO     | PAIR META/GOOGL: signal=EXIT Z=0.15
+2026-08-14 13:53:52 | INFO     | PAIR V/MA: Z=0.56 — Kalman Z=0.56 — neutral band
+2026-08-14 13:53:52 | INFO     | PAIR AMZN/COST: signal=EXIT Z=0.27
+2026-08-14 13:53:52 | INFO     | PAIR JNJ/ABBV: Z=-1.04 — Kalman Z=-1.04 — neutral band
+2026-08-14 13:53:52 | INFO     | Pairs cycle complete. Open pairs: 1
+2026-08-14 13:53:52 | INFO     | State saved (run #2032)
+2026-08-14 13:53:52 | INFO     | Cycle complete.

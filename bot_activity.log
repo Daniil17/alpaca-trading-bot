@@ -63140,3 +63140,30 @@
 2026-08-16 16:30:22 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,642.56
 2026-08-16 16:30:22 | INFO     | State saved (run #2128)
 2026-08-16 16:30:22 | INFO     | Cycle complete.
+2026-08-16 16:53:32 | INFO     | =======================================================
+2026-08-16 16:53:32 | INFO     |   TRADING BOT — Single Cycle
+2026-08-16 16:53:32 | INFO     |   2026-08-16 16:53:32 UTC
+2026-08-16 16:53:32 | INFO     |   Mode: PAPER
+2026-08-16 16:53:32 | INFO     | =======================================================
+2026-08-16 16:53:32 | INFO     | State loaded: peak=$101,029.84, run #2128, trades=141
+2026-08-16 16:53:32 | INFO     | Connected to Alpaca (PAPER trading)
+2026-08-16 16:53:32 | INFO     | Account mode verified: PAPER | Equity: $100,096.22
+2026-08-16 16:53:33 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-08-16 16:53:35 | INFO     | Processed Telegram commands
+2026-08-16 16:53:35 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-08-16 16:53:35 | INFO     | Portfolio: $100,096.22 | Cash: $30,055.10
+2026-08-16 16:53:35 | INFO     | 
+=======================================================
+2026-08-16 16:53:35 | INFO     |   CRYPTO TRADING CYCLE
+2026-08-16 16:53:35 | INFO     | =======================================================
+2026-08-16 16:53:35 | INFO     | Crypto: 1 positions | $1,642.56 invested (1.6% of portfolio)
+2026-08-16 16:53:35 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-08-16 16:53:36 | ERROR    | Non-retryable error: {"message":"invalid symbol: LINKUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-08-16 16:53:36 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-08-16 16:53:37 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-08-16 16:53:38 | INFO     | No crypto buy signals this cycle
+2026-08-16 16:53:38 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-08-16 16:53:38 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,642.56
+2026-08-16 16:53:38 | INFO     | State saved (run #2129)
+2026-08-16 16:53:38 | INFO     | Cycle complete.

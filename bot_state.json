@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2164,
+  "run_count": 2165,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1365,22 +1365,29 @@
       "price": 0.176131,
       "is_crypto": true,
       "score": 0.251
+    },
+    {
+      "time": "2026-08-17 14:40 BST",
+      "action": "BUY",
+      "symbol": "AMZN",
+      "amount": 6233.34,
+      "price": 262.01,
+      "is_crypto": false,
+      "score": 0.359
+    },
+    {
+      "time": "2026-08-17 14:40 BST",
+      "action": "SELL",
+      "symbol": "JNJ\u2194ABBV",
+      "amount": 0.0,
+      "price": 0.0,
+      "is_crypto": false,
+      "reason": "Pair exit: Kalman Z=0.10 within exit band: spread reverted"
     }
   ],
-  "open_pairs": {
-    "JNJ_ABBV": {
-      "symbol_x": "JNJ",
-      "symbol_y": "ABBV",
-      "long_sym": "JNJ",
-      "short_sym": "ABBV",
-      "signal": "LONG_X_SHORT_Y",
-      "hedge_ratio": 1.0168,
-      "entry_zscore": 2.088,
-      "entry_date": "2026-08-12"
-    }
-  },
+  "open_pairs": {},
   "trailing_high": {
-    "BAC": 64.92,
+    "BAC": 64.95,
     "JPM": 365.895,
     "LINKUSD": 9.725,
     "HD": 357.07,
@@ -1430,10 +1437,8 @@
       13.418
     ]
   },
-  "sell_cooldowns": {
-    "TSLA": 1786715626.8825908
-  },
-  "last_full_scan_date": "2026-08-14",
+  "sell_cooldowns": {},
+  "last_full_scan_date": "2026-08-17",
   "position_strategies": {
     "BAC": {
       "mean_reversion": {
@@ -1623,30 +1628,28 @@
     },
     "AMZN": {
       "mean_reversion": {
-        "score": -0.2,
-        "rsi": 50.9,
-        "bb_position": 0.729,
-        "reason": "Price near upper band"
+        "score": 0.2,
+        "rsi": 38.6,
+        "bb_position": 0.124,
+        "reason": "Price near lower band"
       },
       "momentum": {
-        "score": -0.031,
-        "adx": 22.6,
-        "ema_fast": 242.8,
-        "ema_slow": 244.31,
-        "reason": "Downtrend (EMA spread 0.6%) | Weak trend (ADX 23)"
+        "score": -0.4,
+        "adx": 20.2,
+        "ema_fast": 244.77,
+        "ema_slow": 245.3,
+        "reason": "Bearish EMA crossover (fresh) | Weak trend (ADX 20)"
       },
       "news_sentiment": {
-        "score": 0.087,
-        "rsi": 50.9,
-        "recent_max_rsi": 52.7,
-        "sentiment": 0.867,
-        "reason": "Positive news but RSI neutral (51) | Sentiment: 0.87"
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": 0.0
       },
       "volume_flow": {
-        "score": 0.938,
-        "vpt_slope": 0.4692,
-        "vol_ratio": 0.51,
-        "reason": "VPT rising (accumulation, slope 0.469)"
+        "score": 1.0,
+        "vpt_slope": 1.2006,
+        "vol_ratio": 0.87,
+        "reason": "VPT rising (accumulation, slope 1.201)"
       }
     },
     "JNJ": {

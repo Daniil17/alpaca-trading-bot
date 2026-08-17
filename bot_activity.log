@@ -63680,3 +63680,32 @@
 2026-08-16 23:57:16 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,643.72
 2026-08-16 23:57:16 | INFO     | State saved (run #2148)
 2026-08-16 23:57:16 | INFO     | Cycle complete.
+2026-08-17 01:15:31 | INFO     | =======================================================
+2026-08-17 01:15:31 | INFO     |   TRADING BOT — Single Cycle
+2026-08-17 01:15:31 | INFO     |   2026-08-17 01:15:31 UTC
+2026-08-17 01:15:31 | INFO     |   Mode: PAPER
+2026-08-17 01:15:31 | INFO     | =======================================================
+2026-08-17 01:15:31 | INFO     | State loaded: peak=$101,029.84, run #2148, trades=141
+2026-08-17 01:15:31 | INFO     | Connected to Alpaca (PAPER trading)
+2026-08-17 01:15:31 | INFO     | Account mode verified: PAPER | Equity: $100,086.17
+2026-08-17 01:15:32 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-08-17 01:15:34 | INFO     | Processed Telegram commands
+2026-08-17 01:15:34 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-08-17 01:15:34 | INFO     | Portfolio: $100,086.17 | Cash: $30,055.10
+2026-08-17 01:15:34 | INFO     | 
+=======================================================
+2026-08-17 01:15:34 | INFO     |   CRYPTO TRADING CYCLE
+2026-08-17 01:15:34 | INFO     | =======================================================
+2026-08-17 01:15:34 | INFO     | Crypto: 1 positions | $1,648.41 invested (1.6% of portfolio)
+2026-08-17 01:15:34 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-08-17 01:15:34 | ERROR    | Non-retryable error: {"message":"invalid symbol: LINKUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-08-17 01:15:34 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-08-17 01:15:36 | INFO     | News scan: 57 articles, 0 stocks with sentiment
+2026-08-17 01:15:37 | INFO     | Crypto buy candidates: ADA/USD (0.251)
+2026-08-17 01:15:37 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-08-17 01:15:37 | INFO     | CRYPTO BUY: ADA/USD | $1501.29 @ ~$0.176131 | Score: 0.251 | Regime: bear
+2026-08-17 01:15:37 | INFO     | BUY CRYPTO: ADA/USD | $1501.29
+2026-08-17 01:15:37 | INFO     | Crypto cycle complete. Positions: 2, Invested: $3,149.70
+2026-08-17 01:15:37 | INFO     | State saved (run #2149)
+2026-08-17 01:15:37 | INFO     | Cycle complete.

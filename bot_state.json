@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2148,
+  "run_count": 2149,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1356,6 +1356,15 @@
       "is_crypto": false,
       "pnl": 26.77,
       "reason": "TAKE-PROFIT: +13.4%"
+    },
+    {
+      "time": "2026-08-17 02:15 BST",
+      "action": "BUY",
+      "symbol": "ADA/USD",
+      "amount": 1501.29,
+      "price": 0.176131,
+      "is_crypto": true,
+      "score": 0.251
     }
   ],
   "open_pairs": {

@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2207,
+  "run_count": 2208,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1442,11 +1442,11 @@
     "V": 373.795,
     "MSFT": 510.57,
     "AAPL": 313.99,
-    "KO": 88.17,
+    "KO": 88.525,
     "ADAUSD": 0.177374,
     "AMZN": 262.962281,
-    "ABBV": 255.87,
-    "JNJ": 269.27
+    "ABBV": 255.995,
+    "JNJ": 269.74
   },
   "strategy_pnl": {
     "mean_reversion": [

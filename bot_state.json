@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2205,
+  "run_count": 2206,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1383,6 +1383,34 @@
       "price": 0.0,
       "is_crypto": false,
       "reason": "Pair exit: Kalman Z=0.10 within exit band: spread reverted"
+    },
+    {
+      "time": "2026-08-18 14:32 BST",
+      "action": "SELL",
+      "symbol": "META",
+      "amount": 4603.3,
+      "price": 552.67,
+      "is_crypto": false,
+      "pnl": -283.03,
+      "reason": "HARD STOP-LOSS: -5.8%"
+    },
+    {
+      "time": "2026-08-18 14:32 BST",
+      "action": "BUY",
+      "symbol": "ABBV",
+      "amount": 8334.21,
+      "price": 252.33,
+      "is_crypto": false,
+      "score": 0.408
+    },
+    {
+      "time": "2026-08-18 14:32 BST",
+      "action": "BUY",
+      "symbol": "JNJ",
+      "amount": 8482.47,
+      "price": 261.16,
+      "is_crypto": false,
+      "score": 0.336
     }
   ],
   "open_pairs": {},
@@ -1394,8 +1422,7 @@
     "V": 373.795,
     "MSFT": 510.57,
     "AAPL": 313.99,
-    "KO": 87.88,
-    "META": 599.15,
+    "KO": 88.17,
     "ADAUSD": 0.177374,
     "AMZN": 262.962281
   },
@@ -1414,7 +1441,6 @@
       -5.684
     ],
     "volume_flow": [
-      13.716999999999999,
       12.562999999999999,
       -5.106,
       0.7060000000000001,
@@ -1433,11 +1459,14 @@
       -5.224,
       -5.5649999999999995,
       9.264,
-      13.418
+      13.418,
+      -5.792
     ]
   },
-  "sell_cooldowns": {},
-  "last_full_scan_date": "2026-08-17",
+  "sell_cooldowns": {
+    "META": 1787059930.4536364
+  },
+  "last_full_scan_date": "2026-08-18",
   "position_strategies": {
     "BAC": {
       "mean_reversion": {
@@ -1654,16 +1683,16 @@
     "JNJ": {
       "mean_reversion": {
         "score": 0.0,
-        "rsi": 59.8,
-        "bb_position": 0.684,
+        "rsi": 59.5,
+        "bb_position": 0.664,
         "reason": "Neutral"
       },
       "momentum": {
-        "score": 0.571,
-        "adx": 33.6,
-        "ema_fast": 255.33,
-        "ema_slow": 247.6,
-        "reason": "Uptrend (EMA spread 3.1%) | Strong trend (ADX 34)"
+        "score": 0.17,
+        "adx": 22.4,
+        "ema_fast": 253.87,
+        "ema_slow": 250.35,
+        "reason": "Uptrend (EMA spread 1.4%) | Weak trend (ADX 22)"
       },
       "news_sentiment": {
         "score": 0,
@@ -1672,50 +1701,24 @@
       },
       "volume_flow": {
         "score": 1.0,
-        "vpt_slope": 2.8779,
-        "vol_ratio": 0.73,
-        "reason": "VPT rising (accumulation, slope 2.878)"
+        "vpt_slope": 1.8648,
+        "vol_ratio": 0.93,
+        "reason": "VPT rising (accumulation, slope 1.865)"
       }
     },
     "ABBV": {
       "mean_reversion": {
-        "score": 0.0,
-        "rsi": 60.3,
-        "bb_position": 0.633,
-        "reason": "Neutral"
-      },
-      "momentum": {
-        "score": 0.572,
-        "adx": 33.6,
-        "ema_fast": 247.95,
-        "ema_slow": 239.03,
-        "reason": "Uptrend (EMA spread 3.7%) | Strong trend (ADX 34)"
-      },
-      "news_sentiment": {
-        "score": 0,
-        "reason": "No positive news sentiment",
-        "sentiment": 0.0
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 67.1292,
-        "vol_ratio": 0.61,
-        "reason": "VPT rising (accumulation, slope 67.129)"
-      }
-    },
-    "META": {
-      "mean_reversion": {
         "score": -0.2,
-        "rsi": 56.8,
-        "bb_position": 0.724,
+        "rsi": 64.1,
+        "bb_position": 0.771,
         "reason": "Price near upper band"
       },
       "momentum": {
-        "score": 0.25,
-        "adx": 17.7,
-        "ema_fast": 637.13,
-        "ema_slow": 617.86,
-        "reason": "Uptrend (EMA spread 3.1%) | Weak trend (ADX 18)"
+        "score": 0.547,
+        "adx": 34.6,
+        "ema_fast": 252.01,
+        "ema_slow": 245.72,
+        "reason": "Uptrend (EMA spread 2.6%) | Strong trend (ADX 35)"
       },
       "news_sentiment": {
         "score": 0,
@@ -1724,9 +1727,9 @@
       },
       "volume_flow": {
         "score": 1.0,
-        "vpt_slope": 1.2316,
-        "vol_ratio": 1.06,
-        "reason": "VPT rising (accumulation, slope 1.232)"
+        "vpt_slope": 3.5957,
+        "vol_ratio": 0.52,
+        "reason": "VPT rising (accumulation, slope 3.596)"
       }
     }
   }

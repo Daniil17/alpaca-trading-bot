@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2261,
+  "run_count": 2262,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1449,18 +1449,27 @@
       "price": 0.0,
       "is_crypto": false,
       "reason": "Pair exit: Kalman Z=-0.12 within exit band: spread reverted"
+    },
+    {
+      "time": "2026-08-19 22:00 BST",
+      "action": "SELL",
+      "symbol": "LINKUSD",
+      "amount": 1854.58,
+      "price": 10.6,
+      "is_crypto": true,
+      "pnl": 376.96,
+      "reason": "HARD TAKE-PROFIT 25.5%"
     }
   ],
   "open_pairs": {},
   "trailing_high": {
     "BAC": 65.095,
     "JPM": 365.895,
-    "LINKUSD": 10.263,
     "V": 373.795,
     "MSFT": 510.57,
     "AAPL": 318.0399,
     "KO": 90.67,
-    "ADAUSD": 0.182,
+    "ADAUSD": 0.18566,
     "AMZN": 265.7,
     "NVDA": 219.995227
   },
@@ -1502,7 +1511,8 @@
     ]
   },
   "sell_cooldowns": {
-    "HD": 1787147084.3654482
+    "HD": 1787147084.3654482,
+    "LINKUSD": 1787173249.6189284
   },
   "last_full_scan_date": "2026-08-19",
   "position_strategies": {

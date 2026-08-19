@@ -67608,3 +67608,50 @@
 2026-08-19 19:11:40 | INFO     | Pairs cycle complete. Open pairs: 0
 2026-08-19 19:11:40 | INFO     | State saved (run #2258)
 2026-08-19 19:11:40 | INFO     | Cycle complete.
+2026-08-19 19:40:46 | INFO     | =======================================================
+2026-08-19 19:40:46 | INFO     |   TRADING BOT — Single Cycle
+2026-08-19 19:40:46 | INFO     |   2026-08-19 19:40:46 UTC
+2026-08-19 19:40:46 | INFO     |   Mode: PAPER
+2026-08-19 19:40:46 | INFO     | =======================================================
+2026-08-19 19:40:46 | INFO     | State loaded: peak=$101,029.84, run #2258, trades=151
+2026-08-19 19:40:46 | INFO     | Connected to Alpaca (PAPER trading)
+2026-08-19 19:40:46 | INFO     | Account mode verified: PAPER | Equity: $100,753.68
+2026-08-19 19:40:46 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-08-19 19:40:49 | INFO     | Processed Telegram commands
+2026-08-19 19:40:49 | INFO     | Portfolio: $100,755.42 | Cash: $37,706.29
+2026-08-19 19:40:49 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $34.9M daily dollar vol)
+2026-08-19 19:40:49 | INFO     | Pre-fetching bars for 28 symbols...
+2026-08-19 19:40:53 | INFO     | --- Phase 1: Checking exits ---
+2026-08-19 19:40:53 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-08-19 19:40:53 | INFO     | Buy scan already ran today — skipping (exits still managed)
+2026-08-19 19:40:53 | INFO     | --- Phase 3: Executing trades ---
+2026-08-19 19:40:53 | INFO     | 
+=======================================================
+2026-08-19 19:40:53 | INFO     |   CRYPTO TRADING CYCLE
+2026-08-19 19:40:53 | INFO     | =======================================================
+2026-08-19 19:40:53 | INFO     | Crypto: 2 positions | $3,270.10 invested (3.2% of portfolio)
+2026-08-19 19:40:53 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-08-19 19:40:53 | ERROR    | Non-retryable error: {"message":"invalid symbol: ADAUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-08-19 19:40:53 | ERROR    | Non-retryable error: {"message":"invalid symbol: LINKUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-08-19 19:40:53 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-08-19 19:41:08 | INFO     | News scan: 18 articles, 0 stocks with sentiment
+2026-08-19 19:41:10 | INFO     | No crypto buy signals this cycle
+2026-08-19 19:41:10 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-08-19 19:41:10 | INFO     | Crypto cycle complete. Positions: 2, Invested: $3,270.10
+2026-08-19 19:41:10 | INFO     | 
+=======================================================
+2026-08-19 19:41:10 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-08-19 19:41:10 | INFO     | =======================================================
+2026-08-19 19:41:10 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-08-19 19:41:10 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-08-19 19:41:10 | INFO     | PAIR KO/PEP: Z=0.71 — Kalman Z=0.71 — neutral band
+2026-08-19 19:41:11 | INFO     | PAIR JPM/BAC: Z=-1.54 — Kalman Z=-1.54 — neutral band
+2026-08-19 19:41:11 | INFO     | PAIR META/GOOGL: Z=-1.06 — Kalman Z=-1.06 — neutral band
+2026-08-19 19:41:12 | INFO     | PAIR V/MA: signal=EXIT Z=0.36
+2026-08-19 19:41:12 | INFO     | PAIR AMZN/COST: Z=1.70 — Kalman Z=1.70 — neutral band
+2026-08-19 19:41:12 | INFO     | PAIR JNJ/ABBV: signal=EXIT Z=-0.12
+2026-08-19 19:41:12 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-08-19 19:41:12 | INFO     | State saved (run #2259)
+2026-08-19 19:41:12 | INFO     | Cycle complete.

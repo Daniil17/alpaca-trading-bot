@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2287,
+  "run_count": 2288,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1459,6 +1459,15 @@
       "is_crypto": true,
       "pnl": 376.96,
       "reason": "HARD TAKE-PROFIT 25.5%"
+    },
+    {
+      "time": "2026-08-20 14:47 BST",
+      "action": "BUY",
+      "symbol": "JNJ",
+      "amount": 8838.61,
+      "price": 279.74,
+      "is_crypto": false,
+      "score": 0.268
     }
   ],
   "open_pairs": {},
@@ -1467,8 +1476,8 @@
     "JPM": 365.895,
     "V": 373.795,
     "MSFT": 510.57,
-    "AAPL": 318.0399,
-    "KO": 90.67,
+    "AAPL": 318.16,
+    "KO": 90.815,
     "ADAUSD": 0.1935,
     "AMZN": 265.7,
     "NVDA": 219.995227
@@ -1511,10 +1520,9 @@
     ]
   },
   "sell_cooldowns": {
-    "HD": 1787147084.3654482,
     "LINKUSD": 1787173249.6189284
   },
-  "last_full_scan_date": "2026-08-19",
+  "last_full_scan_date": "2026-08-20",
   "position_strategies": {
     "BAC": {
       "mean_reversion": {
@@ -1704,17 +1712,17 @@
     },
     "JNJ": {
       "mean_reversion": {
-        "score": 0.0,
-        "rsi": 59.5,
-        "bb_position": 0.664,
-        "reason": "Neutral"
+        "score": -0.2,
+        "rsi": 64.5,
+        "bb_position": 0.889,
+        "reason": "Price near upper band"
       },
       "momentum": {
-        "score": 0.17,
-        "adx": 22.4,
-        "ema_fast": 253.87,
-        "ema_slow": 250.35,
-        "reason": "Uptrend (EMA spread 1.4%) | Weak trend (ADX 22)"
+        "score": 0.191,
+        "adx": 22.8,
+        "ema_fast": 256.97,
+        "ema_slow": 252.4,
+        "reason": "Uptrend (EMA spread 1.8%) | Weak trend (ADX 23)"
       },
       "news_sentiment": {
         "score": 0,
@@ -1723,9 +1731,9 @@
       },
       "volume_flow": {
         "score": 1.0,
-        "vpt_slope": 1.8648,
-        "vol_ratio": 0.93,
-        "reason": "VPT rising (accumulation, slope 1.865)"
+        "vpt_slope": 0.8993,
+        "vol_ratio": 1.19,
+        "reason": "VPT rising (accumulation, slope 0.899)"
       }
     },
     "ABBV": {

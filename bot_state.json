@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2341,
+  "run_count": 2342,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1468,6 +1468,16 @@
       "price": 279.74,
       "is_crypto": false,
       "score": 0.268
+    },
+    {
+      "time": "2026-08-21 23:09 BST",
+      "action": "SELL",
+      "symbol": "ADAUSD",
+      "amount": 1876.0,
+      "price": 0.2254,
+      "is_crypto": true,
+      "pnl": 407.44,
+      "reason": "HARD TAKE-PROFIT 27.7%"
     }
   ],
   "open_pairs": {},
@@ -1478,7 +1488,6 @@
     "MSFT": 510.57,
     "AAPL": 318.16,
     "KO": 91.775,
-    "ADAUSD": 0.220131,
     "AMZN": 265.7,
     "NVDA": 219.995227,
     "JNJ": 272.79
@@ -1520,7 +1529,9 @@
       2.228
     ]
   },
-  "sell_cooldowns": {},
+  "sell_cooldowns": {
+    "ADAUSD": 1787350162.031632
+  },
   "last_full_scan_date": "2026-08-21",
   "position_strategies": {
     "BAC": {

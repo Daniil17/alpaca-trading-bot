@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2324,
+  "run_count": 2325,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1520,10 +1520,8 @@
       2.228
     ]
   },
-  "sell_cooldowns": {
-    "LINKUSD": 1787173249.6189284
-  },
-  "last_full_scan_date": "2026-08-20",
+  "sell_cooldowns": {},
+  "last_full_scan_date": "2026-08-21",
   "position_strategies": {
     "BAC": {
       "mean_reversion": {

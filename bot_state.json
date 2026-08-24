@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2462,
+  "run_count": 2463,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1478,18 +1478,27 @@
       "is_crypto": true,
       "pnl": 407.44,
       "reason": "HARD TAKE-PROFIT 27.7%"
+    },
+    {
+      "time": "2026-08-24 20:45 BST",
+      "action": "SELL",
+      "symbol": "NVDA",
+      "amount": 5437.57,
+      "price": 208.54,
+      "is_crypto": false,
+      "pnl": -298.69,
+      "reason": "HARD STOP-LOSS: -5.2%"
     }
   ],
   "open_pairs": {},
   "trailing_high": {
     "BAC": 65.095,
     "JPM": 365.895,
-    "V": 381.5901,
+    "V": 382.3,
     "MSFT": 510.57,
     "AAPL": 318.16,
     "KO": 92.295,
     "AMZN": 265.7,
-    "NVDA": 219.995227,
     "JNJ": 273.76
   },
   "strategy_pnl": {
@@ -1507,7 +1516,6 @@
       -5.684
     ],
     "volume_flow": [
-      -5.106,
       0.7060000000000001,
       12.206,
       -4.623,
@@ -1526,10 +1534,13 @@
       9.264,
       13.418,
       -5.792,
-      2.228
+      2.228,
+      -5.207
     ]
   },
-  "sell_cooldowns": {},
+  "sell_cooldowns": {
+    "NVDA": 1787600710.2839692
+  },
   "last_full_scan_date": "2026-08-24",
   "position_strategies": {
     "BAC": {
@@ -1768,32 +1779,6 @@
         "vpt_slope": 3.5957,
         "vol_ratio": 0.52,
         "reason": "VPT rising (accumulation, slope 3.596)"
-      }
-    },
-    "NVDA": {
-      "mean_reversion": {
-        "score": 0.0,
-        "rsi": 51.1,
-        "bb_position": 0.638,
-        "reason": "Neutral"
-      },
-      "momentum": {
-        "score": 0.121,
-        "adx": 13.0,
-        "ema_fast": 206.6,
-        "ema_slow": 205.76,
-        "reason": "Uptrend (EMA spread 0.4%) | Weak trend (ADX 13)"
-      },
-      "news_sentiment": {
-        "score": 0,
-        "reason": "No positive news sentiment",
-        "sentiment": 0.0
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 0.6987,
-        "vol_ratio": 0.87,
-        "reason": "VPT rising (accumulation, slope 0.699)"
       }
     }
   }

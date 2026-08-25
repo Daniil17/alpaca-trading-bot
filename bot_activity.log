@@ -74193,3 +74193,57 @@
 2026-08-25 13:27:54 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-08-25 13:27:55 | INFO     | State saved (run #2489)
 2026-08-25 13:27:55 | INFO     | Cycle complete.
+2026-08-25 13:50:42 | INFO     | =======================================================
+2026-08-25 13:50:42 | INFO     |   TRADING BOT — Single Cycle
+2026-08-25 13:50:42 | INFO     |   2026-08-25 13:50:42 UTC
+2026-08-25 13:50:42 | INFO     |   Mode: PAPER
+2026-08-25 13:50:42 | INFO     | =======================================================
+2026-08-25 13:50:42 | INFO     | State loaded: peak=$101,273.36, run #2489, trades=155
+2026-08-25 13:50:42 | INFO     | Connected to Alpaca (PAPER trading)
+2026-08-25 13:50:42 | INFO     | Account mode verified: PAPER | Equity: $100,875.34
+2026-08-25 13:50:42 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-08-25 13:50:45 | INFO     | Processed Telegram commands
+2026-08-25 13:50:45 | INFO     | Portfolio: $100,872.98 | Cash: $38,031.38
+2026-08-25 13:50:45 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $1.0M daily dollar vol)
+2026-08-25 13:50:45 | INFO     | Pre-fetching bars for 28 symbols...
+2026-08-25 13:50:47 | INFO     | --- Phase 1: Checking exits ---
+2026-08-25 13:50:47 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-08-25 13:51:04 | INFO     | News scan: 19 articles, 4 stocks with sentiment
+2026-08-25 13:51:04 | INFO     | Buy candidates: MA (0.333), AVGO (0.303)
+2026-08-25 13:51:04 | INFO     | --- Phase 3: Executing trades ---
+2026-08-25 13:51:04 | INFO     | BLOCKED: MA — Max 3 positions in Finance sector
+2026-08-25 13:51:05 | INFO     | BUY: AVGO | $4804.29 @ ~$360.79 | Score: 0.303 | SL=$342.75 TP=$404.08
+2026-08-25 13:51:05 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 2.0s
+2026-08-25 13:51:07 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 4.0s
+2026-08-25 13:51:11 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be simple orders"}
+2026-08-25 13:51:11 | WARNING  | Bracket order failed for AVGO — falling back to market + stop
+2026-08-25 13:51:11 | INFO     | BUY MARKET: AVGO | $4804.29
+2026-08-25 13:51:11 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be DAY orders"} — retrying in 2.0s
+2026-08-25 13:51:13 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be DAY orders"} — retrying in 4.0s
+2026-08-25 13:51:17 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be DAY orders"}
+2026-08-25 13:51:18 | INFO     | 
+=======================================================
+2026-08-25 13:51:18 | INFO     |   CRYPTO TRADING CYCLE
+2026-08-25 13:51:18 | INFO     | =======================================================
+2026-08-25 13:51:18 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-08-25 13:51:18 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-08-25 13:51:18 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-08-25 13:51:38 | INFO     | News scan: 19 articles, 0 stocks with sentiment
+2026-08-25 13:51:39 | INFO     | No crypto buy signals this cycle
+2026-08-25 13:51:39 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-08-25 13:51:39 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-08-25 13:51:39 | INFO     | 
+=======================================================
+2026-08-25 13:51:39 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-08-25 13:51:39 | INFO     | =======================================================
+2026-08-25 13:51:39 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-08-25 13:51:39 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-08-25 13:51:39 | INFO     | PAIR KO/PEP: signal=EXIT Z=-0.06
+2026-08-25 13:51:39 | INFO     | PAIR JPM/BAC: Z=1.41 — Kalman Z=1.41 — neutral band
+2026-08-25 13:51:39 | INFO     | PAIR META/GOOGL: Z=0.90 — Kalman Z=0.90 — neutral band
+2026-08-25 13:51:40 | INFO     | PAIR V/MA: Z=-0.86 — Kalman Z=-0.86 — neutral band
+2026-08-25 13:51:40 | INFO     | PAIR AMZN/COST: Z=0.96 — Kalman Z=0.96 — neutral band
+2026-08-25 13:51:40 | INFO     | PAIR JNJ/ABBV: signal=EXIT Z=0.30
+2026-08-25 13:51:40 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-08-25 13:51:40 | INFO     | State saved (run #2490)
+2026-08-25 13:51:40 | INFO     | Cycle complete.

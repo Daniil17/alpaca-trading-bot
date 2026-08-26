@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2523,
+  "run_count": 2524,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1497,13 +1497,53 @@
       "price": 360.79,
       "is_crypto": false,
       "score": 0.303
+    },
+    {
+      "time": "2026-08-26 14:34 BST",
+      "action": "SELL",
+      "symbol": "AAPL",
+      "amount": 7869.3,
+      "price": 309.4601,
+      "is_crypto": false,
+      "pnl": 159.14,
+      "reason": "Strategy (-0.269)",
+      "score": -0.269
+    },
+    {
+      "time": "2026-08-26 14:34 BST",
+      "action": "BUY",
+      "symbol": "NVDA",
+      "amount": 5423.21,
+      "price": 211.88,
+      "is_crypto": false,
+      "score": 0.25
+    },
+    {
+      "time": "2026-08-26 14:35 BST",
+      "action": "BUY",
+      "symbol": "COST\u2194AMZN",
+      "amount": 8077.48,
+      "price": 611.82,
+      "is_crypto": false,
+      "score": -2.329
     }
   ],
-  "open_pairs": {},
+  "open_pairs": {
+    "AMZN_COST": {
+      "symbol_x": "AMZN",
+      "symbol_y": "COST",
+      "long_sym": "COST",
+      "short_sym": "AMZN",
+      "signal": "LONG_Y_SHORT_X",
+      "hedge_ratio": 4.0153,
+      "entry_zscore": -2.329,
+      "entry_date": "2026-08-26"
+    }
+  },
   "trailing_high": {
     "BAC": 65.095,
     "JPM": 365.895,
-    "V": 383.44,
+    "V": 385.15,
     "MSFT": 510.57,
     "AAPL": 318.16,
     "KO": 92.295,
@@ -1526,7 +1566,6 @@
       -5.684
     ],
     "volume_flow": [
-      0.7060000000000001,
       12.206,
       -4.623,
       0.972,
@@ -1545,13 +1584,14 @@
       13.418,
       -5.792,
       2.228,
-      -5.207
+      -5.207,
+      2.064
     ]
   },
   "sell_cooldowns": {
-    "NVDA": 1787600710.2839692
+    "AAPL": 1787751248.930374
   },
-  "last_full_scan_date": "2026-08-25",
+  "last_full_scan_date": "2026-08-26",
   "position_strategies": {
     "BAC": {
       "mean_reversion": {
@@ -1685,34 +1725,6 @@
         "reason": "VPT rising (accumulation, slope 1.905)"
       }
     },
-    "AAPL": {
-      "mean_reversion": {
-        "score": -0.2,
-        "rsi": 62.9,
-        "bb_position": 0.873,
-        "reason": "Price near upper band"
-      },
-      "momentum": {
-        "score": 0.177,
-        "adx": 23.0,
-        "ema_fast": 305.19,
-        "ema_slow": 300.58,
-        "reason": "Uptrend (EMA spread 1.5%) | Weak trend (ADX 23)"
-      },
-      "news_sentiment": {
-        "score": 0.033,
-        "rsi": 62.9,
-        "recent_max_rsi": 63.9,
-        "sentiment": 0.333,
-        "reason": "Positive news but RSI neutral (63) | Sentiment: 0.33"
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 1.951,
-        "vol_ratio": 0.53,
-        "reason": "VPT rising (accumulation, slope 1.951)"
-      }
-    },
     "AMZN": {
       "mean_reversion": {
         "score": 0.2,
@@ -1817,6 +1829,34 @@
         "vpt_slope": 0.5187,
         "vol_ratio": 1.13,
         "reason": "VPT rising (accumulation, slope 0.519)"
+      }
+    },
+    "NVDA": {
+      "mean_reversion": {
+        "score": 0.0,
+        "rsi": 48.3,
+        "bb_position": 0.402,
+        "reason": "Neutral"
+      },
+      "momentum": {
+        "score": -0.148,
+        "adx": 15.0,
+        "ema_fast": 200.68,
+        "ema_slow": 202.63,
+        "reason": "Downtrend (EMA spread 1.0%) | Weak trend (ADX 15)"
+      },
+      "news_sentiment": {
+        "score": 0.4,
+        "rsi": 48.3,
+        "recent_max_rsi": 56.2,
+        "sentiment": 1.0,
+        "reason": "Positive news + low RSI (48) | Sentiment: 1.00"
+      },
+      "volume_flow": {
+        "score": 0.522,
+        "vpt_slope": 0.2612,
+        "vol_ratio": 1.09,
+        "reason": "VPT rising (accumulation, slope 0.261)"
       }
     }
   }

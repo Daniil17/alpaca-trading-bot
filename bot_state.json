@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2557,
+  "run_count": 2558,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1546,6 +1546,16 @@
       "price": 607.95,
       "is_crypto": false,
       "score": 0.383
+    },
+    {
+      "time": "2026-08-31 18:55 BST",
+      "action": "SELL",
+      "symbol": "MSFT",
+      "amount": 350.52,
+      "price": 511.1,
+      "is_crypto": false,
+      "pnl": 37.59,
+      "reason": "TAKE-PROFIT: +12.0%"
     }
   ],
   "open_pairs": {
@@ -1563,12 +1573,12 @@
   "trailing_high": {
     "BAC": 65.095,
     "JPM": 365.895,
-    "MSFT": 510.57,
     "KO": 92.295,
     "AMZN": 265.7,
-    "AVGO": 368.67,
+    "AVGO": 370.255,
     "COST": 963.780456,
-    "NVDA": 225.4801
+    "NVDA": 225.4801,
+    "MA": 592.725
   },
   "strategy_pnl": {
     "mean_reversion": [
@@ -1585,7 +1595,6 @@
       -5.684
     ],
     "volume_flow": [
-      -4.623,
       0.972,
       7.344,
       -4.034,
@@ -1604,13 +1613,14 @@
       2.228,
       -5.207,
       2.064,
-      -2.33
+      -2.33,
+      12.012
     ]
   },
   "sell_cooldowns": {
-    "JNJ": 1787856811.023691
+    "MSFT": 1788198930.786336
   },
-  "last_full_scan_date": "2026-08-27",
+  "last_full_scan_date": "2026-08-31",
   "position_strategies": {
     "BAC": {
       "mean_reversion": {
@@ -1714,34 +1724,6 @@
         "vpt_slope": 6.3573,
         "vol_ratio": 1.25,
         "reason": "VPT rising (accumulation, slope 6.357)"
-      }
-    },
-    "MSFT": {
-      "mean_reversion": {
-        "score": 0.0,
-        "rsi": 46.5,
-        "bb_position": 0.524,
-        "reason": "Neutral"
-      },
-      "momentum": {
-        "score": -0.187,
-        "adx": 18.6,
-        "ema_fast": 382.71,
-        "ema_slow": 389.51,
-        "reason": "Downtrend (EMA spread 1.7%) | Weak trend (ADX 19)"
-      },
-      "news_sentiment": {
-        "score": 0.4,
-        "rsi": 46.5,
-        "recent_max_rsi": 49.8,
-        "sentiment": 1.0,
-        "reason": "Positive news + low RSI (47) | Sentiment: 1.00"
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 1.9051,
-        "vol_ratio": 0.53,
-        "reason": "VPT rising (accumulation, slope 1.905)"
       }
     },
     "AMZN": {

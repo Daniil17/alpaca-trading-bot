@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2564,
+  "run_count": 2565,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1556,20 +1556,27 @@
       "is_crypto": false,
       "pnl": 37.59,
       "reason": "TAKE-PROFIT: +12.0%"
+    },
+    {
+      "time": "2026-09-01 15:10 BST",
+      "action": "BUY",
+      "symbol": "ADBE",
+      "amount": 4532.73,
+      "price": 294.57,
+      "is_crypto": false,
+      "score": 0.278
+    },
+    {
+      "time": "2026-09-01 15:10 BST",
+      "action": "SELL",
+      "symbol": "AMZN\u2194COST",
+      "amount": 0.0,
+      "price": 0.0,
+      "is_crypto": false,
+      "reason": "Pair exit: Kalman Z=0.37 within exit band: spread reverted"
     }
   ],
-  "open_pairs": {
-    "AMZN_COST": {
-      "symbol_x": "AMZN",
-      "symbol_y": "COST",
-      "long_sym": "COST",
-      "short_sym": "AMZN",
-      "signal": "LONG_Y_SHORT_X",
-      "hedge_ratio": 4.0153,
-      "entry_zscore": -2.329,
-      "entry_date": "2026-08-26"
-    }
-  },
+  "open_pairs": {},
   "trailing_high": {
     "BAC": 65.095,
     "JPM": 365.895,
@@ -1620,7 +1627,7 @@
   "sell_cooldowns": {
     "MSFT": 1788198930.786336
   },
-  "last_full_scan_date": "2026-08-31",
+  "last_full_scan_date": "2026-09-01",
   "position_strategies": {
     "BAC": {
       "mean_reversion": {
@@ -1858,6 +1865,32 @@
         "vpt_slope": 0.6543,
         "vol_ratio": 1.15,
         "reason": "VPT rising (accumulation, slope 0.654)"
+      }
+    },
+    "ADBE": {
+      "mean_reversion": {
+        "score": -0.2,
+        "rsi": 63.9,
+        "bb_position": 0.851,
+        "reason": "Price near upper band"
+      },
+      "momentum": {
+        "score": 0.25,
+        "adx": 20.4,
+        "ema_fast": 247.93,
+        "ema_slow": 238.37,
+        "reason": "Uptrend (EMA spread 4.0%) | Weak trend (ADX 20)"
+      },
+      "news_sentiment": {
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": 0.0
+      },
+      "volume_flow": {
+        "score": 1.0,
+        "vpt_slope": 0.5921,
+        "vol_ratio": 0.87,
+        "reason": "VPT rising (accumulation, slope 0.592)"
       }
     }
   }

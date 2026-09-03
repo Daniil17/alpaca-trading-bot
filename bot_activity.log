@@ -77182,3 +77182,48 @@
 2026-09-03 12:49:38 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-09-03 12:49:39 | INFO     | State saved (run #2584)
 2026-09-03 12:49:39 | INFO     | Cycle complete.
+2026-09-03 16:57:08 | INFO     | =======================================================
+2026-09-03 16:57:08 | INFO     |   TRADING BOT — Single Cycle
+2026-09-03 16:57:08 | INFO     |   2026-09-03 16:57:08 UTC
+2026-09-03 16:57:08 | INFO     |   Mode: PAPER
+2026-09-03 16:57:08 | INFO     | =======================================================
+2026-09-03 16:57:08 | INFO     | State loaded: peak=$101,273.36, run #2584, trades=165
+2026-09-03 16:57:08 | INFO     | Connected to Alpaca (PAPER trading)
+2026-09-03 16:57:08 | INFO     | Account mode verified: PAPER | Equity: $100,767.25
+2026-09-03 16:57:09 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-09-03 16:57:11 | INFO     | Processed Telegram commands
+2026-09-03 16:57:11 | INFO     | Portfolio: $100,766.02 | Cash: $39,898.89
+2026-09-03 16:57:11 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $11.3M daily dollar vol)
+2026-09-03 16:57:11 | INFO     | Pre-fetching bars for 28 symbols...
+2026-09-03 16:57:13 | INFO     | --- Phase 1: Checking exits ---
+2026-09-03 16:57:13 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-09-03 16:57:15 | INFO     | News scan: 56 articles, 4 stocks with sentiment
+2026-09-03 16:57:15 | INFO     | Buy candidates: MSFT (0.373)
+2026-09-03 16:57:15 | INFO     | --- Phase 3: Executing trades ---
+2026-09-03 16:57:15 | INFO     | BLOCKED: MSFT — Max 3 positions in Technology sector
+2026-09-03 16:57:15 | INFO     | 
+=======================================================
+2026-09-03 16:57:15 | INFO     |   CRYPTO TRADING CYCLE
+2026-09-03 16:57:15 | INFO     | =======================================================
+2026-09-03 16:57:15 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-09-03 16:57:15 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-09-03 16:57:15 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-09-03 16:57:16 | INFO     | News scan: 57 articles, 0 stocks with sentiment
+2026-09-03 16:57:17 | INFO     | No crypto buy signals this cycle
+2026-09-03 16:57:17 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-09-03 16:57:17 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-09-03 16:57:17 | INFO     | 
+=======================================================
+2026-09-03 16:57:17 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-09-03 16:57:17 | INFO     | =======================================================
+2026-09-03 16:57:17 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-09-03 16:57:17 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-09-03 16:57:17 | INFO     | PAIR KO/PEP: signal=EXIT Z=0.35
+2026-09-03 16:57:17 | INFO     | PAIR JPM/BAC: signal=EXIT Z=-0.23
+2026-09-03 16:57:17 | INFO     | PAIR META/GOOGL: signal=EXIT Z=-0.43
+2026-09-03 16:57:17 | INFO     | PAIR V/MA: signal=EXIT Z=-0.20
+2026-09-03 16:57:17 | INFO     | PAIR AMZN/COST: signal=EXIT Z=-0.22
+2026-09-03 16:57:17 | INFO     | PAIR JNJ/ABBV: signal=EXIT Z=-0.01
+2026-09-03 16:57:17 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-09-03 16:57:17 | INFO     | State saved (run #2585)
+2026-09-03 16:57:17 | INFO     | Cycle complete.

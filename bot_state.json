@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2628,
+  "run_count": 2629,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1622,7 +1622,8 @@
     "NVDA": 231.7076,
     "MA": 592.725,
     "AMZN": 258.895,
-    "JNJ": 276.53
+    "JNJ": 276.53,
+    "MSFT": 493.23
   },
   "strategy_pnl": {
     "mean_reversion": [

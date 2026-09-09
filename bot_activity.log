@@ -78698,3 +78698,28 @@
 2026-09-09 19:43:46 | INFO     | Pairs cycle complete. Open pairs: 0
 2026-09-09 19:43:46 | INFO     | State saved (run #2637)
 2026-09-09 19:43:46 | INFO     | Cycle complete.
+2026-09-09 21:59:05 | INFO     | =======================================================
+2026-09-09 21:59:05 | INFO     |   TRADING BOT — Single Cycle
+2026-09-09 21:59:05 | INFO     |   2026-09-09 21:59:05 UTC
+2026-09-09 21:59:05 | INFO     |   Mode: PAPER
+2026-09-09 21:59:05 | INFO     | =======================================================
+2026-09-09 21:59:05 | INFO     | State loaded: peak=$101,273.36, run #2637, trades=168
+2026-09-09 21:59:05 | INFO     | Connected to Alpaca (PAPER trading)
+2026-09-09 21:59:05 | INFO     | Account mode verified: PAPER | Equity: $99,433.24
+2026-09-09 21:59:06 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-09-09 21:59:08 | INFO     | Processed Telegram commands
+2026-09-09 21:59:09 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-09-09 21:59:09 | INFO     | Portfolio: $99,432.60 | Cash: $28,412.21
+2026-09-09 21:59:09 | INFO     | 
+=======================================================
+2026-09-09 21:59:09 | INFO     |   CRYPTO TRADING CYCLE
+2026-09-09 21:59:09 | INFO     | =======================================================
+2026-09-09 21:59:09 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-09-09 21:59:09 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-09-09 21:59:09 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-09-09 21:59:10 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-09-09 21:59:12 | INFO     | No crypto buy signals this cycle
+2026-09-09 21:59:12 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-09-09 21:59:12 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-09-09 21:59:12 | INFO     | State saved (run #2638)
+2026-09-09 21:59:12 | INFO     | Cycle complete.

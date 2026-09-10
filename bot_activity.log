@@ -78873,3 +78873,58 @@
 2026-09-10 13:02:02 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-09-10 13:02:02 | INFO     | State saved (run #2644)
 2026-09-10 13:02:02 | INFO     | Cycle complete.
+2026-09-10 16:54:37 | INFO     | =======================================================
+2026-09-10 16:54:37 | INFO     |   TRADING BOT — Single Cycle
+2026-09-10 16:54:37 | INFO     |   2026-09-10 16:54:37 UTC
+2026-09-10 16:54:37 | INFO     |   Mode: PAPER
+2026-09-10 16:54:37 | INFO     | =======================================================
+2026-09-10 16:54:37 | INFO     | State loaded: peak=$101,273.36, run #2644, trades=168
+2026-09-10 16:54:37 | INFO     | Connected to Alpaca (PAPER trading)
+2026-09-10 16:54:37 | INFO     | Account mode verified: PAPER | Equity: $99,215.64
+2026-09-10 16:54:38 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-09-10 16:54:40 | INFO     | Processed Telegram commands
+2026-09-10 16:54:40 | INFO     | Portfolio: $99,215.67 | Cash: $28,412.21
+2026-09-10 16:54:40 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $15.8M daily dollar vol)
+2026-09-10 16:54:40 | INFO     | Pre-fetching bars for 28 symbols...
+2026-09-10 16:54:41 | INFO     | --- Phase 1: Checking exits ---
+2026-09-10 16:54:41 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-09-10 16:54:42 | INFO     | News scan: 60 articles, 4 stocks with sentiment
+2026-09-10 16:54:42 | INFO     | Buy candidates: ADBE (0.327), CRM (0.286), DIS (0.262)
+2026-09-10 16:54:42 | INFO     | --- Phase 3: Executing trades ---
+2026-09-10 16:54:42 | INFO     | BLOCKED: ADBE — Max 3 positions in Technology sector
+2026-09-10 16:54:42 | INFO     | BLOCKED: CRM — Max 3 positions in Technology sector
+2026-09-10 16:54:42 | INFO     | BUY: DIS | $8868.63 @ ~$105.14 | Score: 0.262 | SL=$101.67 TP=$112.09
+2026-09-10 16:54:42 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 2.0s
+2026-09-10 16:54:45 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 4.0s
+2026-09-10 16:54:49 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be simple orders"}
+2026-09-10 16:54:49 | WARNING  | Bracket order failed for DIS — falling back to market + stop
+2026-09-10 16:54:49 | INFO     | BUY MARKET: DIS | $8868.63
+2026-09-10 16:54:49 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"} — retrying in 2.0s
+2026-09-10 16:54:51 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"} — retrying in 4.0s
+2026-09-10 16:54:55 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"}
+2026-09-10 16:54:55 | INFO     | 
+=======================================================
+2026-09-10 16:54:55 | INFO     |   CRYPTO TRADING CYCLE
+2026-09-10 16:54:55 | INFO     | =======================================================
+2026-09-10 16:54:55 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-09-10 16:54:55 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-09-10 16:54:55 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-09-10 16:54:55 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-09-10 16:54:56 | INFO     | No crypto buy signals this cycle
+2026-09-10 16:54:56 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-09-10 16:54:56 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-09-10 16:54:56 | INFO     | 
+=======================================================
+2026-09-10 16:54:56 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-09-10 16:54:56 | INFO     | =======================================================
+2026-09-10 16:54:56 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-09-10 16:54:56 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-09-10 16:54:56 | INFO     | PAIR KO/PEP: Z=0.58 — Kalman Z=0.58 — neutral band
+2026-09-10 16:54:56 | INFO     | PAIR JPM/BAC: Z=-0.95 — Kalman Z=-0.95 — neutral band
+2026-09-10 16:54:56 | INFO     | PAIR META/GOOGL: Z=-0.58 — Kalman Z=-0.58 — neutral band
+2026-09-10 16:54:56 | INFO     | PAIR V/MA: Z=-0.60 — Kalman Z=-0.60 — neutral band
+2026-09-10 16:54:56 | INFO     | PAIR AMZN/COST: Z=0.71 — Kalman Z=0.71 — neutral band
+2026-09-10 16:54:56 | INFO     | PAIR JNJ/ABBV: signal=EXIT Z=0.23
+2026-09-10 16:54:56 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-09-10 16:54:56 | INFO     | State saved (run #2645)
+2026-09-10 16:54:56 | INFO     | Cycle complete.

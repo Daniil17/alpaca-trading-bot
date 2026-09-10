@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2644,
+  "run_count": 2645,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1611,6 +1611,15 @@
       "price": 491.97,
       "is_crypto": false,
       "score": 0.395
+    },
+    {
+      "time": "2026-09-10 17:54 BST",
+      "action": "BUY",
+      "symbol": "DIS",
+      "amount": 8868.63,
+      "price": 105.14,
+      "is_crypto": false,
+      "score": 0.262
     }
   ],
   "open_pairs": {},
@@ -1623,7 +1632,7 @@
     "MA": 592.725,
     "AMZN": 258.895,
     "JNJ": 276.53,
-    "MSFT": 493.54
+    "MSFT": 493.63
   },
   "strategy_pnl": {
     "mean_reversion": [
@@ -1663,7 +1672,7 @@
     ]
   },
   "sell_cooldowns": {},
-  "last_full_scan_date": "2026-09-09",
+  "last_full_scan_date": "2026-09-10",
   "position_strategies": {
     "BAC": {
       "mean_reversion": {
@@ -1953,6 +1962,32 @@
         "vpt_slope": 2.0001,
         "vol_ratio": 0.6,
         "reason": "VPT rising (accumulation, slope 2.000)"
+      }
+    },
+    "DIS": {
+      "mean_reversion": {
+        "score": -0.2,
+        "rsi": 56.9,
+        "bb_position": 0.715,
+        "reason": "Price near upper band"
+      },
+      "momentum": {
+        "score": 0.192,
+        "adx": 20.2,
+        "ema_fast": 102.68,
+        "ema_slow": 100.82,
+        "reason": "Uptrend (EMA spread 1.8%) | Weak trend (ADX 20)"
+      },
+      "news_sentiment": {
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": 0.0
+      },
+      "volume_flow": {
+        "score": 1.0,
+        "vpt_slope": 0.7164,
+        "vol_ratio": 0.67,
+        "reason": "VPT rising (accumulation, slope 0.716)"
       }
     }
   }

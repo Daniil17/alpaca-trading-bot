@@ -79146,3 +79146,74 @@
 2026-09-11 12:51:22 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-09-11 12:51:22 | INFO     | State saved (run #2653)
 2026-09-11 12:51:22 | INFO     | Cycle complete.
+2026-09-11 16:56:04 | INFO     | =======================================================
+2026-09-11 16:56:04 | INFO     |   TRADING BOT — Single Cycle
+2026-09-11 16:56:04 | INFO     |   2026-09-11 16:56:04 UTC
+2026-09-11 16:56:04 | INFO     |   Mode: PAPER
+2026-09-11 16:56:04 | INFO     | =======================================================
+2026-09-11 16:56:04 | INFO     | State loaded: peak=$101,273.36, run #2653, trades=169
+2026-09-11 16:56:04 | INFO     | Connected to Alpaca (PAPER trading)
+2026-09-11 16:56:04 | INFO     | Account mode verified: PAPER | Equity: $99,696.97
+2026-09-11 16:56:04 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-09-11 16:56:07 | INFO     | Processed Telegram commands
+2026-09-11 16:56:10 | WARNING  | API call failed (attempt 1/3): {"message":"Internal Server Error"}
+ — retrying in 2.0s
+2026-09-11 16:56:15 | WARNING  | API call failed (attempt 2/3): {"message":"Internal Server Error"}
+ — retrying in 4.0s
+2026-09-11 16:56:22 | ERROR    | API call failed after 3 attempts: {"message":"Internal Server Error"}
+
+2026-09-11 16:56:22 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-09-11 16:56:22 | INFO     | Portfolio: $99,709.29 | Cash: $19,543.58
+2026-09-11 16:56:22 | INFO     | 
+=======================================================
+2026-09-11 16:56:22 | INFO     |   CRYPTO TRADING CYCLE
+2026-09-11 16:56:22 | INFO     | =======================================================
+2026-09-11 16:56:22 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-09-11 16:56:22 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-09-11 16:56:22 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-09-11 16:56:24 | INFO     | News scan: 59 articles, 0 stocks with sentiment
+2026-09-11 16:56:45 | WARNING  | API call failed (attempt 1/3): {"message":"backend request timeout"}
+ — retrying in 2.0s
+2026-09-11 16:57:08 | WARNING  | API call failed (attempt 2/3): {"message":"backend request timeout"}
+ — retrying in 4.0s
+2026-09-11 16:57:34 | ERROR    | API call failed after 3 attempts: {"message":"backend request timeout"}
+
+2026-09-11 16:57:55 | WARNING  | API call failed (attempt 1/3): {"message":"backend request timeout"}
+ — retrying in 2.0s
+2026-09-11 16:58:18 | WARNING  | API call failed (attempt 2/3): {"message":"backend request timeout"}
+ — retrying in 4.0s
+2026-09-11 16:58:43 | ERROR    | API call failed after 3 attempts: {"message":"backend request timeout"}
+
+2026-09-11 16:59:05 | WARNING  | API call failed (attempt 1/3): {"message":"backend request timeout"}
+ — retrying in 2.0s
+2026-09-11 16:59:28 | WARNING  | API call failed (attempt 2/3): {"message":"backend request timeout"}
+ — retrying in 4.0s
+2026-09-11 16:59:53 | ERROR    | API call failed after 3 attempts: {"message":"backend request timeout"}
+
+2026-09-11 17:00:14 | WARNING  | API call failed (attempt 1/3): {"message":"backend request timeout"}
+ — retrying in 2.0s
+2026-09-11 17:00:37 | WARNING  | API call failed (attempt 2/3): {"message":"backend request timeout"}
+ — retrying in 4.0s
+2026-09-11 17:01:03 | ERROR    | API call failed after 3 attempts: {"message":"backend request timeout"}
+
+2026-09-11 17:01:24 | WARNING  | API call failed (attempt 1/3): {"message":"backend request timeout"}
+ — retrying in 2.0s
+2026-09-11 17:01:47 | WARNING  | API call failed (attempt 2/3): {"message":"backend request timeout"}
+ — retrying in 4.0s
+2026-09-11 17:02:12 | ERROR    | API call failed after 3 attempts: {"message":"backend request timeout"}
+
+2026-09-11 17:02:34 | WARNING  | API call failed (attempt 1/3): {"message":"backend request timeout"}
+ — retrying in 2.0s
+2026-09-11 17:02:57 | WARNING  | API call failed (attempt 2/3): {"message":"backend request timeout"}
+ — retrying in 4.0s
+2026-09-11 17:03:22 | ERROR    | API call failed after 3 attempts: {"message":"backend request timeout"}
+
+2026-09-11 17:03:43 | WARNING  | API call failed (attempt 1/3): {"message":"backend request timeout"}
+ — retrying in 2.0s
+2026-09-11 17:04:07 | WARNING  | API call failed (attempt 1/3): {"message":"backend request timeout"}
+ — retrying in 2.0s
+2026-09-11 17:04:17 | INFO     | No crypto buy signals this cycle
+2026-09-11 17:04:17 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-09-11 17:04:17 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-09-11 17:04:17 | INFO     | State saved (run #2654)
+2026-09-11 17:04:17 | INFO     | Cycle complete.

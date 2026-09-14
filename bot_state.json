@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2678,
+  "run_count": 2679,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1630,19 +1630,28 @@
       "is_crypto": false,
       "pnl": 5.12,
       "reason": "TRAILING STOP: price fell 7% from peak $231.71 (peak gain was +9.3%)"
+    },
+    {
+      "time": "2026-09-14 19:22 BST",
+      "action": "SELL",
+      "symbol": "BAC",
+      "amount": 9618.45,
+      "price": 59.44,
+      "is_crypto": false,
+      "pnl": -9.71,
+      "reason": "TRAILING STOP: price fell 7% from peak $65.09 (peak gain was +9.4%)"
     }
   ],
   "open_pairs": {},
   "trailing_high": {
-    "BAC": 65.095,
     "JPM": 365.895,
     "KO": 92.295,
     "AVGO": 370.255,
     "MA": 592.725,
     "AMZN": 258.895,
     "JNJ": 276.53,
-    "MSFT": 504.88,
-    "DIS": 108.755
+    "MSFT": 507.723,
+    "DIS": 108.805
   },
   "strategy_pnl": {
     "mean_reversion": [
@@ -1659,7 +1668,6 @@
       -5.684
     ],
     "volume_flow": [
-      -4.034,
       -2.098,
       -5.699,
       -0.922,
@@ -1678,40 +1686,16 @@
       -2.33,
       12.012,
       -7.992000000000001,
-      0.09437968949082963
+      0.09437968949082963,
+      -0.1008403361344576
     ]
   },
   "sell_cooldowns": {
-    "NVDA": 1789401483.1065836
+    "NVDA": 1789401483.1065836,
+    "BAC": 1789410163.9446368
   },
   "last_full_scan_date": "2026-09-14",
   "position_strategies": {
-    "BAC": {
-      "mean_reversion": {
-        "score": -0.5,
-        "rsi": 68.2,
-        "bb_position": 0.964,
-        "reason": "Price at upper Bollinger Band"
-      },
-      "momentum": {
-        "score": 0.175,
-        "adx": 20.4,
-        "ema_fast": 53.4,
-        "ema_slow": 52.6,
-        "reason": "Uptrend (EMA spread 1.5%) | Weak trend (ADX 20)"
-      },
-      "news_sentiment": {
-        "score": 0,
-        "reason": "No positive news sentiment",
-        "sentiment": 0.0
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 0.8472,
-        "vol_ratio": 0.8,
-        "reason": "VPT rising (accumulation, slope 0.847)"
-      }
-    },
     "JPM": {
       "mean_reversion": {
         "score": -0.5,

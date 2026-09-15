@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2685,
+  "run_count": 2686,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1659,17 +1659,27 @@
       "price": 345.12,
       "is_crypto": false,
       "score": 0.284
+    },
+    {
+      "time": "2026-09-15 18:30 BST",
+      "action": "SELL",
+      "symbol": "AVGO",
+      "amount": 4504.61,
+      "price": 338.2289,
+      "is_crypto": false,
+      "pnl": -299.67,
+      "reason": "HARD STOP-LOSS: -6.2%"
     }
   ],
   "open_pairs": {},
   "trailing_high": {
     "JPM": 365.895,
     "KO": 92.295,
-    "AVGO": 370.255,
     "MA": 592.725,
     "AMZN": 258.895,
     "MSFT": 507.723,
-    "DIS": 108.805
+    "DIS": 108.805,
+    "GOOGL": 344.518514
   },
   "strategy_pnl": {
     "mean_reversion": [
@@ -1686,7 +1696,6 @@
       -5.684
     ],
     "volume_flow": [
-      -5.699,
       -0.922,
       -5.2170000000000005,
       -10.013,
@@ -1705,13 +1714,15 @@
       -7.992000000000001,
       0.09437968949082963,
       -0.1008403361344576,
-      -5.034000000000001
+      -5.034000000000001,
+      -6.2379999999999995
     ]
   },
   "sell_cooldowns": {
     "NVDA": 1789401483.1065836,
     "BAC": 1789410163.9446368,
-    "JNJ": 1789481837.150901
+    "JNJ": 1789481837.150901,
+    "AVGO": 1789493407.50103
   },
   "last_full_scan_date": "2026-09-15",
   "position_strategies": {
@@ -1843,34 +1854,6 @@
         "vpt_slope": 3.5957,
         "vol_ratio": 0.52,
         "reason": "VPT rising (accumulation, slope 3.596)"
-      }
-    },
-    "AVGO": {
-      "mean_reversion": {
-        "score": 0.0,
-        "rsi": 50.9,
-        "bb_position": 0.604,
-        "reason": "Neutral"
-      },
-      "momentum": {
-        "score": -0.13,
-        "adx": 15.5,
-        "ema_fast": 383.11,
-        "ema_slow": 385.46,
-        "reason": "Downtrend (EMA spread 0.6%) | Weak trend (ADX 16)"
-      },
-      "news_sentiment": {
-        "score": 0.1,
-        "rsi": 50.9,
-        "recent_max_rsi": 53.6,
-        "sentiment": 1.0,
-        "reason": "Positive news but RSI neutral (51) | Sentiment: 1.00"
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 0.5187,
-        "vol_ratio": 1.13,
-        "reason": "VPT rising (accumulation, slope 0.519)"
       }
     },
     "MA": {

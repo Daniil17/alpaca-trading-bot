@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2684,
+  "run_count": 2685,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1640,6 +1640,25 @@
       "is_crypto": false,
       "pnl": -9.71,
       "reason": "TRAILING STOP: price fell 7% from peak $65.09 (peak gain was +9.4%)"
+    },
+    {
+      "time": "2026-09-15 15:17 BST",
+      "action": "SELL",
+      "symbol": "JNJ",
+      "amount": 8326.37,
+      "price": 262.61,
+      "is_crypto": false,
+      "pnl": -441.35,
+      "reason": "HARD STOP-LOSS: -5.0%"
+    },
+    {
+      "time": "2026-09-15 15:17 BST",
+      "action": "BUY",
+      "symbol": "GOOGL",
+      "amount": 6959.4,
+      "price": 345.12,
+      "is_crypto": false,
+      "score": 0.284
     }
   ],
   "open_pairs": {},
@@ -1649,7 +1668,6 @@
     "AVGO": 370.255,
     "MA": 592.725,
     "AMZN": 258.895,
-    "JNJ": 276.53,
     "MSFT": 507.723,
     "DIS": 108.805
   },
@@ -1668,7 +1686,6 @@
       -5.684
     ],
     "volume_flow": [
-      -2.098,
       -5.699,
       -0.922,
       -5.2170000000000005,
@@ -1687,14 +1704,16 @@
       12.012,
       -7.992000000000001,
       0.09437968949082963,
-      -0.1008403361344576
+      -0.1008403361344576,
+      -5.034000000000001
     ]
   },
   "sell_cooldowns": {
     "NVDA": 1789401483.1065836,
-    "BAC": 1789410163.9446368
+    "BAC": 1789410163.9446368,
+    "JNJ": 1789481837.150901
   },
-  "last_full_scan_date": "2026-09-14",
+  "last_full_scan_date": "2026-09-15",
   "position_strategies": {
     "JPM": {
       "mean_reversion": {
@@ -1880,32 +1899,6 @@
         "reason": "VPT rising (accumulation, slope 0.654)"
       }
     },
-    "JNJ": {
-      "mean_reversion": {
-        "score": 0.0,
-        "rsi": 55.3,
-        "bb_position": 0.617,
-        "reason": "Neutral"
-      },
-      "momentum": {
-        "score": 0.148,
-        "adx": 18.1,
-        "ema_fast": 258.55,
-        "ema_slow": 256.08,
-        "reason": "Uptrend (EMA spread 1.0%) | Weak trend (ADX 18)"
-      },
-      "news_sentiment": {
-        "score": 0,
-        "reason": "No positive news sentiment",
-        "sentiment": 0.0
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 1.6615,
-        "vol_ratio": 0.73,
-        "reason": "VPT rising (accumulation, slope 1.661)"
-      }
-    },
     "MSFT": {
       "mean_reversion": {
         "score": -0.231,
@@ -1956,6 +1949,34 @@
         "vpt_slope": 0.7164,
         "vol_ratio": 0.67,
         "reason": "VPT rising (accumulation, slope 0.716)"
+      }
+    },
+    "GOOGL": {
+      "mean_reversion": {
+        "score": 0.0,
+        "rsi": 44.0,
+        "bb_position": 0.388,
+        "reason": "Neutral"
+      },
+      "momentum": {
+        "score": -0.133,
+        "adx": 9.6,
+        "ema_fast": 346.56,
+        "ema_slow": 348.88,
+        "reason": "Downtrend (EMA spread 0.7%) | Weak trend (ADX 10)"
+      },
+      "news_sentiment": {
+        "score": 0.076,
+        "rsi": 44.0,
+        "recent_max_rsi": 52.3,
+        "sentiment": 0.19,
+        "reason": "Positive news + low RSI (44) | Sentiment: 0.19"
+      },
+      "volume_flow": {
+        "score": 1.0,
+        "vpt_slope": 0.98,
+        "vol_ratio": 0.68,
+        "reason": "VPT rising (accumulation, slope 0.980)"
       }
     }
   }

@@ -80648,3 +80648,28 @@
 2026-09-17 20:31:25 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-09-17 20:31:26 | INFO     | State saved (run #2703)
 2026-09-17 20:31:26 | INFO     | Cycle complete.
+2026-09-17 23:02:55 | INFO     | =======================================================
+2026-09-17 23:02:55 | INFO     |   TRADING BOT — Single Cycle
+2026-09-17 23:02:55 | INFO     |   2026-09-17 23:02:55 UTC
+2026-09-17 23:02:55 | INFO     |   Mode: PAPER
+2026-09-17 23:02:55 | INFO     | =======================================================
+2026-09-17 23:02:55 | INFO     | State loaded: peak=$101,273.36, run #2703, trades=175
+2026-09-17 23:02:55 | INFO     | Connected to Alpaca (PAPER trading)
+2026-09-17 23:02:55 | INFO     | Account mode verified: PAPER | Equity: $98,160.19
+2026-09-17 23:02:56 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-09-17 23:02:58 | INFO     | Processed Telegram commands
+2026-09-17 23:02:58 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-09-17 23:02:58 | INFO     | Portfolio: $98,160.19 | Cash: $33,715.78
+2026-09-17 23:02:58 | INFO     | 
+=======================================================
+2026-09-17 23:02:58 | INFO     |   CRYPTO TRADING CYCLE
+2026-09-17 23:02:58 | INFO     | =======================================================
+2026-09-17 23:02:58 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-09-17 23:02:58 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-09-17 23:02:58 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-09-17 23:03:00 | INFO     | News scan: 59 articles, 0 stocks with sentiment
+2026-09-17 23:03:01 | INFO     | No crypto buy signals this cycle
+2026-09-17 23:03:01 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-09-17 23:03:01 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-09-17 23:03:01 | INFO     | State saved (run #2704)
+2026-09-17 23:03:01 | INFO     | Cycle complete.

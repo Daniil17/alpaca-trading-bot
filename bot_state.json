@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2709,
+  "run_count": 2710,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1697,9 +1697,9 @@
     "AMZN": 258.895,
     "MSFT": 507.723,
     "DIS": 108.805,
-    "GOOGL": 345.885,
-    "NVDA": 219.01,
-    "AAVEUSD": 137.13
+    "GOOGL": 349.97,
+    "NVDA": 219.73,
+    "AAVEUSD": 137.8
   },
   "strategy_pnl": {
     "mean_reversion": [
@@ -1739,7 +1739,7 @@
     ]
   },
   "sell_cooldowns": {},
-  "last_full_scan_date": "2026-09-17",
+  "last_full_scan_date": "2026-09-18",
   "position_strategies": {
     "JPM": {
       "mean_reversion": {

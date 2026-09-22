@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2739,
+  "run_count": 2740,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1696,18 +1696,27 @@
       "price": 270.46,
       "is_crypto": false,
       "score": 0.252
+    },
+    {
+      "time": "2026-09-22 18:32 BST",
+      "action": "SELL",
+      "symbol": "MA",
+      "amount": 8529.74,
+      "price": 559.28,
+      "is_crypto": false,
+      "pnl": -489.26,
+      "reason": "HARD STOP-LOSS: -5.4%"
     }
   ],
   "open_pairs": {},
   "trailing_high": {
     "JPM": 365.895,
     "KO": 92.295,
-    "MA": 592.725,
     "AMZN": 258.895,
     "MSFT": 507.723,
     "DIS": 108.805,
     "GOOGL": 361.045,
-    "NVDA": 227.739,
+    "NVDA": 229.275,
     "AAVEUSD": 146.399,
     "JNJ": 271.8
   },
@@ -1726,7 +1735,6 @@
       -5.684
     ],
     "volume_flow": [
-      -0.922,
       -5.2170000000000005,
       -10.013,
       15.699,
@@ -1745,10 +1753,13 @@
       0.09437968949082963,
       -0.1008403361344576,
       -5.034000000000001,
-      -6.2379999999999995
+      -6.2379999999999995,
+      -5.425
     ]
   },
-  "sell_cooldowns": {},
+  "sell_cooldowns": {
+    "MA": 1790098347.776039
+  },
   "last_full_scan_date": "2026-09-22",
   "position_strategies": {
     "JPM": {
@@ -1879,32 +1890,6 @@
         "vpt_slope": 3.5957,
         "vol_ratio": 0.52,
         "reason": "VPT rising (accumulation, slope 3.596)"
-      }
-    },
-    "MA": {
-      "mean_reversion": {
-        "score": -0.2,
-        "rsi": 67.7,
-        "bb_position": 0.885,
-        "reason": "Price near upper band"
-      },
-      "momentum": {
-        "score": 0.564,
-        "adx": 34.1,
-        "ema_fast": 555.95,
-        "ema_slow": 540.64,
-        "reason": "Uptrend (EMA spread 2.8%) | Strong trend (ADX 34)"
-      },
-      "news_sentiment": {
-        "score": 0,
-        "reason": "No positive news sentiment",
-        "sentiment": 0.0
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 0.6543,
-        "vol_ratio": 1.15,
-        "reason": "VPT rising (accumulation, slope 0.654)"
       }
     },
     "MSFT": {

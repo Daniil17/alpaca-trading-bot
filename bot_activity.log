@@ -82459,3 +82459,50 @@
 2026-09-25 09:06:59 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,568.23
 2026-09-25 09:06:59 | INFO     | State saved (run #2762)
 2026-09-25 09:06:59 | INFO     | Cycle complete.
+2026-09-25 14:36:33 | INFO     | =======================================================
+2026-09-25 14:36:33 | INFO     |   TRADING BOT — Single Cycle
+2026-09-25 14:36:33 | INFO     |   2026-09-25 14:36:33 UTC
+2026-09-25 14:36:33 | INFO     |   Mode: PAPER
+2026-09-25 14:36:33 | INFO     | =======================================================
+2026-09-25 14:36:33 | INFO     | State loaded: peak=$101,273.36, run #2762, trades=181
+2026-09-25 14:36:33 | INFO     | Connected to Alpaca (PAPER trading)
+2026-09-25 14:36:34 | INFO     | Account mode verified: PAPER | Equity: $97,950.69
+2026-09-25 14:36:34 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-09-25 14:36:35 | INFO     | Processed Telegram commands
+2026-09-25 14:36:35 | INFO     | Portfolio: $97,960.15 | Cash: $42,575.14
+2026-09-25 14:36:35 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $3.0M daily dollar vol)
+2026-09-25 14:36:35 | INFO     | Pre-fetching bars for 28 symbols...
+2026-09-25 14:36:39 | INFO     | --- Phase 1: Checking exits ---
+2026-09-25 14:36:39 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-09-25 14:36:40 | INFO     | News scan: 60 articles, 5 stocks with sentiment
+2026-09-25 14:36:40 | INFO     | Buy candidates: CRM (0.307)
+2026-09-25 14:36:40 | INFO     | --- Phase 3: Executing trades ---
+2026-09-25 14:36:40 | INFO     | BLOCKED: CRM — Max 3 positions in Technology sector
+2026-09-25 14:36:40 | INFO     | 
+=======================================================
+2026-09-25 14:36:40 | INFO     |   CRYPTO TRADING CYCLE
+2026-09-25 14:36:40 | INFO     | =======================================================
+2026-09-25 14:36:40 | INFO     | Crypto: 1 positions | $1,600.37 invested (1.6% of portfolio)
+2026-09-25 14:36:40 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-09-25 14:36:40 | ERROR    | Non-retryable error: {"message":"invalid symbol: AAVEUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-09-25 14:36:40 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-09-25 14:36:41 | INFO     | News scan: 60 articles, 0 stocks with sentiment
+2026-09-25 14:36:44 | INFO     | No crypto buy signals this cycle
+2026-09-25 14:36:44 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-09-25 14:36:44 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,600.37
+2026-09-25 14:36:44 | INFO     | 
+=======================================================
+2026-09-25 14:36:44 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-09-25 14:36:44 | INFO     | =======================================================
+2026-09-25 14:36:44 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-09-25 14:36:44 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-09-25 14:36:44 | INFO     | PAIR KO/PEP: signal=EXIT Z=-0.28
+2026-09-25 14:36:44 | INFO     | PAIR JPM/BAC: Z=-1.62 — Kalman Z=-1.62 — neutral band
+2026-09-25 14:36:44 | INFO     | PAIR META/GOOGL: signal=EXIT Z=0.19
+2026-09-25 14:36:45 | INFO     | PAIR V/MA: signal=EXIT Z=-0.13
+2026-09-25 14:36:45 | INFO     | PAIR AMZN/COST: signal=EXIT Z=-0.21
+2026-09-25 14:36:45 | INFO     | PAIR JNJ/ABBV: signal=EXIT Z=-0.19
+2026-09-25 14:36:45 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-09-25 14:36:45 | INFO     | State saved (run #2763)
+2026-09-25 14:36:45 | INFO     | Cycle complete.

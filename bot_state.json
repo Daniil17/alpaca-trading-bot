@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2783,
+  "run_count": 2784,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1744,7 +1744,7 @@
     "AMZN": 258.895,
     "MSFT": 515.8815,
     "DIS": 108.805,
-    "NVDA": 229.275,
+    "NVDA": 229.95,
     "AAVEUSD": 156.56,
     "JNJ": 274.385,
     "ADBE": 239.180446
@@ -1787,7 +1787,7 @@
     ]
   },
   "sell_cooldowns": {},
-  "last_full_scan_date": "2026-09-25",
+  "last_full_scan_date": "2026-09-28",
   "position_strategies": {
     "KO": {
       "mean_reversion": {

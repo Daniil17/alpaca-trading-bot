@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2798,
+  "run_count": 2799,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1752,11 +1752,11 @@
   "trailing_high": {
     "KO": 92.295,
     "AMZN": 258.895,
-    "MSFT": 517.6766,
+    "MSFT": 518.47,
     "DIS": 108.805,
-    "NVDA": 230.15,
+    "NVDA": 230.78,
     "JNJ": 274.385,
-    "ADBE": 239.180446
+    "ADBE": 239.78
   },
   "strategy_pnl": {
     "mean_reversion": [

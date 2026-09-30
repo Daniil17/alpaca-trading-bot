@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2797,
+  "run_count": 2798,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1752,9 +1752,9 @@
   "trailing_high": {
     "KO": 92.295,
     "AMZN": 258.895,
-    "MSFT": 515.8815,
+    "MSFT": 517.6766,
     "DIS": 108.805,
-    "NVDA": 229.95,
+    "NVDA": 230.15,
     "JNJ": 274.385,
     "ADBE": 239.180446
   },
@@ -1798,7 +1798,7 @@
   "sell_cooldowns": {
     "AAVEUSD": 1790700506.1374488
   },
-  "last_full_scan_date": "2026-09-29",
+  "last_full_scan_date": "2026-09-30",
   "position_strategies": {
     "KO": {
       "mean_reversion": {

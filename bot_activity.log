@@ -83703,3 +83703,49 @@
 2026-10-01 11:08:33 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-10-01 11:08:33 | INFO     | State saved (run #2804)
 2026-10-01 11:08:33 | INFO     | Cycle complete.
+2026-10-01 17:22:36 | INFO     | =======================================================
+2026-10-01 17:22:36 | INFO     |   TRADING BOT — Single Cycle
+2026-10-01 17:22:36 | INFO     |   2026-10-01 17:22:36 UTC
+2026-10-01 17:22:36 | INFO     |   Mode: PAPER
+2026-10-01 17:22:36 | INFO     | =======================================================
+2026-10-01 17:22:36 | INFO     | State loaded: peak=$101,273.36, run #2804, trades=182
+2026-10-01 17:22:36 | INFO     | Connected to Alpaca (PAPER trading)
+2026-10-01 17:22:36 | INFO     | Account mode verified: PAPER | Equity: $97,581.53
+2026-10-01 17:22:36 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-10-01 17:22:39 | INFO     | Processed Telegram commands
+2026-10-01 17:22:39 | INFO     | Portfolio: $97,581.42 | Cash: $44,383.78
+2026-10-01 17:22:39 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $20.2M daily dollar vol)
+2026-10-01 17:22:39 | INFO     | Pre-fetching bars for 28 symbols...
+2026-10-01 17:22:40 | INFO     | --- Phase 1: Checking exits ---
+2026-10-01 17:22:40 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-10-01 17:22:41 | INFO     | News scan: 57 articles, 5 stocks with sentiment
+2026-10-01 17:22:41 | INFO     | Buy candidates: CRM (0.394), TSLA (0.339)
+2026-10-01 17:22:41 | INFO     | --- Phase 3: Executing trades ---
+2026-10-01 17:22:41 | INFO     | BLOCKED: CRM — Max 3 positions in Technology sector
+2026-10-01 17:22:41 | INFO     | BLOCKED: TSLA — Max 3 positions in Consumer sector
+2026-10-01 17:22:41 | INFO     | 
+=======================================================
+2026-10-01 17:22:41 | INFO     |   CRYPTO TRADING CYCLE
+2026-10-01 17:22:41 | INFO     | =======================================================
+2026-10-01 17:22:41 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-10-01 17:22:41 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-10-01 17:22:41 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-10-01 17:22:42 | INFO     | News scan: 57 articles, 0 stocks with sentiment
+2026-10-01 17:22:43 | INFO     | No crypto buy signals this cycle
+2026-10-01 17:22:43 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-10-01 17:22:43 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-10-01 17:22:43 | INFO     | 
+=======================================================
+2026-10-01 17:22:43 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-10-01 17:22:43 | INFO     | =======================================================
+2026-10-01 17:22:43 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-10-01 17:22:43 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-10-01 17:22:43 | INFO     | PAIR KO/PEP: Z=-0.65 — Kalman Z=-0.65 — neutral band
+2026-10-01 17:22:43 | INFO     | PAIR JPM/BAC: Z=-1.44 — Kalman Z=-1.44 — neutral band
+2026-10-01 17:22:43 | INFO     | PAIR META/GOOGL: signal=EXIT Z=-0.42
+2026-10-01 17:22:43 | INFO     | PAIR V/MA: Z=-0.88 — Kalman Z=-0.88 — neutral band
+2026-10-01 17:22:43 | INFO     | PAIR AMZN/COST: Z=-0.52 — Kalman Z=-0.52 — neutral band
+2026-10-01 17:22:43 | INFO     | PAIR JNJ/ABBV: Z=-1.32 — Kalman Z=-1.32 — neutral band
+2026-10-01 17:22:43 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-10-01 17:22:43 | INFO     | State saved (run #2805)
+2026-10-01 17:22:43 | INFO     | Cycle complete.

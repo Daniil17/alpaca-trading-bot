@@ -84808,3 +84808,57 @@
 2026-10-07 11:21:45 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-10-07 11:21:45 | INFO     | State saved (run #2842)
 2026-10-07 11:21:45 | INFO     | Cycle complete.
+2026-10-07 17:55:15 | INFO     | =======================================================
+2026-10-07 17:55:15 | INFO     |   TRADING BOT — Single Cycle
+2026-10-07 17:55:15 | INFO     |   2026-10-07 17:55:15 UTC
+2026-10-07 17:55:15 | INFO     |   Mode: PAPER
+2026-10-07 17:55:15 | INFO     | =======================================================
+2026-10-07 17:55:15 | INFO     | State loaded: peak=$101,273.36, run #2842, trades=184
+2026-10-07 17:55:15 | INFO     | Connected to Alpaca (PAPER trading)
+2026-10-07 17:55:15 | INFO     | Account mode verified: PAPER | Equity: $98,071.30
+2026-10-07 17:55:16 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-10-07 17:55:18 | INFO     | Processed Telegram commands
+2026-10-07 17:55:18 | INFO     | Portfolio: $98,070.31 | Cash: $63,238.32
+2026-10-07 17:55:18 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $16.9M daily dollar vol)
+2026-10-07 17:55:18 | INFO     | Pre-fetching bars for 28 symbols...
+2026-10-07 17:55:20 | INFO     | --- Phase 1: Checking exits ---
+2026-10-07 17:55:20 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-10-07 17:55:22 | INFO     | News scan: 53 articles, 3 stocks with sentiment
+2026-10-07 17:55:22 | INFO     | Buy candidates: CRM (0.409), PG (0.245)
+2026-10-07 17:55:22 | INFO     | --- Phase 3: Executing trades ---
+2026-10-07 17:55:22 | INFO     | BLOCKED: CRM — Max 3 positions in Technology sector
+2026-10-07 17:55:23 | INFO     | BUY: PG | $9807.03 @ ~$148.45 | Score: 0.245 | SL=$144.78 TP=$155.78
+2026-10-07 17:55:23 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 2.0s
+2026-10-07 17:55:25 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must be simple orders"} — retrying in 4.0s
+2026-10-07 17:55:29 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must be simple orders"}
+2026-10-07 17:55:29 | WARNING  | Bracket order failed for PG — falling back to market + stop
+2026-10-07 17:55:29 | INFO     | BUY MARKET: PG | $9807.03
+2026-10-07 17:55:29 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"} — retrying in 2.0s
+2026-10-07 17:55:31 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"} — retrying in 4.0s
+2026-10-07 17:55:35 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"}
+2026-10-07 17:55:35 | INFO     | 
+=======================================================
+2026-10-07 17:55:35 | INFO     |   CRYPTO TRADING CYCLE
+2026-10-07 17:55:35 | INFO     | =======================================================
+2026-10-07 17:55:35 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-10-07 17:55:35 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-10-07 17:55:35 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-10-07 17:55:36 | INFO     | News scan: 53 articles, 0 stocks with sentiment
+2026-10-07 17:55:38 | INFO     | No crypto buy signals this cycle
+2026-10-07 17:55:38 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-10-07 17:55:38 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
+2026-10-07 17:55:38 | INFO     | 
+=======================================================
+2026-10-07 17:55:38 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-10-07 17:55:38 | INFO     | =======================================================
+2026-10-07 17:55:38 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-10-07 17:55:38 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-10-07 17:55:38 | INFO     | PAIR KO/PEP: signal=EXIT Z=-0.07
+2026-10-07 17:55:38 | INFO     | PAIR JPM/BAC: signal=EXIT Z=0.21
+2026-10-07 17:55:38 | INFO     | PAIR META/GOOGL: Z=0.78 — Kalman Z=0.78 — neutral band
+2026-10-07 17:55:38 | INFO     | PAIR V/MA: Z=-0.57 — Kalman Z=-0.57 — neutral band
+2026-10-07 17:55:38 | INFO     | PAIR AMZN/COST: signal=EXIT Z=0.13
+2026-10-07 17:55:38 | INFO     | PAIR JNJ/ABBV: Z=1.37 — Kalman Z=1.37 — neutral band
+2026-10-07 17:55:38 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-10-07 17:55:38 | INFO     | State saved (run #2843)
+2026-10-07 17:55:38 | INFO     | Cycle complete.

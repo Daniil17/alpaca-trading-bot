@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2842,
+  "run_count": 2843,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1766,6 +1766,15 @@
       "is_crypto": false,
       "pnl": -149.22,
       "reason": "TRAILING STOP: price fell 7% from peak $92.30 (peak gain was +6.3%)"
+    },
+    {
+      "time": "2026-10-07 18:55 BST",
+      "action": "BUY",
+      "symbol": "PG",
+      "amount": 9807.03,
+      "price": 148.45,
+      "is_crypto": false,
+      "score": 0.245
     }
   ],
   "open_pairs": {},
@@ -1814,7 +1823,7 @@
     ]
   },
   "sell_cooldowns": {},
-  "last_full_scan_date": "2026-10-06",
+  "last_full_scan_date": "2026-10-07",
   "position_strategies": {
     "V": {
       "mean_reversion": {
@@ -1998,6 +2007,32 @@
         "vpt_slope": 1.4123,
         "vol_ratio": 0.86,
         "reason": "VPT rising (accumulation, slope 1.412)"
+      }
+    },
+    "PG": {
+      "mean_reversion": {
+        "score": 0.0,
+        "rsi": 49.9,
+        "bb_position": 0.58,
+        "reason": "Neutral"
+      },
+      "momentum": {
+        "score": -0.112,
+        "adx": 7.9,
+        "ema_fast": 144.93,
+        "ema_slow": 145.28,
+        "reason": "Downtrend (EMA spread 0.2%) | Weak trend (ADX 8)"
+      },
+      "news_sentiment": {
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": 0.0
+      },
+      "volume_flow": {
+        "score": 1.0,
+        "vpt_slope": 0.6944,
+        "vol_ratio": 1.23,
+        "reason": "VPT rising (accumulation, slope 0.694)"
       }
     }
   }

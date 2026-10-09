@@ -85354,3 +85354,30 @@
 2026-10-09 18:40:44 | INFO     | Pairs cycle complete. Open pairs: 0
 2026-10-09 18:40:44 | INFO     | State saved (run #2858)
 2026-10-09 18:40:44 | INFO     | Cycle complete.
+2026-10-09 22:54:32 | INFO     | =======================================================
+2026-10-09 22:54:32 | INFO     |   TRADING BOT — Single Cycle
+2026-10-09 22:54:32 | INFO     |   2026-10-09 22:54:32 UTC
+2026-10-09 22:54:32 | INFO     |   Mode: PAPER
+2026-10-09 22:54:32 | INFO     | =======================================================
+2026-10-09 22:54:32 | INFO     | State loaded: peak=$101,273.36, run #2858, trades=187
+2026-10-09 22:54:32 | INFO     | Connected to Alpaca (PAPER trading)
+2026-10-09 22:54:33 | INFO     | Account mode verified: PAPER | Equity: $98,950.88
+2026-10-09 22:54:33 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-10-09 22:54:36 | INFO     | Processed Telegram commands
+2026-10-09 22:54:36 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-10-09 22:54:36 | INFO     | Portfolio: $98,950.88 | Cash: $42,588.72
+2026-10-09 22:54:36 | INFO     | 
+=======================================================
+2026-10-09 22:54:36 | INFO     |   CRYPTO TRADING CYCLE
+2026-10-09 22:54:36 | INFO     | =======================================================
+2026-10-09 22:54:36 | INFO     | Crypto: 1 positions | $1,459.35 invested (1.5% of portfolio)
+2026-10-09 22:54:36 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-10-09 22:54:36 | ERROR    | Non-retryable error: {"message":"invalid symbol: UNIUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-10-09 22:54:36 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-10-09 22:54:37 | INFO     | News scan: 59 articles, 0 stocks with sentiment
+2026-10-09 22:54:39 | INFO     | No crypto buy signals this cycle
+2026-10-09 22:54:39 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-10-09 22:54:39 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,459.35
+2026-10-09 22:54:39 | INFO     | State saved (run #2859)
+2026-10-09 22:54:39 | INFO     | Cycle complete.

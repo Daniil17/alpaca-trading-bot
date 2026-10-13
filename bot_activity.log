@@ -85948,3 +85948,69 @@
 2026-10-13 12:58:29 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,467.76
 2026-10-13 12:58:29 | INFO     | State saved (run #2880)
 2026-10-13 12:58:29 | INFO     | Cycle complete.
+2026-10-13 19:45:59 | INFO     | =======================================================
+2026-10-13 19:45:59 | INFO     |   TRADING BOT — Single Cycle
+2026-10-13 19:45:59 | INFO     |   2026-10-13 19:45:59 UTC
+2026-10-13 19:45:59 | INFO     |   Mode: PAPER
+2026-10-13 19:45:59 | INFO     | =======================================================
+2026-10-13 19:45:59 | INFO     | State loaded: peak=$101,273.36, run #2880, trades=187
+2026-10-13 19:45:59 | INFO     | Connected to Alpaca (PAPER trading)
+2026-10-13 19:45:59 | INFO     | Account mode verified: PAPER | Equity: $98,602.17
+2026-10-13 19:46:00 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-10-13 19:46:02 | INFO     | Processed Telegram commands
+2026-10-13 19:46:02 | INFO     | Portfolio: $98,602.16 | Cash: $42,588.72
+2026-10-13 19:46:02 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $25.7M daily dollar vol)
+2026-10-13 19:46:02 | INFO     | Pre-fetching bars for 28 symbols...
+2026-10-13 19:46:05 | INFO     | --- Phase 1: Checking exits ---
+2026-10-13 19:46:05 | INFO     | STRATEGY SELL: ADBE (score: -0.226)
+2026-10-13 19:46:05 | INFO     | CLOSED POSITION: ADBE
+2026-10-13 19:46:05 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-10-13 19:46:06 | INFO     | News scan: 55 articles, 8 stocks with sentiment
+2026-10-13 19:46:06 | INFO     | Buy candidates: CRM (0.446), META (0.282), TSLA (0.235)
+2026-10-13 19:46:06 | INFO     | --- Phase 3: Executing trades ---
+2026-10-13 19:46:07 | INFO     | BUY: CRM | $4869.50 @ ~$239.42 | Score: 0.446 | SL=$227.45 TP=$268.15
+2026-10-13 19:46:07 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must have order_class=simple"} — retrying in 2.0s
+2026-10-13 19:46:09 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must have order_class=simple"} — retrying in 4.0s
+2026-10-13 19:46:13 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must have order_class=simple"}
+2026-10-13 19:46:13 | WARNING  | Bracket order failed for CRM — falling back to market + stop
+2026-10-13 19:46:13 | INFO     | BUY MARKET: CRM | $4869.5
+2026-10-13 19:46:13 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"} — retrying in 2.0s
+2026-10-13 19:46:15 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"} — retrying in 4.0s
+2026-10-13 19:46:19 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"}
+2026-10-13 19:46:20 | INFO     | BLOCKED: META — Max 3 positions in Technology sector
+2026-10-13 19:46:20 | INFO     | BLOCKED: TSLA — Max 3 positions in Consumer sector
+2026-10-13 19:46:20 | INFO     | 
+=======================================================
+2026-10-13 19:46:20 | INFO     |   CRYPTO TRADING CYCLE
+2026-10-13 19:46:20 | INFO     | =======================================================
+2026-10-13 19:46:20 | INFO     | Crypto: 1 positions | $1,510.55 invested (1.5% of portfolio)
+2026-10-13 19:46:20 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-10-13 19:46:20 | ERROR    | Non-retryable error: {"message":"invalid symbol: UNIUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-10-13 19:46:20 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-10-13 19:46:20 | INFO     | News scan: 55 articles, 0 stocks with sentiment
+2026-10-13 19:46:22 | INFO     | No crypto buy signals this cycle
+2026-10-13 19:46:22 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-10-13 19:46:22 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,510.55
+2026-10-13 19:46:22 | INFO     | 
+=======================================================
+2026-10-13 19:46:22 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-10-13 19:46:22 | INFO     | =======================================================
+2026-10-13 19:46:22 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-10-13 19:46:22 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-10-13 19:46:23 | INFO     | PAIR KO/PEP: signal=EXIT Z=0.30
+2026-10-13 19:46:23 | INFO     | PAIR JPM/BAC: signal=LONG_Y_SHORT_X Z=-2.13
+2026-10-13 19:46:23 | INFO     | PAIR META/GOOGL: signal=EXIT Z=-0.24
+2026-10-13 19:46:23 | INFO     | PAIR V/MA: signal=EXIT Z=0.40
+2026-10-13 19:46:23 | INFO     | PAIR AMZN/COST: signal=EXIT Z=0.12
+2026-10-13 19:46:23 | INFO     | PAIR JNJ/ABBV: signal=EXIT Z=-0.17
+2026-10-13 19:46:23 | INFO     | PAIRS TRADE: long BAC ($3944.09) | short JPM ($3944.09) | Z=-2.13 | hedge_ratio=0.166
+2026-10-13 19:46:23 | INFO     | BUY MARKET: BAC | $3944.09
+2026-10-13 19:46:23 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders cannot be sold short"} — retrying in 2.0s
+2026-10-13 19:46:25 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders cannot be sold short"} — retrying in 4.0s
+2026-10-13 19:46:29 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders cannot be sold short"}
+2026-10-13 19:46:29 | WARNING  | PAIRS: one leg failed for JPM_BAC — closing both
+2026-10-13 19:46:29 | INFO     | CLOSED POSITION: BAC
+2026-10-13 19:46:29 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-10-13 19:46:29 | INFO     | State saved (run #2881)
+2026-10-13 19:46:29 | INFO     | Cycle complete.

@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2887,
+  "run_count": 2888,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1813,6 +1813,16 @@
       "price": 239.42,
       "is_crypto": false,
       "score": 0.446
+    },
+    {
+      "time": "2026-10-14 18:48 BST",
+      "action": "SELL",
+      "symbol": "NVDA",
+      "amount": 6943.05,
+      "price": 221.2598,
+      "is_crypto": false,
+      "pnl": 204.35,
+      "reason": "TRAILING STOP: price fell 7% from peak $240.28 (peak gain was +11.9%)"
     }
   ],
   "open_pairs": {},
@@ -1820,8 +1830,7 @@
     "AMZN": 260.9551,
     "MSFT": 544.3,
     "DIS": 108.805,
-    "NVDA": 240.285,
-    "PG": 154.53,
+    "PG": 155.485,
     "JNJ": 261.18,
     "UNIUSD": 7.7658,
     "CRM": 239.51
@@ -1841,7 +1850,6 @@
       -5.684
     ],
     "volume_flow": [
-      -5.5649999999999995,
       9.264,
       13.418,
       -5.792,
@@ -1860,11 +1868,13 @@
       -1.772,
       -5.784000000000001,
       -1.5034562211981481,
-      -0.757
+      -0.757,
+      3.032430262066809
     ]
   },
   "sell_cooldowns": {
-    "ADBE": 1791920765.222538
+    "ADBE": 1791920765.222538,
+    "NVDA": 1792000134.6778035
   },
   "last_full_scan_date": "2026-10-14",
   "position_strategies": {
@@ -1996,34 +2006,6 @@
         "vpt_slope": 0.7164,
         "vol_ratio": 0.67,
         "reason": "VPT rising (accumulation, slope 0.716)"
-      }
-    },
-    "NVDA": {
-      "mean_reversion": {
-        "score": 0.0,
-        "rsi": 51.0,
-        "bb_position": 0.534,
-        "reason": "Neutral"
-      },
-      "momentum": {
-        "score": 0.085,
-        "adx": 17.0,
-        "ema_fast": 217.69,
-        "ema_slow": 214.04,
-        "reason": "Uptrend (EMA spread 1.7%) | Weak trend (ADX 17)"
-      },
-      "news_sentiment": {
-        "score": 0.013,
-        "rsi": 51.0,
-        "recent_max_rsi": 63.2,
-        "sentiment": 0.125,
-        "reason": "Positive news but RSI neutral (51) | Sentiment: 0.12"
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 0.5176,
-        "vol_ratio": 0.85,
-        "reason": "VPT rising (accumulation, slope 0.518)"
       }
     },
     "PG": {

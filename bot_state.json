@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2932,
+  "run_count": 2933,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1832,18 +1832,27 @@
       "price": 729.12,
       "is_crypto": false,
       "score": 0.299
+    },
+    {
+      "time": "2026-10-20 15:08 BST",
+      "action": "SELL",
+      "symbol": "META",
+      "amount": 5299.9,
+      "price": 687.23,
+      "is_crypto": false,
+      "pnl": -343.65,
+      "reason": "HARD STOP-LOSS: -6.1%"
     }
   ],
   "open_pairs": {},
   "trailing_high": {
-    "AMZN": 262.98,
+    "AMZN": 263.03,
     "MSFT": 544.3,
     "DIS": 111.0951,
     "PG": 159.175,
     "JNJ": 261.18,
     "UNIUSD": 7.7658,
-    "CRM": 245.01,
-    "META": 733.01
+    "CRM": 245.01
   },
   "strategy_pnl": {
     "mean_reversion": [
@@ -1860,7 +1869,6 @@
       -5.684
     ],
     "volume_flow": [
-      9.264,
       13.418,
       -5.792,
       2.228,
@@ -1879,11 +1887,14 @@
       -5.784000000000001,
       -1.5034562211981481,
       -0.757,
-      3.032430262066809
+      3.032430262066809,
+      -6.089
     ]
   },
-  "sell_cooldowns": {},
-  "last_full_scan_date": "2026-10-19",
+  "sell_cooldowns": {
+    "META": 1792505287.6165788
+  },
+  "last_full_scan_date": "2026-10-20",
   "position_strategies": {
     "V": {
       "mean_reversion": {
@@ -2095,34 +2106,6 @@
         "vpt_slope": 2.512,
         "vol_ratio": 1.02,
         "reason": "VPT rising (accumulation, slope 2.512)"
-      }
-    },
-    "META": {
-      "mean_reversion": {
-        "score": -0.63,
-        "rsi": 77.8,
-        "bb_position": 1.086,
-        "reason": "RSI overbought (78) | Price at upper Bollinger Band"
-      },
-      "momentum": {
-        "score": 0.495,
-        "adx": 29.8,
-        "ema_fast": 660.96,
-        "ema_slow": 631.15,
-        "reason": "Uptrend (EMA spread 4.7%) | Strong trend (ADX 30)"
-      },
-      "news_sentiment": {
-        "score": 0.0,
-        "rsi": 77.8,
-        "recent_max_rsi": 77.8,
-        "sentiment": 1.0,
-        "reason": "News spike active (RSI 78) \u2014 waiting for pullback | Sentiment: 1.00"
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 2.4586,
-        "vol_ratio": 2.38,
-        "reason": "VPT rising (accumulation, slope 2.459) | High volume (2.4x avg)"
       }
     }
   }

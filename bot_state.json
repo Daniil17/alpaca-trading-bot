@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 2955,
+  "run_count": 2956,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1880,7 +1880,8 @@
     "PG": 166.145,
     "JNJ": 268.07,
     "UNIUSD": 7.7658,
-    "CRM": 249.28
+    "CRM": 249.28,
+    "AMD": 515.975
   },
   "strategy_pnl": {
     "mean_reversion": [

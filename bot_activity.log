@@ -90004,3 +90004,34 @@
 2026-10-30 22:34:52 | INFO     | Crypto cycle complete. Positions: 1, Invested: $1,375.67
 2026-10-30 22:34:52 | INFO     | State saved (run #3007)
 2026-10-30 22:34:52 | INFO     | Cycle complete.
+2026-10-31 00:29:35 | INFO     | =======================================================
+2026-10-31 00:29:35 | INFO     |   TRADING BOT — Single Cycle
+2026-10-31 00:29:35 | INFO     |   2026-10-31 00:29:35 UTC
+2026-10-31 00:29:35 | INFO     |   Mode: PAPER
+2026-10-31 00:29:35 | INFO     | =======================================================
+2026-10-31 00:29:35 | INFO     | State loaded: peak=$101,273.36, run #3007, trades=197
+2026-10-31 00:29:35 | INFO     | Connected to Alpaca (PAPER trading)
+2026-10-31 00:29:36 | INFO     | Account mode verified: PAPER | Equity: $98,079.90
+2026-10-31 00:29:36 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-10-31 00:29:39 | INFO     | Processed Telegram commands
+2026-10-31 00:29:39 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-10-31 00:29:39 | INFO     | Portfolio: $98,079.90 | Cash: $54,620.71
+2026-10-31 00:29:39 | INFO     | 
+=======================================================
+2026-10-31 00:29:39 | INFO     |   CRYPTO TRADING CYCLE
+2026-10-31 00:29:39 | INFO     | =======================================================
+2026-10-31 00:29:39 | INFO     | Crypto: 1 positions | $1,432.93 invested (1.5% of portfolio)
+2026-10-31 00:29:39 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-10-31 00:29:39 | ERROR    | Non-retryable error: {"message":"invalid symbol: UNIUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-10-31 00:29:39 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-10-31 00:29:41 | INFO     | News scan: 57 articles, 0 stocks with sentiment
+2026-10-31 00:29:43 | INFO     | Crypto buy candidates: AAVE/USD (0.379), XRP/USD (0.268)
+2026-10-31 00:29:43 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-10-31 00:29:43 | INFO     | CRYPTO BUY: AAVE/USD | $1471.20 @ ~$130.464 | Score: 0.379 | Regime: bull
+2026-10-31 00:29:43 | INFO     | BUY CRYPTO: AAVE/USD | $1471.20
+2026-10-31 00:29:44 | INFO     | CRYPTO BUY: XRP/USD | $1471.20 @ ~$1.25745 | Score: 0.268 | Regime: sideways
+2026-10-31 00:29:44 | INFO     | BUY CRYPTO: XRP/USD | $1471.20
+2026-10-31 00:29:44 | INFO     | Crypto cycle complete. Positions: 3, Invested: $4,375.32
+2026-10-31 00:29:44 | INFO     | State saved (run #3008)
+2026-10-31 00:29:44 | INFO     | Cycle complete.

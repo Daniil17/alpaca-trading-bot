@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 3026,
+  "run_count": 3027,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1928,7 +1928,7 @@
     "UNIUSD": 7.7658,
     "CRM": 249.28,
     "AAVEUSD": 138.14,
-    "XRPUSD": 1.259,
+    "XRPUSD": 1.2837,
     "AVAXUSD": 8.87
   },
   "strategy_pnl": {

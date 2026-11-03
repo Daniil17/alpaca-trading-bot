@@ -90650,3 +90650,70 @@
 2026-11-03 13:00:15 | INFO     | Crypto cycle complete. Positions: 4, Invested: $5,770.48
 2026-11-03 13:00:15 | INFO     | State saved (run #3027)
 2026-11-03 13:00:15 | INFO     | Cycle complete.
+2026-11-03 19:58:25 | INFO     | =======================================================
+2026-11-03 19:58:25 | INFO     |   TRADING BOT — Single Cycle
+2026-11-03 19:58:25 | INFO     |   2026-11-03 19:58:25 UTC
+2026-11-03 19:58:25 | INFO     |   Mode: PAPER
+2026-11-03 19:58:25 | INFO     | =======================================================
+2026-11-03 19:58:25 | INFO     | State loaded: peak=$101,273.36, run #3027, trades=200
+2026-11-03 19:58:25 | INFO     | Connected to Alpaca (PAPER trading)
+2026-11-03 19:58:25 | INFO     | Account mode verified: PAPER | Equity: $98,017.68
+2026-11-03 19:58:26 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-11-03 19:58:28 | INFO     | Processed Telegram commands
+2026-11-03 19:58:28 | INFO     | Portfolio: $98,020.25 | Cash: $50,295.18
+2026-11-03 19:58:29 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $16.9M daily dollar vol)
+2026-11-03 19:58:29 | INFO     | Pre-fetching bars for 28 symbols...
+2026-11-03 19:58:32 | INFO     | --- Phase 1: Checking exits ---
+2026-11-03 19:58:32 | WARNING  | HARD STOP-LOSS: CRM at -7.1%
+2026-11-03 19:58:32 | INFO     | EXIT: CRM — HARD STOP-LOSS: -7.1%
+2026-11-03 19:58:32 | INFO     | CLOSED POSITION: CRM
+2026-11-03 19:58:33 | INFO     | STRATEGY SELL: DIS (score: -0.225)
+2026-11-03 19:58:33 | INFO     | CLOSED POSITION: DIS
+2026-11-03 19:58:33 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-11-03 19:58:35 | INFO     | News scan: 58 articles, 7 stocks with sentiment
+2026-11-03 19:58:35 | INFO     | Buy candidates: META (0.361), AMD (0.328)
+2026-11-03 19:58:35 | INFO     | --- Phase 3: Executing trades ---
+2026-11-03 19:58:36 | INFO     | BUY: META | $6176.65 @ ~$619.06 | Score: 0.361 | SL=$588.11 TP=$687.70
+2026-11-03 19:58:36 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must have order_class=simple"} — retrying in 2.0s
+2026-11-03 19:58:38 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must have order_class=simple"} — retrying in 4.0s
+2026-11-03 19:58:42 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must have order_class=simple"}
+2026-11-03 19:58:42 | WARNING  | Bracket order failed for META — falling back to market + stop
+2026-11-03 19:58:42 | INFO     | BUY MARKET: META | $6176.65
+2026-11-03 19:58:42 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"} — retrying in 2.0s
+2026-11-03 19:58:44 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"} — retrying in 4.0s
+2026-11-03 19:58:48 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"}
+2026-11-03 19:58:48 | INFO     | BLOCKED: AMD — Max 3 positions in Technology sector
+2026-11-03 19:58:48 | INFO     | 
+=======================================================
+2026-11-03 19:58:48 | INFO     |   CRYPTO TRADING CYCLE
+2026-11-03 19:58:48 | INFO     | =======================================================
+2026-11-03 19:58:49 | INFO     | Crypto: 4 positions | $5,759.53 invested (5.9% of portfolio)
+2026-11-03 19:58:49 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-11-03 19:58:49 | ERROR    | Non-retryable error: {"message":"invalid symbol: AAVEUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-03 19:58:49 | ERROR    | Non-retryable error: {"message":"invalid symbol: AVAXUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-03 19:58:49 | ERROR    | Non-retryable error: {"message":"invalid symbol: UNIUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-03 19:58:49 | ERROR    | Non-retryable error: {"message":"invalid symbol: XRPUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-03 19:58:49 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-11-03 19:58:49 | INFO     | News scan: 58 articles, 0 stocks with sentiment
+2026-11-03 19:58:51 | INFO     | No crypto buy signals this cycle
+2026-11-03 19:58:51 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-11-03 19:58:51 | INFO     | Crypto cycle complete. Positions: 4, Invested: $5,759.53
+2026-11-03 19:58:51 | INFO     | 
+=======================================================
+2026-11-03 19:58:51 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-11-03 19:58:51 | INFO     | =======================================================
+2026-11-03 19:58:51 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-11-03 19:58:51 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-11-03 19:58:51 | INFO     | PAIR KO/PEP: Z=0.64 — Kalman Z=0.64 — neutral band
+2026-11-03 19:58:51 | INFO     | PAIR JPM/BAC: Z=0.77 — Kalman Z=0.77 — neutral band
+2026-11-03 19:58:52 | INFO     | PAIR META/GOOGL: signal=EXIT Z=0.35
+2026-11-03 19:58:52 | INFO     | PAIR V/MA: signal=EXIT Z=0.13
+2026-11-03 19:58:52 | INFO     | PAIR AMZN/COST: signal=EXIT Z=-0.18
+2026-11-03 19:58:52 | INFO     | PAIR JNJ/ABBV: signal=EXIT Z=-0.43
+2026-11-03 19:58:52 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-11-03 19:58:52 | INFO     | State saved (run #3028)
+2026-11-03 19:58:52 | INFO     | Cycle complete.

@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 3039,
+  "run_count": 3040,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1985,6 +1985,25 @@
       "price": 95.8775,
       "is_crypto": true,
       "score": 0.396
+    },
+    {
+      "time": "2026-11-05 20:29 GMT",
+      "action": "SELL",
+      "symbol": "AMD",
+      "amount": 4335.62,
+      "price": 414.295,
+      "is_crypto": false,
+      "pnl": -730.41,
+      "reason": "HARD STOP-LOSS: -14.4%"
+    },
+    {
+      "time": "2026-11-05 20:29 GMT",
+      "action": "BUY",
+      "symbol": "NVDA",
+      "amount": 7925.1,
+      "price": 183.13,
+      "is_crypto": false,
+      "score": 0.338
     }
   ],
   "open_pairs": {},
@@ -2012,7 +2031,6 @@
       -5.684
     ],
     "volume_flow": [
-      -7.992000000000001,
       0.09437968949082963,
       -0.1008403361344576,
       -5.034000000000001,
@@ -2031,14 +2049,14 @@
       -7.077,
       8.207,
       13.389999999999999,
-      12.753999999999998
+      12.753999999999998,
+      -14.418000000000001
     ]
   },
   "sell_cooldowns": {
-    "MSFT": 1793823489.1076646,
-    "PG": 1793823489.6511538
+    "AMD": 1793910560.349923
   },
-  "last_full_scan_date": "2026-11-04",
+  "last_full_scan_date": "2026-11-05",
   "position_strategies": {
     "V": {
       "mean_reversion": {
@@ -2146,30 +2164,32 @@
         "reason": "VPT rising (accumulation, slope 1.271)"
       }
     },
-    "AMD": {
+    "NVDA": {
       "mean_reversion": {
         "score": 0.0,
-        "rsi": 57.2,
-        "bb_position": 0.553,
+        "rsi": 49.3,
+        "bb_position": 0.459,
         "reason": "Neutral"
       },
       "momentum": {
-        "score": 0.434,
-        "adx": 26.7,
-        "ema_fast": 615.77,
-        "ema_slow": 584.88,
-        "reason": "Uptrend (EMA spread 5.3%) | Strong trend (ADX 27)"
+        "score": 0.072,
+        "adx": 17.0,
+        "ema_fast": 230.34,
+        "ema_slow": 227.07,
+        "reason": "Uptrend (EMA spread 1.4%) | Weak trend (ADX 17)"
       },
       "news_sentiment": {
-        "score": 0,
-        "reason": "No positive news sentiment",
-        "sentiment": 0.0
+        "score": 0.35,
+        "rsi": 49.3,
+        "recent_max_rsi": 67.2,
+        "sentiment": 0.5,
+        "reason": "Pullback entry! RSI 67->49 | Sentiment: 0.50"
       },
       "volume_flow": {
         "score": 1.0,
-        "vpt_slope": 0.9827,
-        "vol_ratio": 0.62,
-        "reason": "VPT rising (accumulation, slope 0.983)"
+        "vpt_slope": 1.4572,
+        "vol_ratio": 0.67,
+        "reason": "VPT rising (accumulation, slope 1.457)"
       }
     }
   }

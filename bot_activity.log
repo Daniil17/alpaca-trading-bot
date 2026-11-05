@@ -90950,3 +90950,38 @@
 2026-11-04 20:18:29 | INFO     | Pairs cycle complete. Open pairs: 0
 2026-11-04 20:18:29 | INFO     | State saved (run #3034)
 2026-11-04 20:18:29 | INFO     | Cycle complete.
+2026-11-05 00:56:36 | INFO     | =======================================================
+2026-11-05 00:56:36 | INFO     |   TRADING BOT — Single Cycle
+2026-11-05 00:56:36 | INFO     |   2026-11-05 00:56:36 UTC
+2026-11-05 00:56:36 | INFO     |   Mode: PAPER
+2026-11-05 00:56:36 | INFO     | =======================================================
+2026-11-05 00:56:36 | INFO     | State loaded: peak=$101,273.36, run #3034, trades=206
+2026-11-05 00:56:36 | INFO     | Connected to Alpaca (PAPER trading)
+2026-11-05 00:56:37 | INFO     | Account mode verified: PAPER | Equity: $99,511.04
+2026-11-05 00:56:37 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-11-05 00:56:40 | INFO     | Processed Telegram commands
+2026-11-05 00:56:40 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-11-05 00:56:40 | INFO     | Portfolio: $99,511.61 | Cash: $72,040.94
+2026-11-05 00:56:40 | INFO     | 
+=======================================================
+2026-11-05 00:56:40 | INFO     |   CRYPTO TRADING CYCLE
+2026-11-05 00:56:40 | INFO     | =======================================================
+2026-11-05 00:56:40 | INFO     | Crypto: 4 positions | $5,948.73 invested (6.0% of portfolio)
+2026-11-05 00:56:40 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-11-05 00:56:40 | ERROR    | Non-retryable error: {"message":"invalid symbol: AAVEUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-05 00:56:40 | ERROR    | Non-retryable error: {"message":"invalid symbol: AVAXUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-05 00:56:40 | ERROR    | Non-retryable error: {"message":"invalid symbol: UNIUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-05 00:56:40 | ERROR    | Non-retryable error: {"message":"invalid symbol: XRPUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-05 00:56:40 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-11-05 00:56:41 | INFO     | News scan: 58 articles, 0 stocks with sentiment
+2026-11-05 00:56:42 | INFO     | Crypto buy candidates: SOL/USD (0.396), LINK/USD (0.273)
+2026-11-05 00:56:42 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-11-05 00:56:42 | INFO     | CRYPTO BUY: SOL/USD | $1492.67 @ ~$95.8775 | Score: 0.396 | Regime: bull
+2026-11-05 00:56:42 | INFO     | BUY CRYPTO: SOL/USD | $1492.67
+2026-11-05 00:56:43 | INFO     | Crypto cycle complete. Positions: 5, Invested: $7,441.40
+2026-11-05 00:56:43 | INFO     | State saved (run #3035)
+2026-11-05 00:56:43 | INFO     | Cycle complete.

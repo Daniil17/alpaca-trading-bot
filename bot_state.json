@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 3037,
+  "run_count": 3038,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -1995,7 +1995,7 @@
     "XRPUSD": 1.31037,
     "AVAXUSD": 8.87,
     "META": 630.76,
-    "SOLUSD": 95.922944649
+    "SOLUSD": 96.1028
   },
   "strategy_pnl": {
     "mean_reversion": [

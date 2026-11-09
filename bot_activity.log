@@ -91803,3 +91803,40 @@
 2026-11-09 00:55:02 | INFO     | Crypto: max positions reached (5) — skipping buys
 2026-11-09 00:55:02 | INFO     | State saved (run #3059)
 2026-11-09 00:55:02 | INFO     | Cycle complete.
+2026-11-09 04:55:44 | INFO     | =======================================================
+2026-11-09 04:55:44 | INFO     |   TRADING BOT — Single Cycle
+2026-11-09 04:55:44 | INFO     |   2026-11-09 04:55:44 UTC
+2026-11-09 04:55:44 | INFO     |   Mode: PAPER
+2026-11-09 04:55:44 | INFO     | =======================================================
+2026-11-09 04:55:44 | INFO     | State loaded: peak=$101,273.36, run #3059, trades=209
+2026-11-09 04:55:44 | INFO     | Connected to Alpaca (PAPER trading)
+2026-11-09 04:55:45 | INFO     | Account mode verified: PAPER | Equity: $97,849.88
+2026-11-09 04:55:45 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-11-09 04:55:48 | INFO     | Processed Telegram commands
+2026-11-09 04:55:48 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-11-09 04:55:48 | INFO     | Portfolio: $97,850.75 | Cash: $66,987.30
+2026-11-09 04:55:48 | INFO     | 
+=======================================================
+2026-11-09 04:55:48 | INFO     |   CRYPTO TRADING CYCLE
+2026-11-09 04:55:48 | INFO     | =======================================================
+2026-11-09 04:55:48 | INFO     | Crypto: 5 positions | $6,735.36 invested (6.9% of portfolio)
+2026-11-09 04:55:48 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-11-09 04:55:48 | ERROR    | Non-retryable error: {"message":"invalid symbol: AAVEUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-09 04:55:48 | ERROR    | Non-retryable error: {"message":"invalid symbol: AVAXUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-09 04:55:48 | ERROR    | Non-retryable error: {"message":"invalid symbol: SOLUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-09 04:55:49 | ERROR    | Non-retryable error: {"message":"invalid symbol: UNIUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-09 04:55:49 | INFO     | CRYPTO EXIT: XRPUSD — HARD STOP -12.5%
+2026-11-09 04:55:49 | INFO     | CLOSED CRYPTO POSITION: XRPUSD
+2026-11-09 04:55:49 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-11-09 04:55:50 | INFO     | News scan: 58 articles, 0 stocks with sentiment
+2026-11-09 04:55:51 | INFO     | Crypto buy candidates: LINK/USD (0.284)
+2026-11-09 04:55:51 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-11-09 04:55:51 | INFO     | CRYPTO BUY: LINK/USD | $1467.76 @ ~$10.54815 | Score: 0.284 | Regime: bull
+2026-11-09 04:55:51 | INFO     | BUY CRYPTO: LINK/USD | $1467.76
+2026-11-09 04:55:52 | INFO     | Crypto cycle complete. Positions: 5, Invested: $6,945.63
+2026-11-09 04:55:52 | INFO     | State saved (run #3060)
+2026-11-09 04:55:52 | INFO     | Cycle complete.

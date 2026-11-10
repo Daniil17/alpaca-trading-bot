@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 3066,
+  "run_count": 3067,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -2065,12 +2065,13 @@
   ],
   "open_pairs": {},
   "trailing_high": {
-    "JNJ": 280.9191,
     "UNIUSD": 7.7658,
     "AAVEUSD": 138.14,
     "AVAXUSD": 8.87,
-    "META": 640.91,
-    "LINKUSD": 10.635
+    "META": 643.345,
+    "LINKUSD": 10.635,
+    "AMD": 527.474446,
+    "UNH": 403.11
   },
   "strategy_pnl": {
     "mean_reversion": [

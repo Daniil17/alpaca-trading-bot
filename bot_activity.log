@@ -91936,3 +91936,35 @@
 2026-11-10 03:15:22 | INFO     | Crypto: max positions reached (5) — skipping buys
 2026-11-10 03:15:22 | INFO     | State saved (run #3063)
 2026-11-10 03:15:22 | INFO     | Cycle complete.
+2026-11-10 03:54:06 | INFO     | =======================================================
+2026-11-10 03:54:06 | INFO     |   TRADING BOT — Single Cycle
+2026-11-10 03:54:06 | INFO     |   2026-11-10 03:54:06 UTC
+2026-11-10 03:54:06 | INFO     |   Mode: PAPER
+2026-11-10 03:54:06 | INFO     | =======================================================
+2026-11-10 03:54:06 | INFO     | State loaded: peak=$101,273.36, run #3063, trades=211
+2026-11-10 03:54:06 | INFO     | Connected to Alpaca (PAPER trading)
+2026-11-10 03:54:06 | INFO     | Account mode verified: PAPER | Equity: $98,348.13
+2026-11-10 03:54:06 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-11-10 03:54:09 | INFO     | Processed Telegram commands
+2026-11-10 03:54:09 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-11-10 03:54:09 | INFO     | Portfolio: $98,348.13 | Cash: $66,802.46
+2026-11-10 03:54:09 | INFO     | 
+=======================================================
+2026-11-10 03:54:09 | INFO     |   CRYPTO TRADING CYCLE
+2026-11-10 03:54:09 | INFO     | =======================================================
+2026-11-10 03:54:09 | INFO     | Crypto: 5 positions | $7,012.36 invested (7.1% of portfolio)
+2026-11-10 03:54:09 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-11-10 03:54:09 | ERROR    | Non-retryable error: {"message":"invalid symbol: AAVEUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-10 03:54:09 | ERROR    | Non-retryable error: {"message":"invalid symbol: AVAXUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-10 03:54:09 | ERROR    | Non-retryable error: {"message":"invalid symbol: LINKUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-10 03:54:09 | ERROR    | Non-retryable error: {"message":"invalid symbol: SOLUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-10 03:54:09 | ERROR    | Non-retryable error: {"message":"invalid symbol: UNIUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-10 03:54:09 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-11-10 03:54:09 | INFO     | Crypto: max positions reached (5) — skipping buys
+2026-11-10 03:54:09 | INFO     | State saved (run #3064)
+2026-11-10 03:54:09 | INFO     | Cycle complete.

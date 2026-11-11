@@ -92140,3 +92140,36 @@
 2026-11-10 20:17:29 | INFO     | Pairs cycle complete. Open pairs: 0
 2026-11-10 20:17:29 | INFO     | State saved (run #3067)
 2026-11-10 20:17:29 | INFO     | Cycle complete.
+2026-11-11 00:42:26 | INFO     | =======================================================
+2026-11-11 00:42:26 | INFO     |   TRADING BOT — Single Cycle
+2026-11-11 00:42:26 | INFO     |   2026-11-11 00:42:26 UTC
+2026-11-11 00:42:26 | INFO     |   Mode: PAPER
+2026-11-11 00:42:26 | INFO     | =======================================================
+2026-11-11 00:42:26 | INFO     | State loaded: peak=$101,273.36, run #3067, trades=215
+2026-11-11 00:42:26 | INFO     | Connected to Alpaca (PAPER trading)
+2026-11-11 00:42:26 | INFO     | Account mode verified: PAPER | Equity: $97,807.04
+2026-11-11 00:42:26 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-11-11 00:42:28 | INFO     | Processed Telegram commands
+2026-11-11 00:42:28 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-11-11 00:42:28 | INFO     | Portfolio: $97,807.94 | Cash: $74,877.54
+2026-11-11 00:42:28 | INFO     | 
+=======================================================
+2026-11-11 00:42:28 | INFO     |   CRYPTO TRADING CYCLE
+2026-11-11 00:42:28 | INFO     | =======================================================
+2026-11-11 00:42:28 | INFO     | Crypto: 4 positions | $5,516.90 invested (5.6% of portfolio)
+2026-11-11 00:42:28 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-11-11 00:42:28 | ERROR    | Non-retryable error: {"message":"invalid symbol: AAVEUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-11 00:42:28 | ERROR    | Non-retryable error: {"message":"invalid symbol: AVAXUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-11 00:42:28 | ERROR    | Non-retryable error: {"message":"invalid symbol: LINKUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-11 00:42:28 | ERROR    | Non-retryable error: {"message":"invalid symbol: UNIUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-11 00:42:28 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-11-11 00:42:30 | INFO     | News scan: 53 articles, 0 stocks with sentiment
+2026-11-11 00:42:30 | INFO     | No crypto buy signals this cycle
+2026-11-11 00:42:30 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-11-11 00:42:30 | INFO     | Crypto cycle complete. Positions: 4, Invested: $5,516.90
+2026-11-11 00:42:30 | INFO     | State saved (run #3068)
+2026-11-11 00:42:30 | INFO     | Cycle complete.

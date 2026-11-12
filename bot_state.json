@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 3079,
+  "run_count": 3080,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -2107,8 +2107,8 @@
     "AVAXUSD": 8.87,
     "META": 643.345,
     "LINKUSD": 10.635,
-    "AMD": 566.0499,
-    "UNH": 403.11
+    "AMD": 582.0,
+    "UNH": 405.1
   },
   "strategy_pnl": {
     "mean_reversion": [

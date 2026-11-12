@@ -92559,3 +92559,56 @@
 2026-11-12 05:59:33 | INFO     | Crypto cycle complete. Positions: 3, Invested: $4,107.11
 2026-11-12 05:59:33 | INFO     | State saved (run #3078)
 2026-11-12 05:59:33 | INFO     | Cycle complete.
+2026-11-12 15:01:07 | INFO     | =======================================================
+2026-11-12 15:01:07 | INFO     |   TRADING BOT — Single Cycle
+2026-11-12 15:01:07 | INFO     |   2026-11-12 15:01:07 UTC
+2026-11-12 15:01:07 | INFO     |   Mode: PAPER
+2026-11-12 15:01:07 | INFO     | =======================================================
+2026-11-12 15:01:07 | INFO     | State loaded: peak=$101,273.36, run #3078, trades=217
+2026-11-12 15:01:07 | INFO     | Connected to Alpaca (PAPER trading)
+2026-11-12 15:01:08 | INFO     | Account mode verified: PAPER | Equity: $97,010.23
+2026-11-12 15:01:09 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-11-12 15:01:11 | INFO     | Processed Telegram commands
+2026-11-12 15:01:11 | INFO     | Portfolio: $97,017.51 | Cash: $69,013.86
+2026-11-12 15:01:12 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $3.3M daily dollar vol)
+2026-11-12 15:01:12 | INFO     | Pre-fetching bars for 28 symbols...
+2026-11-12 15:01:19 | INFO     | --- Phase 1: Checking exits ---
+2026-11-12 15:01:19 | WARNING  | HARD STOP-LOSS: NVDA at -7.9%
+2026-11-12 15:01:19 | INFO     | EXIT: NVDA — HARD STOP-LOSS: -7.9%
+2026-11-12 15:01:19 | INFO     | CLOSED POSITION: NVDA
+2026-11-12 15:01:20 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-11-12 15:01:21 | INFO     | News scan: 55 articles, 5 stocks with sentiment
+2026-11-12 15:01:21 | INFO     | No buy signals this cycle
+2026-11-12 15:01:21 | INFO     | --- Phase 3: Executing trades ---
+2026-11-12 15:01:21 | INFO     | 
+=======================================================
+2026-11-12 15:01:21 | INFO     |   CRYPTO TRADING CYCLE
+2026-11-12 15:01:21 | INFO     | =======================================================
+2026-11-12 15:01:21 | INFO     | Crypto: 3 positions | $3,985.62 invested (4.1% of portfolio)
+2026-11-12 15:01:21 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-11-12 15:01:21 | INFO     | CRYPTO EXIT: AAVEUSD — HARD STOP -13.4%
+2026-11-12 15:01:21 | INFO     | CLOSED CRYPTO POSITION: AAVEUSD
+2026-11-12 15:01:21 | ERROR    | Non-retryable error: {"message":"invalid symbol: AVAXUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-12 15:01:21 | ERROR    | Non-retryable error: {"message":"invalid symbol: LINKUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-12 15:01:21 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-11-12 15:01:22 | INFO     | News scan: 56 articles, 0 stocks with sentiment
+2026-11-12 15:01:24 | INFO     | No crypto buy signals this cycle
+2026-11-12 15:01:24 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-11-12 15:01:24 | INFO     | Crypto cycle complete. Positions: 2, Invested: $2,738.96
+2026-11-12 15:01:24 | INFO     | 
+=======================================================
+2026-11-12 15:01:24 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-11-12 15:01:24 | INFO     | =======================================================
+2026-11-12 15:01:24 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-11-12 15:01:24 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-11-12 15:01:24 | INFO     | PAIR KO/PEP: Z=-0.66 — Kalman Z=-0.66 — neutral band
+2026-11-12 15:01:25 | INFO     | PAIR JPM/BAC: Z=0.67 — Kalman Z=0.67 — neutral band
+2026-11-12 15:01:25 | INFO     | PAIR META/GOOGL: signal=EXIT Z=0.29
+2026-11-12 15:01:26 | INFO     | PAIR V/MA: signal=EXIT Z=0.01
+2026-11-12 15:01:26 | INFO     | PAIR AMZN/COST: signal=EXIT Z=-0.24
+2026-11-12 15:01:26 | INFO     | PAIR JNJ/ABBV: signal=EXIT Z=0.03
+2026-11-12 15:01:26 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-11-12 15:01:26 | INFO     | State saved (run #3079)
+2026-11-12 15:01:26 | INFO     | Cycle complete.

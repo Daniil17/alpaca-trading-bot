@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 3078,
+  "run_count": 3079,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -2080,22 +2080,41 @@
       "is_crypto": true,
       "pnl": -192.28,
       "reason": "HARD STOP -13.3%"
+    },
+    {
+      "time": "2026-11-12 15:01 GMT",
+      "action": "SELL",
+      "symbol": "NVDA",
+      "amount": 6517.99,
+      "price": 161.71,
+      "is_crypto": false,
+      "pnl": -561.87,
+      "reason": "HARD STOP-LOSS: -7.9%"
+    },
+    {
+      "time": "2026-11-12 15:01 GMT",
+      "action": "SELL",
+      "symbol": "AAVEUSD",
+      "amount": 1246.65,
+      "price": 113.137,
+      "is_crypto": true,
+      "pnl": -192.42,
+      "reason": "HARD STOP -13.4%"
     }
   ],
   "open_pairs": {},
   "trailing_high": {
-    "AAVEUSD": 138.14,
     "AVAXUSD": 8.87,
     "META": 643.345,
     "LINKUSD": 10.635,
-    "AMD": 559.78,
-    "UNH": 403.11,
-    "NVDA": 175.65
+    "AMD": 566.0499,
+    "UNH": 403.11
   },
   "strategy_pnl": {
     "mean_reversion": [
       16.339000000000002,
-      -0.055
+      -0.055,
+      -7.936
     ],
     "momentum": [
       -5.2139999999999995,
@@ -2130,9 +2149,11 @@
     ]
   },
   "sell_cooldowns": {
-    "UNIUSD": 1794448356.3562272
+    "UNIUSD": 1794448356.3562272,
+    "NVDA": 1794495679.7399821,
+    "AAVEUSD": 1794495681.444312
   },
-  "last_full_scan_date": "2026-11-11",
+  "last_full_scan_date": "2026-11-12",
   "position_strategies": {
     "V": {
       "mean_reversion": {
@@ -2290,34 +2311,6 @@
         "vpt_slope": 0.7497,
         "vol_ratio": 1.71,
         "reason": "VPT rising (accumulation, slope 0.750) | High volume (1.7x avg)"
-      }
-    },
-    "NVDA": {
-      "mean_reversion": {
-        "score": 0.5,
-        "rsi": 40.2,
-        "bb_position": -0.003,
-        "reason": "Price at lower Bollinger Band"
-      },
-      "momentum": {
-        "score": 0.02,
-        "adx": 16.6,
-        "ema_fast": 226.95,
-        "ema_slow": 226.03,
-        "reason": "Uptrend (EMA spread 0.4%) | Weak trend (ADX 17)"
-      },
-      "news_sentiment": {
-        "score": 0.087,
-        "rsi": 40.2,
-        "recent_max_rsi": 67.2,
-        "sentiment": 0.125,
-        "reason": "Pullback entry! RSI 67->40 | Sentiment: 0.12"
-      },
-      "volume_flow": {
-        "score": 0.0,
-        "vpt_slope": -0.0488,
-        "vol_ratio": 1.17,
-        "reason": "VPT flat (-0.049)"
       }
     }
   }

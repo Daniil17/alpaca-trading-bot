@@ -92433,3 +92433,36 @@
 2026-11-11 20:01:42 | INFO     | Pairs cycle complete. Open pairs: 0
 2026-11-11 20:01:42 | INFO     | State saved (run #3074)
 2026-11-11 20:01:42 | INFO     | Cycle complete.
+2026-11-12 01:52:31 | INFO     | =======================================================
+2026-11-12 01:52:31 | INFO     |   TRADING BOT — Single Cycle
+2026-11-12 01:52:31 | INFO     |   2026-11-12 01:52:31 UTC
+2026-11-12 01:52:31 | INFO     |   Mode: PAPER
+2026-11-12 01:52:31 | INFO     | =======================================================
+2026-11-12 01:52:31 | INFO     | State loaded: peak=$101,273.36, run #3074, trades=216
+2026-11-12 01:52:31 | INFO     | Connected to Alpaca (PAPER trading)
+2026-11-12 01:52:32 | INFO     | Account mode verified: PAPER | Equity: $97,265.74
+2026-11-12 01:52:32 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-11-12 01:52:35 | INFO     | Processed Telegram commands
+2026-11-12 01:52:35 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-11-12 01:52:35 | INFO     | Portfolio: $97,265.74 | Cash: $67,795.60
+2026-11-12 01:52:35 | INFO     | 
+=======================================================
+2026-11-12 01:52:35 | INFO     |   CRYPTO TRADING CYCLE
+2026-11-12 01:52:35 | INFO     | =======================================================
+2026-11-12 01:52:35 | INFO     | Crypto: 4 positions | $5,372.04 invested (5.5% of portfolio)
+2026-11-12 01:52:35 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-11-12 01:52:36 | ERROR    | Non-retryable error: {"message":"invalid symbol: AAVEUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-12 01:52:36 | ERROR    | Non-retryable error: {"message":"invalid symbol: AVAXUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-12 01:52:36 | ERROR    | Non-retryable error: {"message":"invalid symbol: LINKUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-12 01:52:36 | INFO     | CRYPTO EXIT: UNIUSD — HARD STOP -13.3%
+2026-11-12 01:52:36 | INFO     | CLOSED CRYPTO POSITION: UNIUSD
+2026-11-12 01:52:36 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-11-12 01:52:37 | INFO     | News scan: 57 articles, 0 stocks with sentiment
+2026-11-12 01:52:38 | INFO     | No crypto buy signals this cycle
+2026-11-12 01:52:38 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-11-12 01:52:38 | INFO     | Crypto cycle complete. Positions: 3, Invested: $4,121.99
+2026-11-12 01:52:38 | INFO     | State saved (run #3075)
+2026-11-12 01:52:38 | INFO     | Cycle complete.

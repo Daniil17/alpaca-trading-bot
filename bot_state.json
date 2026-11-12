@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 3074,
+  "run_count": 3075,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -2070,11 +2070,20 @@
       "price": 175.63,
       "is_crypto": false,
       "score": 0.247
+    },
+    {
+      "time": "2026-11-12 01:52 GMT",
+      "action": "SELL",
+      "symbol": "UNIUSD",
+      "amount": 1250.05,
+      "price": 6.2436,
+      "is_crypto": true,
+      "pnl": -192.28,
+      "reason": "HARD STOP -13.3%"
     }
   ],
   "open_pairs": {},
   "trailing_high": {
-    "UNIUSD": 7.7658,
     "AAVEUSD": 138.14,
     "AVAXUSD": 8.87,
     "META": 643.345,
@@ -2120,7 +2129,9 @@
       -6.427
     ]
   },
-  "sell_cooldowns": {},
+  "sell_cooldowns": {
+    "UNIUSD": 1794448356.3562272
+  },
   "last_full_scan_date": "2026-11-11",
   "position_strategies": {
     "V": {

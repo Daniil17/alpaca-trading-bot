@@ -92810,3 +92810,57 @@
 2026-11-13 13:19:50 | INFO     | Crypto cycle complete. Positions: 3, Invested: $4,165.37
 2026-11-13 13:19:50 | INFO     | State saved (run #3085)
 2026-11-13 13:19:50 | INFO     | Cycle complete.
+2026-11-13 20:21:04 | INFO     | =======================================================
+2026-11-13 20:21:04 | INFO     |   TRADING BOT — Single Cycle
+2026-11-13 20:21:04 | INFO     |   2026-11-13 20:21:04 UTC
+2026-11-13 20:21:04 | INFO     |   Mode: PAPER
+2026-11-13 20:21:04 | INFO     | =======================================================
+2026-11-13 20:21:04 | INFO     | State loaded: peak=$101,273.36, run #3085, trades=220
+2026-11-13 20:21:04 | INFO     | Connected to Alpaca (PAPER trading)
+2026-11-13 20:21:05 | INFO     | Account mode verified: PAPER | Equity: $97,004.42
+2026-11-13 20:21:05 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-11-13 20:21:07 | INFO     | Processed Telegram commands
+2026-11-13 20:21:07 | INFO     | Portfolio: $97,003.66 | Cash: $75,330.65
+2026-11-13 20:21:07 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $14.7M daily dollar vol)
+2026-11-13 20:21:07 | INFO     | Pre-fetching bars for 28 symbols...
+2026-11-13 20:21:10 | INFO     | --- Phase 1: Checking exits ---
+2026-11-13 20:21:10 | INFO     | TRAILING STOP: AMD — current $532.42 ≤ stop $541.26 (peak $582.00)
+2026-11-13 20:21:10 | INFO     | CLOSED POSITION: AMD
+2026-11-13 20:21:10 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-11-13 20:21:11 | INFO     | News scan: 59 articles, 3 stocks with sentiment
+2026-11-13 20:21:12 | INFO     | No buy signals this cycle
+2026-11-13 20:21:12 | INFO     | --- Phase 3: Executing trades ---
+2026-11-13 20:21:12 | INFO     | 
+=======================================================
+2026-11-13 20:21:12 | INFO     |   CRYPTO TRADING CYCLE
+2026-11-13 20:21:12 | INFO     | =======================================================
+2026-11-13 20:21:12 | INFO     | Crypto: 3 positions | $4,158.87 invested (4.3% of portfolio)
+2026-11-13 20:21:12 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-11-13 20:21:12 | ERROR    | Non-retryable error: {"message":"invalid symbol: AVAXUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-13 20:21:12 | ERROR    | Non-retryable error: {"message":"invalid symbol: LINKUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-13 20:21:12 | ERROR    | Non-retryable error: {"message":"invalid symbol: UNIUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-13 20:21:12 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-11-13 20:21:12 | INFO     | News scan: 59 articles, 0 stocks with sentiment
+2026-11-13 20:21:13 | INFO     | Crypto buy candidates: AAVE/USD (0.326)
+2026-11-13 20:21:13 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-11-13 20:21:13 | INFO     | CRYPTO BUY: AAVE/USD | $1455.05 @ ~$113.473 | Score: 0.326 | Regime: bull
+2026-11-13 20:21:13 | INFO     | BUY CRYPTO: AAVE/USD | $1455.05
+2026-11-13 20:21:14 | INFO     | Crypto cycle complete. Positions: 4, Invested: $5,613.92
+2026-11-13 20:21:14 | INFO     | 
+=======================================================
+2026-11-13 20:21:14 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-11-13 20:21:14 | INFO     | =======================================================
+2026-11-13 20:21:14 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-11-13 20:21:14 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-11-13 20:21:14 | INFO     | PAIR KO/PEP: Z=-0.66 — Kalman Z=-0.66 — neutral band
+2026-11-13 20:21:14 | INFO     | PAIR JPM/BAC: Z=0.67 — Kalman Z=0.67 — neutral band
+2026-11-13 20:21:14 | INFO     | PAIR META/GOOGL: signal=EXIT Z=0.29
+2026-11-13 20:21:14 | INFO     | PAIR V/MA: signal=EXIT Z=0.01
+2026-11-13 20:21:14 | INFO     | PAIR AMZN/COST: signal=EXIT Z=-0.24
+2026-11-13 20:21:14 | INFO     | PAIR JNJ/ABBV: signal=EXIT Z=0.03
+2026-11-13 20:21:14 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-11-13 20:21:14 | INFO     | State saved (run #3086)
+2026-11-13 20:21:14 | INFO     | Cycle complete.

@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 3085,
+  "run_count": 3086,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -2109,6 +2109,25 @@
       "price": 5.975985,
       "is_crypto": true,
       "score": 0.299
+    },
+    {
+      "time": "2026-11-13 20:21 GMT",
+      "action": "SELL",
+      "symbol": "AMD",
+      "amount": 4167.06,
+      "price": 532.4199,
+      "is_crypto": false,
+      "pnl": 38.71,
+      "reason": "TRAILING STOP: price fell 7% from peak $582.00 (peak gain was +10.3%)"
+    },
+    {
+      "time": "2026-11-13 20:21 GMT",
+      "action": "BUY",
+      "symbol": "AAVE/USD",
+      "amount": 1455.05,
+      "price": 113.473,
+      "is_crypto": true,
+      "score": 0.326
     }
   ],
   "open_pairs": {},
@@ -2116,8 +2135,7 @@
     "AVAXUSD": 8.87,
     "META": 643.345,
     "LINKUSD": 10.635,
-    "AMD": 582.0,
-    "UNH": 405.1,
+    "UNH": 408.405,
     "UNIUSD": 5.985
   },
   "strategy_pnl": {
@@ -2136,7 +2154,6 @@
       -5.684
     ],
     "volume_flow": [
-      -0.1008403361344576,
       -5.034000000000001,
       -6.2379999999999995,
       -5.425,
@@ -2155,15 +2172,14 @@
       13.389999999999999,
       12.753999999999998,
       -14.418000000000001,
-      -6.427
+      -6.427,
+      0.9375722440210954
     ]
   },
   "sell_cooldowns": {
-    "UNIUSD": 1794448356.3562272,
-    "NVDA": 1794495679.7399821,
-    "AAVEUSD": 1794495681.444312
+    "AMD": 1794601270.1589947
   },
-  "last_full_scan_date": "2026-11-12",
+  "last_full_scan_date": "2026-11-13",
   "position_strategies": {
     "V": {
       "mean_reversion": {
@@ -2269,32 +2285,6 @@
         "vpt_slope": 1.2714,
         "vol_ratio": 0.73,
         "reason": "VPT rising (accumulation, slope 1.271)"
-      }
-    },
-    "AMD": {
-      "mean_reversion": {
-        "score": 0.5,
-        "rsi": 44.5,
-        "bb_position": -0.003,
-        "reason": "Price at lower Bollinger Band"
-      },
-      "momentum": {
-        "score": 0.123,
-        "adx": 22.2,
-        "ema_fast": 598.55,
-        "ema_slow": 584.13,
-        "reason": "Uptrend (EMA spread 2.5%) | Weak trend (ADX 22)"
-      },
-      "news_sentiment": {
-        "score": 0,
-        "reason": "No positive news sentiment",
-        "sentiment": 0.0
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 0.6914,
-        "vol_ratio": 1.33,
-        "reason": "VPT rising (accumulation, slope 0.691)"
       }
     },
     "UNH": {

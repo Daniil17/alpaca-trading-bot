@@ -93062,3 +93062,32 @@
 2026-11-14 17:35:28 | INFO     | Crypto cycle complete. Positions: 2, Invested: $2,549.64
 2026-11-14 17:35:28 | INFO     | State saved (run #3092)
 2026-11-14 17:35:28 | INFO     | Cycle complete.
+2026-11-14 21:40:36 | INFO     | =======================================================
+2026-11-14 21:40:36 | INFO     |   TRADING BOT — Single Cycle
+2026-11-14 21:40:36 | INFO     |   2026-11-14 21:40:36 UTC
+2026-11-14 21:40:36 | INFO     |   Mode: PAPER
+2026-11-14 21:40:36 | INFO     | =======================================================
+2026-11-14 21:40:36 | INFO     | State loaded: peak=$101,273.36, run #3092, trades=224
+2026-11-14 21:40:36 | INFO     | Connected to Alpaca (PAPER trading)
+2026-11-14 21:40:36 | INFO     | Account mode verified: PAPER | Equity: $96,280.14
+2026-11-14 21:40:36 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-11-14 21:40:38 | INFO     | Processed Telegram commands
+2026-11-14 21:40:39 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-11-14 21:40:39 | INFO     | Portfolio: $96,280.14 | Cash: $80,513.89
+2026-11-14 21:40:39 | INFO     | 
+=======================================================
+2026-11-14 21:40:39 | INFO     |   CRYPTO TRADING CYCLE
+2026-11-14 21:40:39 | INFO     | =======================================================
+2026-11-14 21:40:39 | INFO     | Crypto: 2 positions | $2,426.93 invested (2.5% of portfolio)
+2026-11-14 21:40:39 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-11-14 21:40:39 | INFO     | CRYPTO EXIT: AAVEUSD — HARD STOP -13.4%
+2026-11-14 21:40:39 | INFO     | CLOSED CRYPTO POSITION: AAVEUSD
+2026-11-14 21:40:39 | INFO     | CRYPTO EXIT: AVAXUSD — HARD STOP -17.0%
+2026-11-14 21:40:39 | INFO     | CLOSED CRYPTO POSITION: AVAXUSD
+2026-11-14 21:40:39 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-11-14 21:40:40 | INFO     | News scan: 58 articles, 0 stocks with sentiment
+2026-11-14 21:40:40 | INFO     | No crypto buy signals this cycle
+2026-11-14 21:40:40 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-11-14 21:40:40 | INFO     | Crypto cycle complete. Positions: 2, Invested: $2,426.93
+2026-11-14 21:40:40 | INFO     | State saved (run #3093)
+2026-11-14 21:40:40 | INFO     | Cycle complete.

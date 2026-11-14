@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 3092,
+  "run_count": 3093,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -2148,14 +2148,32 @@
       "is_crypto": true,
       "pnl": -231.69,
       "reason": "HARD STOP -16.2%"
+    },
+    {
+      "time": "2026-11-14 21:40 GMT",
+      "action": "SELL",
+      "symbol": "AAVEUSD",
+      "amount": 1233.71,
+      "price": 98.4882,
+      "is_crypto": true,
+      "pnl": -190.3,
+      "reason": "HARD STOP -13.4%"
+    },
+    {
+      "time": "2026-11-14 21:40 GMT",
+      "action": "SELL",
+      "symbol": "AVAXUSD",
+      "amount": 1193.22,
+      "price": 7.095,
+      "is_crypto": true,
+      "pnl": -244.19,
+      "reason": "HARD STOP -17.0%"
     }
   ],
   "open_pairs": {},
   "trailing_high": {
-    "AVAXUSD": 8.87,
     "META": 643.345,
-    "UNH": 408.405,
-    "AAVEUSD": 113.68
+    "UNH": 408.405
   },
   "strategy_pnl": {
     "mean_reversion": [
@@ -2198,7 +2216,9 @@
   "sell_cooldowns": {
     "AMD": 1794601270.1589947,
     "LINKUSD": 1794677726.2204428,
-    "UNIUSD": 1794677726.2655303
+    "UNIUSD": 1794677726.2655303,
+    "AAVEUSD": 1794692439.0506432,
+    "AVAXUSD": 1794692439.063551
   },
   "last_full_scan_date": "2026-11-13",
   "position_strategies": {

@@ -93166,3 +93166,32 @@
 2026-11-15 15:38:38 | INFO     | Crypto cycle complete. Positions: 0, Invested: $0.00
 2026-11-15 15:38:38 | INFO     | State saved (run #3096)
 2026-11-15 15:38:38 | INFO     | Cycle complete.
+2026-11-15 20:34:34 | INFO     | =======================================================
+2026-11-15 20:34:34 | INFO     |   TRADING BOT — Single Cycle
+2026-11-15 20:34:34 | INFO     |   2026-11-15 20:34:34 UTC
+2026-11-15 20:34:34 | INFO     |   Mode: PAPER
+2026-11-15 20:34:34 | INFO     | =======================================================
+2026-11-15 20:34:34 | INFO     | State loaded: peak=$101,273.36, run #3096, trades=226
+2026-11-15 20:34:34 | INFO     | Connected to Alpaca (PAPER trading)
+2026-11-15 20:34:34 | INFO     | Account mode verified: PAPER | Equity: $96,302.91
+2026-11-15 20:34:35 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-11-15 20:34:37 | INFO     | Processed Telegram commands
+2026-11-15 20:34:37 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-11-15 20:34:37 | INFO     | Portfolio: $96,302.91 | Cash: $82,963.59
+2026-11-15 20:34:37 | INFO     | 
+=======================================================
+2026-11-15 20:34:37 | INFO     |   CRYPTO TRADING CYCLE
+2026-11-15 20:34:37 | INFO     | =======================================================
+2026-11-15 20:34:37 | INFO     | Crypto: 0 positions | $0.00 invested (0.0% of portfolio)
+2026-11-15 20:34:37 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-11-15 20:34:37 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-11-15 20:34:38 | INFO     | News scan: 59 articles, 0 stocks with sentiment
+2026-11-15 20:34:39 | INFO     | Crypto buy candidates: LINK/USD (0.398), UNI/USD (0.356)
+2026-11-15 20:34:39 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-11-15 20:34:39 | INFO     | CRYPTO BUY: LINK/USD | $1444.54 @ ~$9.272285 | Score: 0.398 | Regime: bull
+2026-11-15 20:34:39 | INFO     | BUY CRYPTO: LINK/USD | $1444.54
+2026-11-15 20:34:40 | INFO     | CRYPTO BUY: UNI/USD | $1444.54 @ ~$5.208185 | Score: 0.356 | Regime: bull
+2026-11-15 20:34:40 | INFO     | BUY CRYPTO: UNI/USD | $1444.54
+2026-11-15 20:34:40 | INFO     | Crypto cycle complete. Positions: 2, Invested: $2,889.09
+2026-11-15 20:34:40 | INFO     | State saved (run #3097)
+2026-11-15 20:34:40 | INFO     | Cycle complete.

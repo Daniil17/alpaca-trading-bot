@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 3103,
+  "run_count": 3104,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -2186,6 +2186,42 @@
       "price": 5.208185,
       "is_crypto": true,
       "score": 0.356
+    },
+    {
+      "time": "2026-11-17 16:43 GMT",
+      "action": "BUY",
+      "symbol": "PG",
+      "amount": 9586.23,
+      "price": 169.64,
+      "is_crypto": false,
+      "score": 0.292
+    },
+    {
+      "time": "2026-11-17 16:43 GMT",
+      "action": "BUY",
+      "symbol": "COST",
+      "amount": 9586.23,
+      "price": 1115.21,
+      "is_crypto": false,
+      "score": 0.29
+    },
+    {
+      "time": "2026-11-17 16:44 GMT",
+      "action": "BUY",
+      "symbol": "V",
+      "amount": 9586.23,
+      "price": 424.28,
+      "is_crypto": false,
+      "score": 0.262
+    },
+    {
+      "time": "2026-11-17 16:44 GMT",
+      "action": "BUY",
+      "symbol": "MA",
+      "amount": 9586.23,
+      "price": 667.86,
+      "is_crypto": false,
+      "score": 0.233
     }
   ],
   "open_pairs": {},
@@ -2193,7 +2229,7 @@
     "META": 643.345,
     "UNH": 408.405,
     "LINKUSD": 9.28423,
-    "UNIUSD": 5.2604
+    "UNIUSD": 5.33521
   },
   "strategy_pnl": {
     "mean_reversion": [
@@ -2233,28 +2269,22 @@
       0.9375722440210954
     ]
   },
-  "sell_cooldowns": {
-    "AMD": 1794601270.1589947,
-    "LINKUSD": 1794677726.2204428,
-    "UNIUSD": 1794677726.2655303,
-    "AAVEUSD": 1794692439.0506432,
-    "AVAXUSD": 1794692439.063551
-  },
-  "last_full_scan_date": "2026-11-13",
+  "sell_cooldowns": {},
+  "last_full_scan_date": "2026-11-17",
   "position_strategies": {
     "V": {
       "mean_reversion": {
-        "score": -0.51,
-        "rsi": 70.6,
-        "bb_position": 0.996,
-        "reason": "RSI overbought (71) | Price at upper Bollinger Band"
+        "score": -0.304,
+        "rsi": 76.2,
+        "bb_position": 0.894,
+        "reason": "RSI overbought (76) | Price near upper band"
       },
       "momentum": {
-        "score": 0.341,
-        "adx": 25.1,
-        "ema_fast": 342.34,
-        "ema_slow": 334.35,
-        "reason": "Uptrend (EMA spread 2.4%) | Strong trend (ADX 25)"
+        "score": 0.475,
+        "adx": 30.9,
+        "ema_fast": 393.7,
+        "ema_slow": 383.85,
+        "reason": "Uptrend (EMA spread 2.6%) | Strong trend (ADX 31)"
       },
       "news_sentiment": {
         "score": 0,
@@ -2262,10 +2292,10 @@
         "sentiment": 0.0
       },
       "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 6.3573,
-        "vol_ratio": 1.25,
-        "reason": "VPT rising (accumulation, slope 6.357)"
+        "score": 0.927,
+        "vpt_slope": 0.4633,
+        "vol_ratio": 0.93,
+        "reason": "VPT rising (accumulation, slope 0.463)"
       }
     },
     "ABBV": {
@@ -2372,6 +2402,84 @@
         "vpt_slope": 0.7497,
         "vol_ratio": 1.71,
         "reason": "VPT rising (accumulation, slope 0.750) | High volume (1.7x avg)"
+      }
+    },
+    "PG": {
+      "mean_reversion": {
+        "score": -0.2,
+        "rsi": 63.4,
+        "bb_position": 0.778,
+        "reason": "Price near upper band"
+      },
+      "momentum": {
+        "score": 0.397,
+        "adx": 29.3,
+        "ema_fast": 154.74,
+        "ema_slow": 151.56,
+        "reason": "Uptrend (EMA spread 2.1%) | Strong trend (ADX 29)"
+      },
+      "news_sentiment": {
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": 0.0
+      },
+      "volume_flow": {
+        "score": 1.0,
+        "vpt_slope": 53.2427,
+        "vol_ratio": 1.1,
+        "reason": "VPT rising (accumulation, slope 53.243)"
+      }
+    },
+    "COST": {
+      "mean_reversion": {
+        "score": -0.273,
+        "rsi": 74.4,
+        "bb_position": 0.893,
+        "reason": "RSI overbought (74) | Price near upper band"
+      },
+      "momentum": {
+        "score": 0.482,
+        "adx": 33.8,
+        "ema_fast": 971.48,
+        "ema_slow": 951.94,
+        "reason": "Uptrend (EMA spread 2.1%) | Strong trend (ADX 34)"
+      },
+      "news_sentiment": {
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": 0.0
+      },
+      "volume_flow": {
+        "score": 1.0,
+        "vpt_slope": 2.0541,
+        "vol_ratio": 0.67,
+        "reason": "VPT rising (accumulation, slope 2.054)"
+      }
+    },
+    "MA": {
+      "mean_reversion": {
+        "score": -0.304,
+        "rsi": 76.3,
+        "bb_position": 0.877,
+        "reason": "RSI overbought (76) | Price near upper band"
+      },
+      "momentum": {
+        "score": 0.462,
+        "adx": 31.2,
+        "ema_fast": 602.91,
+        "ema_slow": 588.94,
+        "reason": "Uptrend (EMA spread 2.4%) | Strong trend (ADX 31)"
+      },
+      "news_sentiment": {
+        "score": 0,
+        "reason": "No positive news sentiment",
+        "sentiment": 0.0
+      },
+      "volume_flow": {
+        "score": 0.828,
+        "vpt_slope": 0.414,
+        "vol_ratio": 0.92,
+        "reason": "VPT rising (accumulation, slope 0.414)"
       }
     }
   }

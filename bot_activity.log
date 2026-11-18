@@ -93569,3 +93569,63 @@
 2026-11-18 06:10:41 | INFO     | Crypto cycle complete. Positions: 2, Invested: $2,823.93
 2026-11-18 06:10:41 | INFO     | State saved (run #3108)
 2026-11-18 06:10:41 | INFO     | Cycle complete.
+2026-11-18 15:39:34 | INFO     | =======================================================
+2026-11-18 15:39:34 | INFO     |   TRADING BOT — Single Cycle
+2026-11-18 15:39:34 | INFO     |   2026-11-18 15:39:34 UTC
+2026-11-18 15:39:34 | INFO     |   Mode: PAPER
+2026-11-18 15:39:34 | INFO     | =======================================================
+2026-11-18 15:39:34 | INFO     | State loaded: peak=$101,273.36, run #3108, trades=232
+2026-11-18 15:39:34 | INFO     | Connected to Alpaca (PAPER trading)
+2026-11-18 15:39:34 | INFO     | Account mode verified: PAPER | Equity: $95,034.55
+2026-11-18 15:39:35 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-11-18 15:39:37 | INFO     | Processed Telegram commands
+2026-11-18 15:39:37 | INFO     | Portfolio: $95,033.60 | Cash: $41,856.74
+2026-11-18 15:39:37 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $10.7M daily dollar vol)
+2026-11-18 15:39:37 | INFO     | Pre-fetching bars for 28 symbols...
+2026-11-18 15:39:38 | INFO     | --- Phase 1: Checking exits ---
+2026-11-18 15:39:38 | WARNING  | HARD STOP-LOSS: UNH at -7.7%
+2026-11-18 15:39:38 | INFO     | EXIT: UNH — HARD STOP-LOSS: -7.7%
+2026-11-18 15:39:38 | INFO     | CLOSED POSITION: UNH
+2026-11-18 15:39:38 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-11-18 15:39:39 | INFO     | News scan: 59 articles, 9 stocks with sentiment
+2026-11-18 15:39:40 | INFO     | Buy candidates: PEP (0.288)
+2026-11-18 15:39:40 | INFO     | --- Phase 3: Executing trades ---
+2026-11-18 15:39:40 | INFO     | BUY: PEP | $472.51 @ ~$141.98 | Score: 0.288 | SL=$137.79 TP=$150.36
+2026-11-18 15:39:40 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must have order_class=simple"} — retrying in 2.0s
+2026-11-18 15:39:42 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must have order_class=simple"} — retrying in 4.0s
+2026-11-18 15:39:46 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must have order_class=simple"}
+2026-11-18 15:39:46 | WARNING  | Bracket order failed for PEP — falling back to market + stop
+2026-11-18 15:39:46 | INFO     | BUY MARKET: PEP | $472.51
+2026-11-18 15:39:46 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"} — retrying in 2.0s
+2026-11-18 15:39:48 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"} — retrying in 4.0s
+2026-11-18 15:39:52 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"}
+2026-11-18 15:39:52 | INFO     | 
+=======================================================
+2026-11-18 15:39:52 | INFO     |   CRYPTO TRADING CYCLE
+2026-11-18 15:39:52 | INFO     | =======================================================
+2026-11-18 15:39:52 | INFO     | Crypto: 2 positions | $2,792.49 invested (2.9% of portfolio)
+2026-11-18 15:39:52 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-11-18 15:39:52 | ERROR    | Non-retryable error: {"message":"invalid symbol: LINKUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-18 15:39:52 | ERROR    | Non-retryable error: {"message":"invalid symbol: UNIUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-18 15:39:52 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-11-18 15:39:53 | INFO     | News scan: 59 articles, 0 stocks with sentiment
+2026-11-18 15:39:53 | INFO     | No crypto buy signals this cycle
+2026-11-18 15:39:53 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-11-18 15:39:53 | INFO     | Crypto cycle complete. Positions: 2, Invested: $2,792.49
+2026-11-18 15:39:53 | INFO     | 
+=======================================================
+2026-11-18 15:39:53 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-11-18 15:39:53 | INFO     | =======================================================
+2026-11-18 15:39:53 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-11-18 15:39:53 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-11-18 15:39:53 | INFO     | PAIR KO/PEP: Z=1.66 — Kalman Z=1.66 — neutral band
+2026-11-18 15:39:53 | INFO     | PAIR JPM/BAC: signal=EXIT Z=0.47
+2026-11-18 15:39:53 | INFO     | PAIR META/GOOGL: Z=-0.60 — Kalman Z=-0.60 — neutral band
+2026-11-18 15:39:53 | INFO     | PAIR V/MA: signal=EXIT Z=0.10
+2026-11-18 15:39:53 | INFO     | PAIR AMZN/COST: signal=EXIT Z=0.24
+2026-11-18 15:39:53 | INFO     | PAIR JNJ/ABBV: Z=-1.06 — Kalman Z=-1.06 — neutral band
+2026-11-18 15:39:53 | INFO     | Pairs cycle complete. Open pairs: 0
+2026-11-18 15:39:53 | INFO     | State saved (run #3109)
+2026-11-18 15:39:53 | INFO     | Cycle complete.

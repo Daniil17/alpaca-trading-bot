@@ -93745,3 +93745,82 @@
 2026-11-19 06:12:06 | INFO     | Crypto cycle complete. Positions: 2, Invested: $2,796.73
 2026-11-19 06:12:06 | INFO     | State saved (run #3113)
 2026-11-19 06:12:06 | INFO     | Cycle complete.
+2026-11-19 15:47:21 | INFO     | =======================================================
+2026-11-19 15:47:21 | INFO     |   TRADING BOT — Single Cycle
+2026-11-19 15:47:21 | INFO     |   2026-11-19 15:47:21 UTC
+2026-11-19 15:47:21 | INFO     |   Mode: PAPER
+2026-11-19 15:47:21 | INFO     | =======================================================
+2026-11-19 15:47:21 | INFO     | State loaded: peak=$101,273.36, run #3113, trades=234
+2026-11-19 15:47:21 | INFO     | Connected to Alpaca (PAPER trading)
+2026-11-19 15:47:21 | INFO     | Account mode verified: PAPER | Equity: $94,423.20
+2026-11-19 15:47:21 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-11-19 15:47:24 | INFO     | Processed Telegram commands
+2026-11-19 15:47:24 | INFO     | Portfolio: $94,428.92 | Cash: $47,659.72
+2026-11-19 15:47:24 | INFO     | Dynamic universe: 28/28 symbols selected (cutoff $6.1M daily dollar vol)
+2026-11-19 15:47:24 | INFO     | Pre-fetching bars for 28 symbols...
+2026-11-19 15:47:27 | INFO     | --- Phase 1: Checking exits ---
+2026-11-19 15:47:27 | INFO     | --- Phase 2: Scanning for opportunities ---
+2026-11-19 15:47:27 | INFO     | News scan: 59 articles, 8 stocks with sentiment
+2026-11-19 15:47:28 | INFO     | Buy candidates: MCD (0.315), UNH (0.314), MSFT (0.283), DIS (0.279), HD (0.276)
+2026-11-19 15:47:28 | INFO     | --- Phase 3: Executing trades ---
+2026-11-19 15:47:28 | INFO     | BLOCKED: MCD — Max 3 positions in Consumer sector
+2026-11-19 15:47:28 | INFO     | BUY: UNH | $6926.10 @ ~$332.99 | Score: 0.314 | SL=$316.34 TP=$367.19
+2026-11-19 15:47:28 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must have order_class=simple"} — retrying in 2.0s
+2026-11-19 15:47:30 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must have order_class=simple"} — retrying in 4.0s
+2026-11-19 15:47:34 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must have order_class=simple"}
+2026-11-19 15:47:34 | WARNING  | Bracket order failed for UNH — falling back to market + stop
+2026-11-19 15:47:34 | INFO     | BUY MARKET: UNH | $6926.1
+2026-11-19 15:47:35 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"} — retrying in 2.0s
+2026-11-19 15:47:37 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"} — retrying in 4.0s
+2026-11-19 15:47:41 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"}
+2026-11-19 15:47:42 | INFO     | BUY: MSFT | $8784.05 @ ~$519.13 | Score: 0.283 | SL=$502.21 TP=$552.96
+2026-11-19 15:47:42 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders must have order_class=simple"} — retrying in 2.0s
+2026-11-19 15:47:44 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders must have order_class=simple"} — retrying in 4.0s
+2026-11-19 15:47:48 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders must have order_class=simple"}
+2026-11-19 15:47:48 | WARNING  | Bracket order failed for MSFT — falling back to market + stop
+2026-11-19 15:47:48 | INFO     | BUY MARKET: MSFT | $8784.05
+2026-11-19 15:47:48 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"} — retrying in 2.0s
+2026-11-19 15:47:50 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"} — retrying in 4.0s
+2026-11-19 15:47:54 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"stop/stop_limit fractional GTC orders are not enabled"}
+2026-11-19 15:47:55 | INFO     | BLOCKED: DIS — Max 3 positions in Consumer sector
+2026-11-19 15:47:55 | INFO     | BLOCKED: HD — Max 3 positions in Consumer sector
+2026-11-19 15:47:55 | INFO     | 
+=======================================================
+2026-11-19 15:47:55 | INFO     |   CRYPTO TRADING CYCLE
+2026-11-19 15:47:55 | INFO     | =======================================================
+2026-11-19 15:47:55 | INFO     | Crypto: 2 positions | $2,759.10 invested (2.9% of portfolio)
+2026-11-19 15:47:55 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-11-19 15:47:55 | ERROR    | Non-retryable error: {"message":"invalid symbol: LINKUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-19 15:47:55 | ERROR    | Non-retryable error: {"message":"invalid symbol: UNIUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-19 15:47:55 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-11-19 15:47:56 | INFO     | News scan: 59 articles, 0 stocks with sentiment
+2026-11-19 15:47:57 | INFO     | No crypto buy signals this cycle
+2026-11-19 15:47:57 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-11-19 15:47:57 | INFO     | Crypto cycle complete. Positions: 2, Invested: $2,759.10
+2026-11-19 15:47:57 | INFO     | 
+=======================================================
+2026-11-19 15:47:57 | INFO     |   PAIRS TRADING CYCLE (Statistical Arbitrage)
+2026-11-19 15:47:57 | INFO     | =======================================================
+2026-11-19 15:47:57 | INFO     | --- Pairs Phase 1: Checking exits ---
+2026-11-19 15:47:57 | INFO     | --- Pairs Phase 2: Scanning for pair signals ---
+2026-11-19 15:47:57 | INFO     | PAIR KO/PEP: signal=EXIT Z=0.43
+2026-11-19 15:47:57 | INFO     | PAIR JPM/BAC: signal=EXIT Z=0.40
+2026-11-19 15:47:57 | INFO     | PAIR META/GOOGL: Z=1.35 — Kalman Z=1.35 — neutral band
+2026-11-19 15:47:58 | INFO     | PAIR V/MA: signal=EXIT Z=0.21
+2026-11-19 15:47:58 | INFO     | PAIR AMZN/COST: signal=LONG_X_SHORT_Y Z=2.37
+2026-11-19 15:47:58 | INFO     | PAIR JNJ/ABBV: signal=LONG_Y_SHORT_X Z=-3.40
+2026-11-19 15:47:58 | INFO     | PAIRS TRADE: long AMZN ($3777.16) | short COST ($3777.16) | Z=2.37 | hedge_ratio=4.028
+2026-11-19 15:47:58 | INFO     | BUY MARKET: AMZN | $3777.16
+2026-11-19 15:47:58 | INFO     | SHORT SELL: COST | $3777.16
+2026-11-19 15:47:59 | INFO     | PAIRS TRADE: long ABBV ($3777.16) | short JNJ ($3777.16) | Z=-3.40 | hedge_ratio=1.064
+2026-11-19 15:47:59 | INFO     | BUY MARKET: ABBV | $3777.16
+2026-11-19 15:47:59 | WARNING  | API call failed (attempt 1/3): {"code":42210000,"message":"fractional orders cannot be sold short"} — retrying in 2.0s
+2026-11-19 15:48:01 | WARNING  | API call failed (attempt 2/3): {"code":42210000,"message":"fractional orders cannot be sold short"} — retrying in 4.0s
+2026-11-19 15:48:05 | ERROR    | API call failed after 3 attempts: {"code":42210000,"message":"fractional orders cannot be sold short"}
+2026-11-19 15:48:05 | WARNING  | PAIRS: one leg failed for JNJ_ABBV — closing both
+2026-11-19 15:48:05 | INFO     | CLOSED POSITION: ABBV
+2026-11-19 15:48:05 | INFO     | Pairs cycle complete. Open pairs: 1
+2026-11-19 15:48:05 | INFO     | State saved (run #3114)
+2026-11-19 15:48:05 | INFO     | Cycle complete.

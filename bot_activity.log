@@ -93853,3 +93853,34 @@
 2026-11-19 21:12:50 | INFO     | Crypto cycle complete. Positions: 2, Invested: $2,720.77
 2026-11-19 21:12:50 | INFO     | State saved (run #3115)
 2026-11-19 21:12:50 | INFO     | Cycle complete.
+2026-11-20 02:03:03 | INFO     | =======================================================
+2026-11-20 02:03:03 | INFO     |   TRADING BOT — Single Cycle
+2026-11-20 02:03:03 | INFO     |   2026-11-20 02:03:03 UTC
+2026-11-20 02:03:03 | INFO     |   Mode: PAPER
+2026-11-20 02:03:03 | INFO     | =======================================================
+2026-11-20 02:03:03 | INFO     | State loaded: peak=$101,273.36, run #3115, trades=237
+2026-11-20 02:03:03 | INFO     | Connected to Alpaca (PAPER trading)
+2026-11-20 02:03:03 | INFO     | Account mode verified: PAPER | Equity: $93,161.67
+2026-11-20 02:03:04 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-11-20 02:03:06 | INFO     | Processed Telegram commands
+2026-11-20 02:03:06 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-11-20 02:03:06 | INFO     | Portfolio: $93,159.71 | Cash: $31,945.35
+2026-11-20 02:03:06 | INFO     | 
+=======================================================
+2026-11-20 02:03:06 | INFO     |   CRYPTO TRADING CYCLE
+2026-11-20 02:03:06 | INFO     | =======================================================
+2026-11-20 02:03:06 | INFO     | Crypto: 2 positions | $2,648.14 invested (2.8% of portfolio)
+2026-11-20 02:03:06 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-11-20 02:03:07 | ERROR    | Non-retryable error: {"message":"invalid symbol: LINKUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-20 02:03:07 | ERROR    | Non-retryable error: {"message":"invalid symbol: UNIUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-20 02:03:07 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-11-20 02:03:08 | INFO     | News scan: 57 articles, 0 stocks with sentiment
+2026-11-20 02:03:09 | INFO     | Crypto buy candidates: LTC/USD (0.357)
+2026-11-20 02:03:09 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-11-20 02:03:09 | INFO     | CRYPTO BUY: LTC/USD | $1397.40 @ ~$41.57335 | Score: 0.357 | Regime: bull
+2026-11-20 02:03:09 | INFO     | BUY CRYPTO: LTC/USD | $1397.40
+2026-11-20 02:03:10 | INFO     | Crypto cycle complete. Positions: 3, Invested: $4,045.54
+2026-11-20 02:03:10 | INFO     | State saved (run #3116)
+2026-11-20 02:03:10 | INFO     | Cycle complete.

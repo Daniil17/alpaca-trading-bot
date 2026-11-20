@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 3118,
+  "run_count": 3119,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -2277,6 +2277,26 @@
       "price": 41.57335,
       "is_crypto": true,
       "score": 0.357
+    },
+    {
+      "time": "2026-11-20 15:15 GMT",
+      "action": "SELL",
+      "symbol": "AMZN",
+      "amount": 3584.98,
+      "price": 255.76,
+      "is_crypto": false,
+      "pnl": -192.17,
+      "reason": "HARD STOP-LOSS: -5.1%"
+    },
+    {
+      "time": "2026-11-20 15:15 GMT",
+      "action": "SELL",
+      "symbol": "META",
+      "amount": 5790.47,
+      "price": 580.455,
+      "is_crypto": false,
+      "pnl": -386.17,
+      "reason": "HARD STOP-LOSS: -6.3%"
     }
   ],
   "open_pairs": {
@@ -2292,15 +2312,16 @@
     }
   },
   "trailing_high": {
-    "META": 643.345,
     "LINKUSD": 9.28423,
     "UNIUSD": 5.33521,
     "COST": 1116.02,
     "MA": 646.77,
     "PG": 172.69,
     "V": 418.71,
-    "PEP": 141.9,
-    "LTCUSD": 41.974
+    "PEP": 142.87,
+    "LTCUSD": 41.974,
+    "MSFT": 519.35,
+    "UNH": 346.31
   },
   "strategy_pnl": {
     "mean_reversion": [
@@ -2318,7 +2339,6 @@
       -5.684
     ],
     "volume_flow": [
-      -6.2379999999999995,
       -5.425,
       0.8629411414628273,
       -1.772,
@@ -2337,11 +2357,15 @@
       -14.418000000000001,
       -6.427,
       0.9375722440210954,
-      -7.697
+      -7.697,
+      -6.252000000000001
     ]
   },
-  "sell_cooldowns": {},
-  "last_full_scan_date": "2026-11-19",
+  "sell_cooldowns": {
+    "AMZN": 1795187702.9157748,
+    "META": 1795187703.460274
+  },
+  "last_full_scan_date": "2026-11-20",
   "position_strategies": {
     "V": {
       "mean_reversion": {
@@ -2421,32 +2445,6 @@
         "vpt_slope": 0.086,
         "vol_ratio": 0.76,
         "reason": "VPT rising (accumulation, slope 0.086)"
-      }
-    },
-    "META": {
-      "mean_reversion": {
-        "score": 0.0,
-        "rsi": 57.5,
-        "bb_position": 0.537,
-        "reason": "Neutral"
-      },
-      "momentum": {
-        "score": 0.657,
-        "adx": 37.8,
-        "ema_fast": 723.43,
-        "ema_slow": 695.98,
-        "reason": "Uptrend (EMA spread 3.9%) | Strong trend (ADX 38)"
-      },
-      "news_sentiment": {
-        "score": 0,
-        "reason": "No positive news sentiment",
-        "sentiment": -0.5
-      },
-      "volume_flow": {
-        "score": 1.0,
-        "vpt_slope": 1.2714,
-        "vol_ratio": 0.73,
-        "reason": "VPT rising (accumulation, slope 1.271)"
       }
     },
     "PG": {

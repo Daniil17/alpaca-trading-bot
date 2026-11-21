@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 3122,
+  "run_count": 3123,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -2317,6 +2317,16 @@
       "is_crypto": true,
       "pnl": -236.41,
       "reason": "HARD STOP -16.7%"
+    },
+    {
+      "time": "2026-11-21 05:20 GMT",
+      "action": "SELL",
+      "symbol": "LINKUSD",
+      "amount": 1241.45,
+      "price": 8.1566,
+      "is_crypto": true,
+      "pnl": -171.63,
+      "reason": "HARD STOP -12.1%"
     }
   ],
   "open_pairs": {
@@ -2332,7 +2342,6 @@
     }
   },
   "trailing_high": {
-    "LINKUSD": 9.28423,
     "COST": 1116.02,
     "MA": 646.77,
     "PG": 172.69,
@@ -2384,7 +2393,8 @@
     "AMZN": 1795187702.9157748,
     "META": 1795187703.460274,
     "MSFT": 1795208207.2884936,
-    "UNIUSD": 1795208208.0733433
+    "UNIUSD": 1795208208.0733433,
+    "LINKUSD": 1795238400.1519015
   },
   "last_full_scan_date": "2026-11-20",
   "position_strategies": {

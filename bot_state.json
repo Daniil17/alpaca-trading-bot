@@ -18,7 +18,7 @@
     "INTC"
   ],
   "last_summary_date": null,
-  "run_count": 3131,
+  "run_count": 3132,
   "trade_log": [
     {
       "time": "2026-04-06 01:00 BST",
@@ -2336,20 +2336,18 @@
       "price": 4.671,
       "is_crypto": true,
       "score": 0.281
+    },
+    {
+      "time": "2026-11-23 18:08 GMT",
+      "action": "SELL",
+      "symbol": "AMZN\u2194COST",
+      "amount": 0.0,
+      "price": 0.0,
+      "is_crypto": false,
+      "reason": "Pair exit: Kalman Z=-0.24 within exit band: spread reverted"
     }
   ],
-  "open_pairs": {
-    "AMZN_COST": {
-      "symbol_x": "AMZN",
-      "symbol_y": "COST",
-      "long_sym": "AMZN",
-      "short_sym": "COST",
-      "signal": "LONG_X_SHORT_Y",
-      "hedge_ratio": 4.0283,
-      "entry_zscore": 2.367,
-      "entry_date": "2026-11-19"
-    }
-  },
+  "open_pairs": {},
   "trailing_high": {
     "COST": 1116.02,
     "MA": 646.77,
@@ -2358,7 +2356,7 @@
     "PEP": 142.87,
     "LTCUSD": 41.974,
     "UNH": 346.31,
-    "UNIUSD": 4.768
+    "UNIUSD": 4.926108374
   },
   "strategy_pnl": {
     "mean_reversion": [
@@ -2399,14 +2397,8 @@
       -6.252000000000001
     ]
   },
-  "sell_cooldowns": {
-    "AMZN": 1795187702.9157748,
-    "META": 1795187703.460274,
-    "MSFT": 1795208207.2884936,
-    "UNIUSD": 1795208208.0733433,
-    "LINKUSD": 1795238400.1519015
-  },
-  "last_full_scan_date": "2026-11-20",
+  "sell_cooldowns": {},
+  "last_full_scan_date": "2026-11-23",
   "position_strategies": {
     "V": {
       "mean_reversion": {

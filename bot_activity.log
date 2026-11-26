@@ -94810,3 +94810,34 @@
 2026-11-25 22:09:44 | INFO     | Crypto cycle complete. Positions: 2, Invested: $2,778.02
 2026-11-25 22:09:44 | INFO     | State saved (run #3143)
 2026-11-25 22:09:44 | INFO     | Cycle complete.
+2026-11-26 03:23:07 | INFO     | =======================================================
+2026-11-26 03:23:07 | INFO     |   TRADING BOT — Single Cycle
+2026-11-26 03:23:07 | INFO     |   2026-11-26 03:23:07 UTC
+2026-11-26 03:23:07 | INFO     |   Mode: PAPER
+2026-11-26 03:23:07 | INFO     | =======================================================
+2026-11-26 03:23:07 | INFO     | State loaded: peak=$101,273.36, run #3143, trades=246
+2026-11-26 03:23:07 | INFO     | Connected to Alpaca (PAPER trading)
+2026-11-26 03:23:08 | INFO     | Account mode verified: PAPER | Equity: $94,318.18
+2026-11-26 03:23:08 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-11-26 03:23:11 | INFO     | Processed Telegram commands
+2026-11-26 03:23:11 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-11-26 03:23:11 | INFO     | Portfolio: $94,318.18 | Cash: $45,365.03
+2026-11-26 03:23:11 | INFO     | 
+=======================================================
+2026-11-26 03:23:11 | INFO     |   CRYPTO TRADING CYCLE
+2026-11-26 03:23:11 | INFO     | =======================================================
+2026-11-26 03:23:11 | INFO     | Crypto: 2 positions | $2,817.42 invested (3.0% of portfolio)
+2026-11-26 03:23:11 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-11-26 03:23:12 | ERROR    | Non-retryable error: {"message":"invalid symbol: LTCUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-26 03:23:12 | ERROR    | Non-retryable error: {"message":"invalid symbol: UNIUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-26 03:23:12 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-11-26 03:23:13 | INFO     | News scan: 59 articles, 0 stocks with sentiment
+2026-11-26 03:23:14 | INFO     | Crypto buy candidates: BTC/USD (0.252)
+2026-11-26 03:23:14 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-11-26 03:23:14 | INFO     | CRYPTO BUY: BTC/USD | $1414.77 @ ~$60689.7195 | Score: 0.252 | Regime: bull
+2026-11-26 03:23:14 | INFO     | BUY CRYPTO: BTC/USD | $1414.77
+2026-11-26 03:23:15 | INFO     | Crypto cycle complete. Positions: 3, Invested: $4,232.19
+2026-11-26 03:23:15 | INFO     | State saved (run #3144)
+2026-11-26 03:23:15 | INFO     | Cycle complete.

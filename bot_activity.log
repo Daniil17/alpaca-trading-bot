@@ -94965,3 +94965,38 @@
 2026-11-26 22:08:37 | INFO     | Crypto cycle complete. Positions: 3, Invested: $4,189.92
 2026-11-26 22:08:37 | INFO     | State saved (run #3148)
 2026-11-26 22:08:37 | INFO     | Cycle complete.
+2026-11-27 03:30:50 | INFO     | =======================================================
+2026-11-27 03:30:50 | INFO     |   TRADING BOT — Single Cycle
+2026-11-27 03:30:50 | INFO     |   2026-11-27 03:30:50 UTC
+2026-11-27 03:30:50 | INFO     |   Mode: PAPER
+2026-11-27 03:30:50 | INFO     | =======================================================
+2026-11-27 03:30:50 | INFO     | State loaded: peak=$101,273.36, run #3148, trades=247
+2026-11-27 03:30:50 | INFO     | Connected to Alpaca (PAPER trading)
+2026-11-27 03:30:50 | INFO     | Account mode verified: PAPER | Equity: $94,481.47
+2026-11-27 03:30:50 | INFO     | Telegram command menu registered successfully (/backtest and others active)
+2026-11-27 03:30:51 | INFO     | Processed Telegram commands
+2026-11-27 03:30:51 | INFO     | Market closed — skipping stock/pairs cycle (crypto will still run)
+2026-11-27 03:30:51 | INFO     | Portfolio: $94,481.47 | Cash: $43,977.28
+2026-11-27 03:30:51 | INFO     | 
+=======================================================
+2026-11-27 03:30:51 | INFO     |   CRYPTO TRADING CYCLE
+2026-11-27 03:30:51 | INFO     | =======================================================
+2026-11-27 03:30:51 | INFO     | Crypto: 3 positions | $4,264.97 invested (4.5% of portfolio)
+2026-11-27 03:30:51 | INFO     | --- Crypto Phase 1: Checking exits ---
+2026-11-27 03:30:52 | ERROR    | Non-retryable error: {"message":"invalid symbol: BTCUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-27 03:30:52 | ERROR    | Non-retryable error: {"message":"invalid symbol: LTCUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-27 03:30:52 | ERROR    | Non-retryable error: {"message":"invalid symbol: UNIUSD does not match ^[A-Z]+x?/[A-Z]+$"}
+
+2026-11-27 03:30:52 | INFO     | --- Crypto Phase 2: Scanning for crypto opportunities ---
+2026-11-27 03:30:53 | INFO     | News scan: 57 articles, 0 stocks with sentiment
+2026-11-27 03:30:54 | INFO     | Crypto buy candidates: DOT/USD (0.398), LINK/USD (0.383), AAVE/USD (0.320), SOL/USD (0.281)
+2026-11-27 03:30:54 | INFO     | --- Crypto Phase 3: Executing crypto trades ---
+2026-11-27 03:30:54 | INFO     | CRYPTO BUY: DOT/USD | $1417.22 @ ~$0.68963 | Score: 0.398 | Regime: bull
+2026-11-27 03:30:54 | INFO     | BUY CRYPTO: DOT/USD | $1417.22
+2026-11-27 03:30:54 | INFO     | CRYPTO BUY: LINK/USD | $1417.22 @ ~$9.51332 | Score: 0.383 | Regime: bull
+2026-11-27 03:30:54 | INFO     | BUY CRYPTO: LINK/USD | $1417.22
+2026-11-27 03:30:55 | INFO     | Crypto cycle complete. Positions: 5, Invested: $7,099.41
+2026-11-27 03:30:55 | INFO     | State saved (run #3149)
+2026-11-27 03:30:55 | INFO     | Cycle complete.
